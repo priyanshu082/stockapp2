@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background-color: rgb(119, 115, 115); */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* nav bar icon hover css */
+.nav {
+  position: relative;
+  transition: all ease .4s;
+}
+
+.nav::after {
+  content: '';
+  width: 0%;
+  height: 1.5px;
+  background-color: #4AB7D6;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  transition:  all ease .4s;
+}
+
+.nav:hover::after {
+  width: 100%;
+}
+.nav:hover{
+color: #0e2999;
+}
+
+/* nav bar btn hover  */
+
+.button{
+  /* border: 1px solid black; */
+  position: relative;
+  overflow: hidden;
+  background-color: #a1a3e9;
+}
+.button::after{
+content: '';
+width: 100%;
+height: 100%;
+position: absolute;
+background-color: #484981;
+right: 30vw;
+top: 0;
+z-index: -1;
+transition: all ease .7s;
+}
+
+.button:hover::after{
+  /* top: 0; */
+  right: 0;
+}
+/* button:hover{
+  color: #eeeeee;
+} */
+
+
+@media (max-width: 640px){
+  .button::after{
+    content: '';
+    display: hidden;
+    right: 100vw;
+top: 0;
+  }
+}
