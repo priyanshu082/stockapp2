@@ -72,7 +72,7 @@ const DataTable = ({ allData }) => {
       let diff = Math.abs(allData[i].Strike_Price - allData[i].underlyingValue);
       if (diff < minDiff) {
         minDiff = diff;
-        index = i;
+        index = i%24;
       }
     }
 

@@ -8,7 +8,7 @@ function DataPage() {
   const [symbol, setSymbol] = useState("BANKNIFTY");
   const [expiryDate, setExpiryDate] = useState("");
   const [noOfStrikes, setNoOfStrikes] = useState("12");
-  const [timeRange, setTimeRange] = useState("");
+  const [timeRange, setTimeRange] = useState("10:15:00-10:45:00");
   const [allData, setAllData] = useState([]);
   const [pcrData, setPcrData] = useState([]);
   const [expiryDates, setExpiryDates] = useState([]);

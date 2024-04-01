@@ -40,6 +40,7 @@ const DropDown = ({
     "BAJFINANCE",
     "BHARTIARTL",
   ];
+
   const [currentTime, setCurrentTime] = useState(getFormattedTime());
   const [time30MinutesAgo, setTime30MinutesAgo] = useState(
     getFormattedTime(new Date(Date.now() - 30 * 60 * 1000))
@@ -58,10 +59,14 @@ const DropDown = ({
     return `${hours}:${minutes}:${seconds}`;
   }
 
-  useEffect(() => {
-   let currentRange=`${time30MinutesAgo} - ${currentTime}`
+  if(live){
+    let currentRange=`${time30MinutesAgo} - ${currentTime}`
     setTimeRange(currentRange);
-  }, []);
+  }
+  // useEffect(() => {
+  //  let currentRange=`${time30MinutesAgo} - ${currentTime}`
+  //   setTimeRange(currentRange);
+  // }, []);
 
   const currentHour = new Date().getHours();
   const currentMinutes = new Date().getMinutes();
@@ -180,9 +185,10 @@ const DropDown = ({
         <select
           className=" px-[10px] py-[5px] bg-gray-300 focus:outline-none rounded-md "
           value={timeRange}
+
           onChange={(e) => setTimeRange(e.target.value)}
         >
-          <option value="">Choose an Option</option>
+          <option value="15:15:00-15:30:00">15:15:00-15:30:00</option>
           {timeRangesCollection.map((range, index) => (
             <option key={index} value={range}>
               {range}
