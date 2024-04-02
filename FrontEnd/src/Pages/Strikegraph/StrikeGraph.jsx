@@ -53,7 +53,7 @@ const StrikeGraph = () => {
         try {
           const localapi ="http://127.0.0.1:5000"
           const api="https://7bd5-103-159-35-25.ngrok-free.app"
-          const response = await axios.post(`${api}/strikeprices`, {
+          const response = await axios.post(`${localapi}/strikeprices`, {
             symbol,
             expiryDate,
             noOfStrikes,
@@ -81,7 +81,7 @@ const StrikeGraph = () => {
         try {
           const localapi ="http://127.0.0.1:5000"
           const api="https://7bd5-103-159-35-25.ngrok-free.app"
-          const response = await axios.post(`${api}/expirydates`, {
+          const response = await axios.post(`${localapi}/expirydates`, {
             symbol,
           });
     
@@ -93,8 +93,7 @@ const StrikeGraph = () => {
           console.error("Error fetching expiry dates:", error);
         }
       };
-
-// console.log();
+console.log();
   return (
     <>
  <div className="sm:p-[50px] p-[10px] ">

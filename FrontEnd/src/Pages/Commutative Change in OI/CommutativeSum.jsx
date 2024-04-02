@@ -24,7 +24,7 @@ const CommutativeSum = () => {
         try {
           const localapi ="http://127.0.0.1:5000"
           const api="https://7bd5-103-159-35-25.ngrok-free.app"
-          const response = await axios.post(`${api}/commutativesum`, {
+          const response = await axios.post(`${localapi}/commutativesum`, {
             symbol,
             expiryDate,
             noOfStrikes,
@@ -49,7 +49,7 @@ const CommutativeSum = () => {
         try {
           const localapi ="http://127.0.0.1:5000"
           const api="https://7bd5-103-159-35-25.ngrok-free.app"
-          const response = await axios.post(`${api}/expirydates`, {
+          const response = await axios.post(`${localapi}/expirydates`, {
             symbol,
           });
     

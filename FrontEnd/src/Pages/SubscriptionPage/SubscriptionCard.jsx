@@ -12,10 +12,10 @@ const SubscriptionCard = ({tittle,price,month,cardDescription,first,second,third
         <p className='text-sm '>{cardDescription}</p>
        <div className="line w-full h-[1px] bg-gray-500"></div>
        <ul className=' list-inside list-decimal'>
-       <li>{first}</li>
+       {/* <li>{first}</li>
        <li>{second}</li>
        <li>{third}</li>
-       <li>{fourth}</li>
+       <li>{fourth}</li> */}
        </ul>
        <button className=' button group-hover:bg-[white] group-hover:text-[#b2b2d4] z-20 bg-[#9698ED] text-white py-2 px-4 rounded-md w-[100%]  duration-300 ease-in mt-28 text-xl font-semibold' onClick={()=>{alert(buttonValue)}}>{buttonValue}</button>
       </div>

@@ -24,7 +24,8 @@ function DataPage() {
   const fetchData = async () => {
     try {
       const localapi = "http://127.0.0.1:5000";
-      const api = "https://7bd5-103-159-35-25.ngrok-free.app";
+     // const api = "https://7bd5-103-159-35-25.ngrok-free.app";
+      const ngrokApi="https://8a61-2405-201-6801-20ac-5c6b-8fe4-b02b-f692.ngrok-free.app"
       const response = await axios.post(`${localapi}/all`, {
         symbol,
         expiryDate,
@@ -50,7 +51,8 @@ function DataPage() {
   const fetchPcrData = async () => {
     try {
       const localapi = "http://127.0.0.1:5000";
-      const api = "https://7bd5-103-159-35-25.ngrok-free.app";
+      //const api = "https://7bd5-103-159-35-25.ngrok-free.app";
+      const ngrokApi="https://8a61-2405-201-6801-20ac-5c6b-8fe4-b02b-f692.ngrok-free.app"
       const response = await axios.post(`${localapi}/pcr`, {
         symbol,
         expiryDate,
@@ -77,7 +79,8 @@ function DataPage() {
   const fetchExpiryDates = async () => {
     try {
       const localapi = "http://127.0.0.1:5000";
-      const api = "https://7bd5-103-159-35-25.ngrok-free.app";
+     // const api = "https://7bd5-103-159-35-25.ngrok-free.app";
+      const ngrokApi="https://8a61-2405-201-6801-20ac-5c6b-8fe4-b02b-f692.ngrok-free.app"
       const response = await axios.post(`${localapi}/expirydates`, {
         symbol,
       });
