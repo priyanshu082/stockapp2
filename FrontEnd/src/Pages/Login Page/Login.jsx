@@ -100,6 +100,12 @@ const Login = () => {
               >
                 Login
               </button>
+              <Link
+              to='/'
+              className="button z-20 bg-[#3b3d98] text-white py-2 px-4 rounded-md w-[100%] duration-300 ease-in text-center mt-[15px]"
+              >
+                Home
+              </Link>
             </form>
             <div className="gotologinpage w-[90%] sm:w-[70%] h-10 flex gap items-center gap-[10px]  pl-[15px] sm:pl-[0px]">
               <p className="text-sm"> Already have an account? </p>

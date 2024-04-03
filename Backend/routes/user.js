@@ -8,7 +8,7 @@ const { authMiddleware } = require("../middleware");
 
 //signup route
 router.post("/signup", async (req, res) => {
-  const { name, email, password,mobile } = req.body;
+  const { name, email, password,mobile,isSubscribed } = req.body;
   const success = await User.findOne({
     name: name,
   });
@@ -17,7 +17,8 @@ router.post("/signup", async (req, res) => {
       name: name,
       email: email,
       password: password,
-      mobile:mobile
+      mobile:mobile,
+      isSubscribed:false,
     });
     const userId = user._id;
     const token = jwt.sign(

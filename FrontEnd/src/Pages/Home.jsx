@@ -16,7 +16,7 @@ function Home() {
      <PlatformSection/>
      <KnowledgeSection/>
      <FeedbackSection/>
-     <Footer/>
+  <Footer/>
      </div>
   </>
   );

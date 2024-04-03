@@ -7,8 +7,8 @@ const SubscriptionPage = () => {
     <>
       <div className=" w-full h-auto flex flex-col items-center justify-center py-14">
         <div className="heading  w-full flex flex-col items-center justify-center px-5 sm:gap-3">
-          <h1 className="text-lg sm:text-4xl font-semibold ">
-            Lorem ipsum dolor sit amet, consectetur{" "}
+          <h1 className="text-lg sm:text-4xl  ">
+            <span className="font-bold">Choose</span> Your Plan{" "}
           </h1>
           <p className="text-sm sm:text-md">
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -18,7 +18,7 @@ const SubscriptionPage = () => {
           <SubscriptionCard
             tittle="Basic Plan"
             price="$99"
-            month="/month"
+            month="/month"x
             cardDescription="Lorem ipsum dolor sit amet."
             first="Lorem ipsum dolor sit amet."
             second="Lorem ipsum dolor sit amet."
