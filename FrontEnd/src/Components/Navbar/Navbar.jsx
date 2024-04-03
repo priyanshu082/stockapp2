@@ -5,7 +5,7 @@ import Navlogo from "../../Assets/Navbar-img/NavLogo.png";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { AuthContext } from "../../AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Navbar = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
@@ -51,7 +51,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!localStorage.getItem("token") ? (
+                {!isLoggedIn ? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -73,7 +73,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!localStorage.getItem("token") ? (
+                {!isLoggedIn? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -95,7 +95,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!localStorage.getItem("token") ? (
+                {!isLoggedIn ? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -115,28 +115,6 @@ const Navbar = () => {
                   </NavLink>
                 )}
               </li>           
-
-              {/* <li data-aos="fade-down" data-aos-delay="600">
-                <NavLink
-                  className={({ isActive }) =>
-                    `nav ${isActive ? "text-orange-600" : ""}`
-                  }
-                  to="/RefundandCancel"
-                >
-                  REFUND POLICY
-                </NavLink>
-              </li>
-
-              <li data-aos="fade-down" data-aos-delay="1000">
-                <NavLink
-                  className={({ isActive }) =>
-                    `nav ${isActive ? "text-orange-600" : ""}`
-                  }
-                  to="/termAndCondition"
-                >
-                  T&C
-                </NavLink>
-              </li>*/}
 
               <li data-aos="fade-down" data-aos-delay="1200">
                 <NavLink

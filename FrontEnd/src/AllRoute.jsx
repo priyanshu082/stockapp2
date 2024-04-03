@@ -12,12 +12,14 @@ import TermAndCondition from "./Pages/termAndCondition/termAndCondition";
 import AboutUs from "./Pages/AboutUs/AboutUs";
 import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 import RefundandCancel from "./Pages/RefundandCancel/RefundandCancel";
-
-
-
+import { useContext } from "react";
+import { AuthContext } from "./Context/AuthContext";
 
 
 function AllRoute() {
+
+  const {isLoggedIn}=useContext(AuthContext)
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -30,9 +32,11 @@ function AllRoute() {
       <Route path="/SubscriptionPage" element={<SubscriptionPage />} />
 
       {/* here the login and signup pages start where auth is required */}
-      <Route path="/Data" element={<Datapage />} />
-      <Route path="/CommutativeSum" element={<CommutativeSum />} />
-      <Route path="/StrikeGraph" element={<StrikeGraph />} />
+      
+      <Route path="/Data" element={isLoggedIn ? <Datapage /> : <Login/>} />
+      <Route path="/CommutativeSum" element={isLoggedIn ? <CommutativeSum /> : <Login/>} />
+      <Route path="/StrikeGraph" element={isLoggedIn ? <StrikeGraph /> : <Login/>} />
+  
    
     </Routes>
   );
