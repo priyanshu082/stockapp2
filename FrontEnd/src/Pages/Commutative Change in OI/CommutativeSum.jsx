@@ -3,6 +3,8 @@ import axios from "axios";
 import DropDown from "./DropDown";
 import DataTableComm from "./DataTableComm";
 // import Bargraph from "./BarGraph";
+import { localapi } from '../../Assets/config';
+import { ngrokApi } from '../../Assets/config';
 
 
 const CommutativeSum = () => {
@@ -22,8 +24,6 @@ const CommutativeSum = () => {
     
       const fetchData = async () => {
         try {
-          const localapi ="http://127.0.0.1:5000"
-          const api="https://7bd5-103-159-35-25.ngrok-free.app"
           const response = await axios.post(`${localapi}/commutativesum`, {
             symbol,
             expiryDate,
@@ -47,8 +47,6 @@ const CommutativeSum = () => {
     
       const fetchExpiryDates = async () => {
         try {
-          const localapi ="http://127.0.0.1:5000"
-          const api="https://7bd5-103-159-35-25.ngrok-free.app"
           const response = await axios.post(`${localapi}/expirydates`, {
             symbol,
           });

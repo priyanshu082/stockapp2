@@ -2,6 +2,8 @@ import {React,useState,useEffect} from 'react'
 import DropDown from "./DropDown";
 import axios from "axios";
 import  LineChartsCallsPuts  from './LineChartsCallsPuts';
+import { ngrokApi } from '../../Assets/config';
+import { localapi } from '../../Assets/config';
 // import  LineChartsPuts  from './LineChartsPuts';
 // import LineChartPrice from "./LineChartPrice";
 
@@ -28,7 +30,7 @@ const StrikeGraph = () => {
     
       const fetchData = async () => {
         try {
-          const response = await axios.post("http://127.0.0.1:5000/strikegraph", {
+          const response = await axios.post(`${localapi}/strikegraph`, {
             symbol,
             expiryDate,
             strikePrice,
@@ -51,8 +53,6 @@ const StrikeGraph = () => {
     
       const fetchStrikepriceData = async () => {
         try {
-          const localapi ="http://127.0.0.1:5000"
-          const api="https://7bd5-103-159-35-25.ngrok-free.app"
           const response = await axios.post(`${localapi}/strikeprices`, {
             symbol,
             expiryDate,
@@ -79,8 +79,6 @@ const StrikeGraph = () => {
     
       const fetchExpiryDates = async () => {
         try {
-          const localapi ="http://127.0.0.1:5000"
-          const api="https://7bd5-103-159-35-25.ngrok-free.app"
           const response = await axios.post(`${localapi}/expirydates`, {
             symbol,
           });

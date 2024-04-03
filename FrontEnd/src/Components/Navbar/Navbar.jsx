@@ -114,9 +114,7 @@ const Navbar = () => {
                    PRICE
                   </NavLink>
                 )}
-              </li>
-
-             
+              </li>           
 
               {/* <li data-aos="fade-down" data-aos-delay="600">
                 <NavLink
@@ -188,7 +186,7 @@ const Navbar = () => {
               />
             )}
           </div>
-          
+
         </div>
       </nav>
 
