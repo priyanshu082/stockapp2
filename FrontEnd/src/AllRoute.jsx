@@ -12,6 +12,7 @@ import TermAndCondition from "./Pages/termAndCondition/termAndCondition";
 import AboutUs from "./Pages/AboutUs/AboutUs";
 import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 import RefundandCancel from "./Pages/RefundandCancel/RefundandCancel";
+import Buy_Seller from "./Pages/Buyer_VS_Seller/Buy_Seller"
 import { useContext } from "react";
 import { AuthContext } from "./Context/AuthContext";
 
@@ -36,6 +37,7 @@ function AllRoute() {
       <Route path="/Data" element={isLoggedIn ? <Datapage /> : <Login/>} />
       <Route path="/CommutativeSum" element={isLoggedIn ? <CommutativeSum /> : <Login/>} />
       <Route path="/StrikeGraph" element={isLoggedIn ? <StrikeGraph /> : <Login/>} />
+      <Route path="/Buyer_VS_Seller" element={isLoggedIn ? <Buy_Seller /> : <Login/>} />
   
    
     </Routes>

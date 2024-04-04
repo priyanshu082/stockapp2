@@ -1,51 +1,55 @@
-import {React,useState,useEffect} from 'react'
-import DropDown from "./DropDown";
+import {React,useEffect,useState} from 'react'
 import axios from "axios";
-import  LineChartsCallsPuts  from './LineChartsCallsPuts';
-import { ngrokApi } from '../../Assets/config';
+import DropDown from "./DropDown";
+import DataTable from "./DataTable";
+// import Bargraph from "./BarGraph";
 import { localapi } from '../../Assets/config';
-// import  LineChartsPuts  from './LineChartsPuts';
-// import LineChartPrice from "./LineChartPrice";
+import { ngrokApi } from '../../Assets/config';
 
 
-const StrikeGraph = () => {
+const CommutativeSum = () => {
+    // const [symbol, setSymbol] = useState("BANKNIFTY");
+    // const [expiryDate, setExpiryDate] = useState("");
+    // const [noOfStrikes, setNoOfStrikes] = useState("12");
+    // const [timeInterval, setTimeInterval] = useState("2");
+    // const [commutativeData, setCommutativeData] = useState([]);
+    // const [expiryDates, setExpiryDates] = useState([]);
 
     const [symbol, setSymbol] = useState("BANKNIFTY");
-    const [expiryDate, setExpiryDate] = useState("");
+    const [expiryDate, setExpiryDate] = useState("2024-04-25");
     const [noOfStrikes, setNoOfStrikes] = useState("12");
     const [timeInterval, setTimeInterval] = useState("2");
-    const [strikePrice, setStrikePrice] = useState("");
-    const [strikePriceHigh, setStrikePriceHigh] = useState("");
+    const [buySellData, setBuySellData] = useState([]);
+    const [strikePrice, setStrikePrice] = useState("46000");
+    // const [strikePriceHigh, setStrikePriceHigh] = useState("");
     const [strikePriceData, setStrikePriceData] = useState([]);
-    const [strikegraphData, setStrikegraphData] = useState([]);
+    // const [strikegraphData, setStrikegraphData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
 
-    
-    // strikegraph data api
-
     useEffect(() => {
-        if (symbol && expiryDate && strikePrice && timeInterval) {
+        if (symbol && expiryDate && noOfStrikes && timeInterval) {
           fetchData();
         }
-      }, [symbol, expiryDate, strikePrice, timeInterval]);
+      }, [symbol, expiryDate, noOfStrikes, timeInterval]);
     
       const fetchData = async () => {
         try {
-          const response = await axios.post(`${localapi}/strikegraph`, {
+          const response = await axios.post(`${localapi}/buysell`, {
             symbol,
             expiryDate,
             strikePrice,
             timeInterval,
           });
+     
           const data = response.data;
-          setStrikegraphData(data.data);
-          //  console.log(data.data);
+          setBuySellData(data.data);
+          console.log(buySellData)
+
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       };
 
-      // strike price api call 
       useEffect(() => {
         if (symbol && expiryDate && noOfStrikes ) {
           fetchStrikepriceData();
@@ -65,24 +69,18 @@ const StrikeGraph = () => {
           const data = response.data
           setStrikePriceData(data.data);
           setStrikePrice(data.data[0])
-          setStrikePriceHigh(data.data[noOfStrikes*2-1])
-          console.log(strikePrice);
-          console.log(strikePriceHigh)
+        //   console.log(strikePriceData);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       };
 
- 
-
-      // expiredate api 
       useEffect(() => {
         if (symbol) {
           fetchExpiryDates();
         }
       }, [symbol]);
     
-      //for expiry dates
       const fetchExpiryDates = async () => {
         try {
           const response = await axios.post(`${localapi}/expirydates`, {
@@ -90,7 +88,7 @@ const StrikeGraph = () => {
           });
     
           const data = response.data;
-          // console.log(data.data);
+        //   console.log(data.data);
           setExpiryDates(data.data);
           setExpiryDate(data.data[0])
         } catch (error) {
@@ -98,13 +96,11 @@ const StrikeGraph = () => {
         }
       };
 
-//  console.log(strikegraphData);
-
-
+    //   console.log(buySellData)
   return (
     <>
- <div className="sm:p-[50px] p-[10px] ">
-      <h1 className="w-full   font-bold text-md sm:text-4xl  my-1 mb-4">
+    <div className="sm:p-[50px] p-[10px] ">
+      <h1 className="w-full font-bold text-md sm:text-4xl  my-1 mb-4">
         Option Chain Data - RideOnWhale.Com
       </h1>
       <div className="  w-full h-auto px-[0px] sm:p-[10px] flex gap-[10px] justify-between flex-wrap">
@@ -116,7 +112,6 @@ const StrikeGraph = () => {
           timeInterval={timeInterval}
           expiryDates={expiryDates}
           setTimeInterval={setTimeInterval}
-          setStrikegraphData={setStrikegraphData}
           setExpiryDate={setExpiryDate}
           setExpiryDates={setExpiryDates}
           setNoOfStrikes={setNoOfStrikes}
@@ -125,15 +120,23 @@ const StrikeGraph = () => {
           strikePrice={strikePrice}
           setStrikePrice={setStrikePrice}
         />
-
       </div>
-        <div className="py-[30px] px-[10px] flex flex-col">
-          {/* its come from Pages/strike graph page/Bargraph */}
-          <h2 className=' text-center text-2xl mb-2 '>LTP Calls And Puts Graph</h2>
-          <LineChartsCallsPuts data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
+
+      <div className=" w-full h-auto flex flex-col justify-center mt-[20px]">
+        <h1 className=" self-center text-xl font-bold mb-[10px]">
+          Table Of Data
+        </h1>
         </div>
-      </div>    </>
+        <div className="py-[30px] px-[10px]">
+          {/* its come from Pages/commutative page/Bargraph */}
+          {/* <Bargraph commutativeData={commutativeData} /> */}
+        </div>
+        <div className="">
+          <DataTable buySellData={buySellData} setBuySellData={setBuySellData}  />
+        </div>
+      </div>
+    </>
   )
 }
 
-export default StrikeGraph
+export default CommutativeSum

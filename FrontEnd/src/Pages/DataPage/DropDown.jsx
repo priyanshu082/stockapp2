@@ -60,13 +60,13 @@ const DropDown = ({
   }
 
   if(live){
-    let currentRange=`${time30MinutesAgo} - ${currentTime}`
+    let currentRange=`${time30MinutesAgo}-${currentTime}`
     setTimeRange(currentRange);
   }
-  // useEffect(() => {
-  //  let currentRange=`${time30MinutesAgo} - ${currentTime}`
-  //   setTimeRange(currentRange);
-  // }, []);
+   useEffect(() => {
+    let currentRange=`${time30MinutesAgo}-${currentTime}`
+     setTimeRange(currentRange);
+   }, []);
 
   const currentHour = new Date().getHours();
   const currentMinutes = new Date().getMinutes();
@@ -75,7 +75,7 @@ const DropDown = ({
     (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
   
   const timeRangesCollection = [
-    `${isBetween930And1530  && ( `${time30MinutesAgo} - ${currentTime}`)}`,
+    `${isBetween930And1530  && ( `${time30MinutesAgo}-${currentTime}`)}`,
     "09:15:00-09:45:00",
     "09:45:00-10:15:00",
     "10:15:00-10:45:00",
@@ -93,7 +93,7 @@ const DropDown = ({
   
 
   useEffect(() => {
-    let currentRange = `${time30MinutesAgo} - ${currentTime}`;
+    let currentRange = `${time30MinutesAgo}-${currentTime}`;
     if (timeRange === currentRange && isBetween930And1530) {
         setLive(true);
     } else {
@@ -206,7 +206,7 @@ const DropDown = ({
             onChange={(e) => {
               setLive(e.target.checked);
               if (e.target.checked) {
-                setTimeRange(`${time30MinutesAgo} - ${currentTime}`);
+                setTimeRange(`${time30MinutesAgo}-${currentTime}`);
               } else {
                 setTimeRange("");
               }

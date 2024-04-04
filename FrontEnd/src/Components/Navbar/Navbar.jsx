@@ -114,18 +114,30 @@ const Navbar = () => {
                    PRICE
                   </NavLink>
                 )}
+              </li>       
+
+              <li data-aos="fade-down" data-aos-delay="600">
+                {!isLoggedIn ? (
+                  <NavLink
+                    className={({ isActive }) =>
+                      `nav ${isActive ? "text-orange-600" : ""}`
+                    }
+                    to="/Privacypolicy"
+                  >
+                   PRIVACY
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    className={({ isActive }) =>
+                      `nav ${isActive ? "text-orange-600" : ""}`
+                    }
+                    to="/Buyer_VS_Seller"
+                  >
+                   BUYERvsSELLER
+                  </NavLink>
+                )}
               </li>           
 
-              <li data-aos="fade-down" data-aos-delay="1200">
-                <NavLink
-                  className={({ isActive }) =>
-                    `nav ${isActive ? "text-orange-600" : ""}`
-                  }
-                  to="/Privacypolicy"
-                >
-                  PRIVACY
-                </NavLink>
-              </li> 
 
             </ul>
           </div>

@@ -3,7 +3,7 @@ import { React } from 'react'
 const DataTable = ({ allData }) => {
 
 
-
+console.log(allData)
   const headingCollection = [
     "S.No",
     "underlyingValue",
@@ -80,7 +80,7 @@ const DataTable = ({ allData }) => {
   };
 
  
-console.log(indexOfCurrentStrikePrice());
+// console.log(indexOfCurrentStrikePrice());
   // Get the index of the row with the minimum absolute difference
   const index_of_current_strikePrice = indexOfCurrentStrikePrice();
 
