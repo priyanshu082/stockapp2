@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import companylogo from "../../Assets/Navbar-img/NavLogo.png";
+import { IPaddress } from "../../Assets/config";
 
 const Registration = () => {
   const [name, setName] = useState("");
@@ -58,7 +59,7 @@ const Registration = () => {
     }
 
     axios
-      .post("http://localhost:8080/user/signup", {
+      .post(`http://${IPaddress}:8080/user/signup`, {
         name: name,
         email: email,
         mobile: mobile,
