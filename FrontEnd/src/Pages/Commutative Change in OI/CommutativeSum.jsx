@@ -4,7 +4,6 @@ import DropDown from "./DropDown";
 import DataTableComm from "./DataTableComm";
 // import Bargraph from "./BarGraph";
 import { localapi } from '../../Assets/config';
-import { ngrokApi } from '../../Assets/config';
 
 
 const CommutativeSum = () => {

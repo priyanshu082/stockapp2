@@ -4,7 +4,6 @@ import LineChart from "./Line_Chart";
 import DropDown from "./DropDown";
 import DataTable from "./DataTable";
 import { localapi } from "../../Assets/config";
-import { ngrokApi } from "../../Assets/config";
 
 function DataPage() {
   const [symbol, setSymbol] = useState("BANKNIFTY");

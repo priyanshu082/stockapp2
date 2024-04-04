@@ -2,7 +2,6 @@ import {React,useState,useEffect} from 'react'
 import DropDown from "./DropDown";
 import axios from "axios";
 import  LineChartsCallsPuts  from './LineChartsCallsPuts';
-import { ngrokApi } from '../../Assets/config';
 import { localapi } from '../../Assets/config';
 // import  LineChartsPuts  from './LineChartsPuts';
 // import LineChartPrice from "./LineChartPrice";

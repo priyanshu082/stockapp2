@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import companylogo from "../../Assets/Navbar-img/NavLogo.png";
 import { AuthContext } from "../../Context/AuthContext";
-import { IPaddress } from "../../Assets/config";
+import { authApi } from "../../Assets/config";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ const Login = () => {
     e.preventDefault();
 
     axios
-      .post(`http://${IPaddress}:8080/user/login`, { email, password })
+      .post(`${authApi}/user/login`, { email, password })
       .then((result) => {
         console.log(result);
         if (result) {
