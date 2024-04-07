@@ -21,7 +21,6 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
   };
 
   return (
@@ -155,7 +154,7 @@ const Navbar = () => {
             ) : (
               <Link
                 onClick={handleLogout}
-                to="/login"
+                to="/"
                 className="button z-20 py-[5px] flex items-center text-[12px] rounded-xl px-[15px] text-white"
                 data-aos="fade-down"
                 data-aos-delay="1400"
@@ -175,6 +174,17 @@ const Navbar = () => {
                 className="sm:hidden block sm:max-md:block text-3xl font-bold "
               />
             )}
+          </div>
+          <div>
+
+          <Link
+                to={isLoggedIn ? "/SubscriptionPage" :"/login"}
+                className="button z-20 py-[5px] flex items-center text-[14px] rounded-xl px-[15px] text-white"
+                data-aos="fade-down"
+                data-aos-delay="1400"
+              >
+                Subscribe
+              </Link>
           </div>
 
         </div>

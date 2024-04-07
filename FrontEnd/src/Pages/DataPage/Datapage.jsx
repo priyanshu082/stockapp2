@@ -4,6 +4,7 @@ import LineChart from "./Line_Chart";
 import DropDown from "./DropDown";
 import DataTable from "./DataTable";
 import { localapi } from "../../Assets/config";
+import Navbar from "../../Components/Navbar/Navbar";
 
 function DataPage() {
   const [symbol, setSymbol] = useState("BANKNIFTY");
@@ -109,9 +110,12 @@ function DataPage() {
 
   // console.log(allData);
   return (
+    <div>
+
+  <Navbar/>
     <div className="sm:p-[50px] p-[10px] ">
       <h1 className="w-full   font-bold text-md sm:text-4xl  my-1 mb-4">
-        Option Chain Data - RideOnWhale.Com
+        PCR - RideOnWhale.Com
       </h1>
       <div className="  w-full h-auto px-[0px] sm:p-[10px] flex gap-[10px] justify-between flex-wrap">
         {/* its come from pages/DataPage/DropDown */}
@@ -166,6 +170,7 @@ function DataPage() {
         </div>
 
       </div>
+    </div>
     </div>
   );
 }

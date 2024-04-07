@@ -26,11 +26,12 @@ const Login = () => {
           setIsLoggedIn(true);
           localStorage.setItem("token", result.data.token);
           navigate("/");
-        } else {
-          setLoginError(true);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err)
+        setLoginError(err.response.status)
+      });
   };
 
   
@@ -57,7 +58,6 @@ const Login = () => {
               <div className="mb-4  w-[100%]">
                 {loginError ? (
                   <h1 className="text-sm text-red-500">
-                    'PLease enter Correct Email and Password'{" "}
                   </h1>
                 ) : null}
                 <label
@@ -108,6 +108,12 @@ const Login = () => {
                 Home
               </Link>
             </form>
+
+            <div className="text-[20px] text-red-500 w-full mb-[15px] flex justify-center ml-[-3.5vw]">
+                  {loginError===400 && (<div>Wrong Password</div>)}
+                  {loginError===500 && (<div>Email doesn't exist</div>)}
+            </div>
+
             <div className="gotologinpage w-[90%] sm:w-[70%] h-10 flex gap items-center gap-[10px]  pl-[15px] sm:pl-[0px]">
               <p className="text-sm"> Already have an account? </p>
               <Link

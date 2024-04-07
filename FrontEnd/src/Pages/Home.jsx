@@ -10,7 +10,7 @@ function Home() {
   return (
   <> 
   <div className="w-full h-auto bg-white">
-  <Navbar/>
+<Navbar/>
      <HeroSection/>
      <SectionYoutube/>
      <PlatformSection/>

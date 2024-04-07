@@ -14,10 +14,11 @@ const Registration = () => {
   const [mobileError, setMobileError] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+  const [userExist ,setUserExist]=useState()
   // const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
     const rgExp = /^[a-zA-Z0-9._]+@[a-z]+.[a-z]{2,6}$/;
     const passexp = /^[a-zA-Z0-9]+[!@#$%^&*()_+=-]/;
@@ -58,8 +59,9 @@ const Registration = () => {
       return false;
     }
 
-    axios
-      .post(`${authApi}/user/signup`, {
+
+
+    axios.post(`${authApi}/user/signup`, {
         name: name,
         email: email,
         mobile: mobile,
@@ -70,7 +72,11 @@ const Registration = () => {
         localStorage.setItem("token",result.data.token);
         navigate("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err)
+        setUserExist(err.response.status)
+        console.log(userExist)
+      })
   };
 
   return (
@@ -197,8 +203,12 @@ const Registration = () => {
               </Link>
               
             </form>
+            <div className="text-[20px] text-red-500 w-full mb-[10px] flex justify-center ml-[-3.5vw]">
+                  {userExist===400 && (<div>Email is Already in use</div>)}
+                  {userExist===500 && (<div>Network error occured</div>)}
+            </div>
 
-            <div className="gotologinpage w-[90%] sm:w-[70%] h-10 flex gap items-center gap-[10px]  pl-[15px] sm:pl-[0px]">
+            <div className="gotologinpage w-[90%] sm:w-[70%]  h-10 flex gap items-center gap-[10px]  pl-[15px] sm:pl-[0px]">
               <p className="text-sm"> Already have an account? </p>
               <Link
                 to="/login"

@@ -4,6 +4,7 @@ import DropDown from "./DropDown";
 import DataTableComm from "./DataTableComm";
 // import Bargraph from "./BarGraph";
 import { localapi } from '../../Assets/config';
+import Navbar from '../../Components/Navbar/Navbar';
 
 
 const CommutativeSum = () => {
@@ -60,9 +61,10 @@ const CommutativeSum = () => {
       };
   return (
     <>
+    <Navbar/>
     <div className="sm:p-[50px] p-[10px] ">
       <h1 className="w-full   font-bold text-md sm:text-4xl  my-1 mb-4">
-        Option Chain Data - RideOnWhale.Com
+        CAllvsPUT - RideOnWhale.Com
       </h1>
       <div className="  w-full h-auto px-[0px] sm:p-[10px] flex gap-[10px] justify-between flex-wrap">
         {/* its come from pages/DataPage/DropDown */}

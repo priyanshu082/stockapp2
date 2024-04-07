@@ -287,7 +287,6 @@ console.log(allData)
               <td className={`border-[1px] text-sm border-black px-[3px] `}
                style={getBackgroundColor(item.Long_Short_Calls)}
                >
-              
                 {item.Long_Short_Calls}
               </td>
               <td className="border-[1px] text-sm border-black px-[3px]"

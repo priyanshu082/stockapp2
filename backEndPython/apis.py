@@ -213,7 +213,6 @@ def buySellData():
         expiryDate = request_data.get('expiryDate')
         strikePrice = int(request_data.get('strikePrice'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10
-        print(symbol,expiryDate,strikePrice,timeInterval)
 
         symbolCollection = db[symbol]
         

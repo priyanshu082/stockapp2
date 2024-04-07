@@ -4,6 +4,7 @@ import DropDown from "./DropDown";
 import DataTable from "./DataTable";
 // import Bargraph from "./BarGraph";
 import { localapi } from '../../Assets/config';
+import Navbar from '../../Components/Navbar/Navbar';
 
 
 const CommutativeSum = () => {
@@ -15,22 +16,21 @@ const CommutativeSum = () => {
     // const [expiryDates, setExpiryDates] = useState([]);
 
     const [symbol, setSymbol] = useState("BANKNIFTY");
-    const [expiryDate, setExpiryDate] = useState("2024-04-25");
+    const [expiryDate, setExpiryDate] = useState("");
     const [noOfStrikes, setNoOfStrikes] = useState("12");
     const [timeInterval, setTimeInterval] = useState("2");
     const [buySellData, setBuySellData] = useState([]);
-    const [strikePrice, setStrikePrice] = useState("46000");
-    // const [strikePriceHigh, setStrikePriceHigh] = useState("");
+    const [strikePrice, setStrikePrice] = useState("");
     const [strikePriceData, setStrikePriceData] = useState([]);
-    // const [strikegraphData, setStrikegraphData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
 
-    useEffect(() => {
-        if (symbol && expiryDate && noOfStrikes && timeInterval) {
-          fetchData();
-        }
-      }, [symbol, expiryDate, noOfStrikes, timeInterval]);
     
+    useEffect(() => {
+      if (symbol && expiryDate && noOfStrikes && timeInterval) {
+        fetchData();
+      }
+    }, [timeInterval,symbol, expiryDate, noOfStrikes ]);
+
       const fetchData = async () => {
         try {
           const response = await axios.post(`${localapi}/buysell`, {
@@ -42,12 +42,15 @@ const CommutativeSum = () => {
      
           const data = response.data;
           setBuySellData(data.data);
-          console.log(buySellData)
-
+          console.log(buySellData.length)
+  
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       };
+
+
+    
 
       useEffect(() => {
         if (symbol && expiryDate && noOfStrikes ) {
@@ -98,9 +101,10 @@ const CommutativeSum = () => {
     //   console.log(buySellData)
   return (
     <>
+    <Navbar/>
     <div className="sm:p-[50px] p-[10px] ">
       <h1 className="w-full font-bold text-md sm:text-4xl  my-1 mb-4">
-        Option Chain Data - RideOnWhale.Com
+        BUYERvsSELLER - RideOnWhale.Com
       </h1>
       <div className="  w-full h-auto px-[0px] sm:p-[10px] flex gap-[10px] justify-between flex-wrap">
         {/* its come from pages/DataPage/DropDown */}
@@ -131,7 +135,7 @@ const CommutativeSum = () => {
           {/* <Bargraph commutativeData={commutativeData} /> */}
         </div>
         <div className="">
-          <DataTable buySellData={buySellData} setBuySellData={setBuySellData}  />
+           <DataTable buySellData={buySellData} setBuySellData={setBuySellData}  />
         </div>
       </div>
     </>
