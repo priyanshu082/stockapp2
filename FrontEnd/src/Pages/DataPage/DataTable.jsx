@@ -162,7 +162,7 @@ console.log(allData)
     'Long Unwinding': { backgroundColor: 'orange' },
     'Short Covering': { backgroundColor: 'skyblue' },
     'Long Buildup': { backgroundColor: 'lightgreen' },
-    'Short Buildup': { backgroundColor: 'yellow' },
+    'Short Buildup': { backgroundColor: '#FF6347' },
   }[value] || {backgroundColor: 'white'});
   
   

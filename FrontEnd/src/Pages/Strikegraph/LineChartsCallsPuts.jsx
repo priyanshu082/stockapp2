@@ -11,8 +11,8 @@ import {
 } from "recharts";
 
 const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh }) => {
-    console.log(strikePrice)
-    console.log(strikePriceHigh)
+    console.log(data)
+    // console.log(strikePriceHigh)
   // if (!Array.isArray(data) || data.length === 0) {
   //     return <h1>Data Not Found</h1>; // or some fallback JSX if needed
   //   }
@@ -38,6 +38,15 @@ const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh })
 
   //strike price
 
+  const minYValueUnderlyingValue = Math.min(
+    ...(Array.isArray(data) ? data.map((item) => item.underlyingValue) : [])
+  );
+  const minValueUnderlyingValue = minYValueUnderlyingValue - 0.5;
+  const maxYValueUnderlyingValue = Math.max(
+    ...(Array.isArray(data) ? data.map((item) => item.underlyingValue) : [])
+  );
+  const maxValueUnderlyingValue = maxYValueUnderlyingValue + 0.5;
+
 
   return (
     <>
@@ -48,7 +57,7 @@ const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh })
           <CartesianGrid strokeDasharray="1 1" />
           <XAxis dataKey="Time" />
         <YAxis yAxisId="left" domain={[minValueCALL, maxValueCALL]} /> 
-        {/* <YAxis yAxisId="third" domain={[strikePrice, strikePriceHigh]} /> */}
+        <YAxis yAxisId="third" domain={[minValueUnderlyingValue, maxValueUnderlyingValue]} />
         <YAxis yAxisId="right" domain={[minValuePUT, maxValuePUT]} orientation="right"/>
 
           <Tooltip />
@@ -70,13 +79,14 @@ const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh })
             activeDot={{ r: 8 }}
             dot={false}
           />
-          {/* <Line
+           <Line
             type="monotone"
+            dataKey="underlyingValue"
             yAxisId="third"
-            stroke="#82ca9d"
+            stroke="red"
             activeDot={{ r: 8 }}
             dot={false}
-          /> */}
+          /> 
             
         </LineChart>
       </ResponsiveContainer>

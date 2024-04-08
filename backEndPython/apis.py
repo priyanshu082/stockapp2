@@ -229,7 +229,7 @@ def buySellData():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host="103.184.192.5")
 
 
 
