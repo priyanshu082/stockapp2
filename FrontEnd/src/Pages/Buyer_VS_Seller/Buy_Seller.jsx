@@ -24,12 +24,16 @@ const CommutativeSum = () => {
     const [strikePriceData, setStrikePriceData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
 
+
+    
     
     useEffect(() => {
       if (symbol && expiryDate && noOfStrikes && timeInterval) {
         fetchData();
+        
       }
-    }, [timeInterval,symbol, expiryDate, noOfStrikes ]);
+    }, [timeInterval,symbol, expiryDate, strikePrice ]);
+
 
       const fetchData = async () => {
         try {
@@ -39,10 +43,12 @@ const CommutativeSum = () => {
             strikePrice,
             timeInterval,
           });
+
+    
      
           const data = response.data;
           setBuySellData(data.data);
-          console.log(buySellData.length)
+  
   
         } catch (error) {
           console.error("Error fetching data:", error);

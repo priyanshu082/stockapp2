@@ -213,7 +213,7 @@ def buySellData():
         expiryDate = request_data.get('expiryDate')
         strikePrice = int(request_data.get('strikePrice'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10
-
+        
         symbolCollection = db[symbol]
         
         data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'Time':1,'TotalBuyQuantity_Calls':1, 'TotalSellQuantity_Calls':1, 'TotalBuyQuantity_Puts':1, 'TotalSellQuantity_Puts':1})]
