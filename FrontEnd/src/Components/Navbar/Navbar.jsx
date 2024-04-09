@@ -143,7 +143,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex gap-5">
-            {!localStorage.getItem("token") ? (
+            {!isLoggedIn ? (
               <Link
                 to="/login"
                 className="button z-20 py-[5px] flex items-center text-[12px] rounded-xl px-[15px] text-white"
@@ -176,6 +176,7 @@ const Navbar = () => {
               />
             )}
           </div>
+
           <div>
 
           <Link
@@ -185,7 +186,8 @@ const Navbar = () => {
                 data-aos-delay="1400"
               >
                 Subscribe
-              </Link>
+           </Link>
+
           </div>
 
         </div>
@@ -200,35 +202,43 @@ const Navbar = () => {
                 HOME
               </Link>
             </li>
+
             <li>
-              <Link className="block text-[16px] text-[#265786]" to="/AboutUs">
+            {isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/AboutUs">
                 ABOUT US
-              </Link>
+              </Link>):(<Link className="block text-[16px] text-[#265786]" to="/Data">
+                PCR
+              </Link>)}
+              
             </li>
+
             <li>
-              <Link
-                className="block text-[16px] text-[#265786]"
-                to="/RefundandCancel"
-              >
-                REFUND POLICY
-              </Link>
+            {isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/RefundandCancel">
+            REFUND & CANCELLATION
+              </Link>):(<Link className="block text-[16px] text-[#265786]" to="/CommutativeSum">
+              CALL v/s PUT
+              </Link>)}
             </li>
+
+
             <li>
-              <Link
-                className="block text-[16px] text-[#265786]"
-                to="/termAndCondition"
-              >
-                T&C
-              </Link>
+            {isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/termAndCondition">
+               T&C
+              </Link>):(<Link className="block text-[16px] text-[#265786]" to="/StrikeGraph">
+               PRICE
+              </Link>)}
             </li>
+
+          
             <li>
-              <Link
-                className="block text-[16px] text-[#265786]"
-                to="/Privacypolicy"
-              >
+            {isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/Privacypolicy">
                 PRIVACY
-              </Link>
+              </Link>):(<Link className="block text-[16px] text-[#265786]" to="/Buyer_VS_Seller">
+                BUYERvsSELLER
+              </Link>)}
             </li>
+    
+
           </ul>
         </nav>
       )}
