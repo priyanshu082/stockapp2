@@ -19,15 +19,25 @@ const StrikeGraph = () => {
     const [strikePriceData, setStrikePriceData] = useState([]);
     const [strikegraphData, setStrikegraphData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
+    const [twoMin,setTwoMin]=useState()
 
-    
-    // strikegraph data api
+    const updateTwoMin=()=>{
+      const currentTime=new Date()
+      setTwoMin(currentTime)
+    }
+ 
+    useEffect(()=>{
+      const intervalid=setInterval(() => {
+        updateTwoMin()
+      }, 2*60*1000);
+      return () => clearInterval(intervalid);
+    })
 
     useEffect(() => {
         if (symbol && expiryDate && strikePrice && timeInterval) {
           fetchData();
         }
-      }, [symbol, expiryDate, strikePrice, timeInterval]);
+      }, [symbol, expiryDate, strikePrice, timeInterval,twoMin]);
     
       const fetchData = async () => {
         try {

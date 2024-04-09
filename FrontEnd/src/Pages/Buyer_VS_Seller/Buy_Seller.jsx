@@ -23,7 +23,19 @@ const CommutativeSum = () => {
     const [strikePrice, setStrikePrice] = useState("");
     const [strikePriceData, setStrikePriceData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
+    const [twoMin,setTwoMin]=useState()
 
+    const updateTwoMin=()=>{
+      const currentTime=new Date()
+      setTwoMin(currentTime)
+    }
+ 
+    useEffect(()=>{
+      const intervalid=setInterval(() => {
+        updateTwoMin()
+      }, 2*60*1000);
+      return () => clearInterval(intervalid);
+    })
 
     
     
@@ -32,7 +44,7 @@ const CommutativeSum = () => {
         fetchData();
         
       }
-    }, [timeInterval,symbol, expiryDate, strikePrice ]);
+    }, [timeInterval,symbol, expiryDate, strikePrice,twoMin ]);
 
 
       const fetchData = async () => {

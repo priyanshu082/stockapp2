@@ -14,13 +14,26 @@ const CommutativeSum = () => {
     const [timeInterval, setTimeInterval] = useState("2");
     const [commutativeData, setCommutativeData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
+    const [twoMin,setTwoMin]=useState()
+
+    const updateTwoMin=()=>{
+      const currentTime=new Date()
+      setTwoMin(currentTime)
+    }
+ 
+    useEffect(()=>{
+      const intervalid=setInterval(() => {
+        updateTwoMin()
+      }, 2*60*1000);
+      return () => clearInterval(intervalid);
+    })
 
 
     useEffect(() => {
         if (symbol && expiryDate && noOfStrikes && timeInterval) {
           fetchData();
         }
-      }, [symbol, expiryDate, noOfStrikes, timeInterval]);
+      }, [symbol, expiryDate, noOfStrikes, timeInterval,twoMin]);
     
       const fetchData = async () => {
         try {

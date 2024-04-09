@@ -56,9 +56,9 @@ const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh })
         data={Array.isArray(data) && data.length > 0 && data}>
           <CartesianGrid strokeDasharray="1 1" />
           <XAxis dataKey="Time" />
-        <YAxis yAxisId="left" domain={[minValueCALL, maxValueCALL]} /> 
-        <YAxis yAxisId="third" domain={[minValueUnderlyingValue, maxValueUnderlyingValue]} />
-        <YAxis yAxisId="right" domain={[minValuePUT, maxValuePUT]} orientation="right"/>
+        <YAxis tick={{fill:"#8884d8"}} yAxisId="left" domain={[minValueCALL, maxValueCALL]} /> 
+        <YAxis tick={{fill:"red"}} yAxisId="third" domain={[minValueUnderlyingValue, maxValueUnderlyingValue]} />
+        <YAxis tick={{fill:"#82ca9d"}} yAxisId="right" domain={[minValuePUT, maxValuePUT]} orientation="right"/>
 
           <Tooltip />
           <Legend />

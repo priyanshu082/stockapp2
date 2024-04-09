@@ -15,13 +15,26 @@ function DataPage() {
   const [pcrData, setPcrData] = useState([]);
   const [expiryDates, setExpiryDates] = useState([]);
   const [live, setLive] = useState();
+  const [twoMin,setTwoMin]=useState()
+
+    const updateTwoMin=()=>{
+      const currentTime=new Date()
+      setTwoMin(currentTime)
+    }
+ 
+    useEffect(()=>{
+      const intervalid=setInterval(() => {
+        updateTwoMin()
+      }, 2*60*1000);
+      return () => clearInterval(intervalid);
+    })
 
   // fetch all data
   useEffect(() => {
     if (symbol && expiryDate && noOfStrikes && timeRange) {
       fetchData();
     }
-  }, [symbol, expiryDate, noOfStrikes, timeRange]);
+  }, [symbol, expiryDate, noOfStrikes, timeRange,twoMin]);
 
   const fetchData = async () => {
     try {
