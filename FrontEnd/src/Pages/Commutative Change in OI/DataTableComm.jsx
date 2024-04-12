@@ -26,8 +26,7 @@ const DataTableComm = ({commutativeData}) => {
             <thead>
               <tr>
                 {headingCollection.map((heading, index) => (
-                  <th
-                    className=" bg-gray-300 border-[.5px] border-black text-sm font-semibold"
+                  <th className="bg-gray-300 border-[.5px] border-black text-sm font-semibold max-content"
                     key={index}
                   >
                     {heading}
@@ -38,15 +37,15 @@ const DataTableComm = ({commutativeData}) => {
             <tbody>
               {commutativeData.slice().reverse().map((item, index) => (
                 <tr className="text-black" key={index}>
-                  <td className="border-[1px] text-sm text-center border-black ">{index + 1}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.Time}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.S_COI_Calls}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.S_C_Calls}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.PC_Calls.toFixed(3)}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.S_COI_Puts}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.S_C_Puts}</td>
-                  <td className="border-black border-[1px] text-center text-sm ">{item.PC_Puts.toFixed(3)}</td>
-                  <td className="border-black border-[1px]  ">    
+                  <td className=" text-sm text-center max-content">{index + 1}</td>
+                  <td className=" text-sm text-center max-content">{item.Time}</td>
+                  <td className=" text-sm text-center max-content">{item.S_COI_Calls}</td>
+                  <td className=" text-sm text-center max-content">{item.S_C_Calls}</td>
+                  <td className=" text-sm text-center max-content">{item.PC_Calls.toFixed(3)}</td>
+                  <td className=" text-sm text-center max-content">{item.S_COI_Puts}</td>
+                  <td className=" text-sm text-center max-content">{item.S_C_Puts}</td>
+                  <td className=" text-sm text-center max-content">{item.PC_Puts.toFixed(3)}</td>
+                  <td className=" text-center text-sm w-[9vw] h-[4vw]">    
                   <BarGraph item={item}  PC_Calls={item.PC_Calls.toFixed(3)} PC_Puts ={item.PC_Puts.toFixed(3)}/>
               </td>
                 </tr>

@@ -117,8 +117,8 @@ def CommutativeSumData():
         df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
         df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
         df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
-        df['PC_Calls'] = df['S_C_Calls']/df['S_COI_Calls']
-        df['PC_Puts'] = df['S_C_Puts']/df['S_COI_Puts']
+        df['PC_Calls'] = (df['S_C_Calls']/df['S_COI_Calls']).abs()
+        df['PC_Puts'] = (df['S_C_Puts']/df['S_COI_Puts']).abs()
 
         df = df.sort_values('Time')
         subDf = df[['Time', 'S_COI_Calls', 'S_C_Calls', 'PC_Calls', 'S_COI_Puts', 'S_C_Puts', 'PC_Puts']]
@@ -194,7 +194,7 @@ def strikeGraph():
 
         symbolCollection = db[symbol]
         
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'Time':1,'LTP_Calls':1, 'LTP_Puts':1,'underlyingValue':1})]
+        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'Time':1,'COI_Calls':1, 'COI_Puts':1,'underlyingValue':1})]
         df = pd.DataFrame(data)
 
         df.sort_values('Time')

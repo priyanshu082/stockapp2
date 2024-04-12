@@ -19,13 +19,13 @@ const DataTable = ({buySellData}) => {
    
       // Render tables
       const tables = Array.isArray(buySellData) && buySellData?.length > 0 && (
-        <div className="overflow-x-auto w-full h-auto ">
-          <table className="w-[100%]">
-            <thead>
-              <tr>
+        <div className="overflow-x-auto items-center flex justify-center">
+          <table className="w-[100%] ">
+            <thead >
+              <tr >
                 {headingCollection.map((heading, index) => (
                   <th
-                    className=" bg-gray-300 border-[.5px] border-black   text-sm font-semibold"
+                    className=" bg-gray-300 border-black text-sm font-semibold"
                     key={index}
                   >
                     {heading}
@@ -33,26 +33,63 @@ const DataTable = ({buySellData}) => {
                 ))}
               </tr>
             </thead>
-            <tbody>
+            <tbody className="h-[100vw]">
+      {buySellData.slice().reverse().map((item, index) => (
+        <tr className="text-black" key={index}>
+          <td className="text-sm text-center border-black min-h-[200px]">
+            {index + 1}
+          </td>
+          <td className="text-sm text-center border-black min-h-[200px]">
+            {item.Time}
+          </td>
+          <td className="text-sm text-center border-black min-h-[200px]">
+            {item.TotalBuyQuantity_Calls}
+          </td>
+          <td className="text-sm text-center border-black min-h-[200px]">
+            {item.TotalSellQuantity_Calls}
+          </td>
+          <td className="border-black text-center h-[4vw] w-[9vw]">
+            <BarGraph
+              BuyerData={item.TotalBuyQuantity_Calls}
+              SellerData={item.TotalSellQuantity_Calls}
+            />
+          </td>
+          <td className="text-sm text-center border-black min-h-[200px]">
+            {item.TotalBuyQuantity_Puts}
+          </td>
+          <td className="text-sm text-center border-black min-h-[200px]">
+            {item.TotalSellQuantity_Puts}
+          </td>
+          <td className="border-black text-center h-[4vw] w-[9vw]">
+            <BarGraph
+              BuyerData={item.TotalBuyQuantity_Puts}
+              SellerData={item.TotalSellQuantity_Puts}
+            />
+          </td>
+        </tr>
+      ))}
+    </tbody>
+            {/* <tbody className='h-[40vw]'>
               {buySellData.slice().reverse().map((item, index) => (
                 <tr className="text-black" key={index}>
-                  <td className="border-[1px] text-sm text-center border-black ">{index + 1}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.Time}</td>
+                  <td className="text-sm text-center border-black min-h-[3vw]">{index + 1}</td>
+                  <td className=" text-sm text-center border-black ">{item.Time}</td>
 
 
-                  <td className="border-[1px] text-sm text-center border-black ">{item.TotalBuyQuantity_Calls}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.TotalSellQuantity_Calls}</td>
+                  <td className=" text-sm text-center border-black ">{item.TotalBuyQuantity_Calls}</td>
+                  <td className=" text-sm text-center border-black ">{item.TotalSellQuantity_Calls}</td>
+                  <td className="border-black text-center h-[4vw] w-[10vw]"> 
                   <BarGraph  BuyerData={item.TotalBuyQuantity_Calls} SellerData={item.TotalSellQuantity_Calls}/>
+                  </td>
 
-
-                  <td className="border-[1px] text-sm text-center border-black ">{item.TotalBuyQuantity_Puts}</td>
-                  <td className="border-[1px] text-sm text-center border-black ">{item.TotalSellQuantity_Puts}</td>
-                  <td className="border-black border-[1px] flex justify-center ">    
+                  <td className=" text-sm text-center border-black ">{item.TotalBuyQuantity_Puts}</td>
+                  <td className=" text-sm text-center border-black ">{item.TotalSellQuantity_Puts}</td>
+                  <td className="border-black text-center h-[4vw] w-[10vw]">    
                   <BarGraph  BuyerData={item.TotalBuyQuantity_Puts} SellerData ={item.TotalSellQuantity_Puts}/>
               </td>
                 </tr>
               ))}
-            </tbody>
+            </tbody> */}
           </table>
         </div>
       );

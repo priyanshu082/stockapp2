@@ -140,7 +140,8 @@ const StrikeGraph = () => {
       </div>
         <div className="py-[30px] px-[10px] flex flex-col">
           {/* its come from Pages/strike graph page/Bargraph */}
-          <h2 className=' text-center text-2xl mb-2 '>LTP Calls And Puts Graph</h2>
+          <h2 className=' text-center font-semibold text-3xl mb-2 '>{symbol}</h2>
+          <h2 className=' text-center text-2xl mb-2 '>COI Calls And Puts Graph</h2>
           <LineChartsCallsPuts data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
         </div>
       </div>    

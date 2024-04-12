@@ -18,21 +18,21 @@ const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh })
   //   }
   // Calculate the domain for Y-axis based on data range
   const minYValueCALL = Math.min(
-    ...(Array.isArray(data) ? data.map((item) => item.LTP_Calls) : [])
+    ...(Array.isArray(data) ? data.map((item) => item.COI_Calls) : [])
   );
   const minValueCALL = minYValueCALL - 20;
   const maxYValueCALL = Math.max(
-    ...(Array.isArray(data) ? data.map((item) => item.LTP_Calls) : [])
+    ...(Array.isArray(data) ? data.map((item) => item.COI_Calls) : [])
   );
   const maxValueCALL = maxYValueCALL + 20;
 
   // Calculate the domain for Y-axis based on data range
   const minYValuePUT = Math.min(
-    ...(Array.isArray(data) ? data.map((item) => item.LTP_Puts) : [])
+    ...(Array.isArray(data) ? data.map((item) => item.COI_Puts) : [])
   );
   const minValuePUT = minYValuePUT - 0.5;
   const maxYValuePUT = Math.max(
-    ...(Array.isArray(data) ? data.map((item) => item.LTP_Puts) : [])
+    ...(Array.isArray(data) ? data.map((item) => item.COI_Puts) : [])
   );
   const maxValuePUT = maxYValuePUT + 0.5;
 
@@ -64,7 +64,7 @@ const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh })
           <Legend />
            <Line
             type="monotone"
-            dataKey="LTP_Calls"
+            dataKey="COI_Calls"
             yAxisId="left"
             stroke="#8884d8"
             activeDot={{ r: 8 }}
@@ -73,7 +73,7 @@ const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh })
           
           <Line
             type="monotone"
-            dataKey="LTP_Puts"
+            dataKey="COI_Puts"
             yAxisId="right"
             stroke="#82ca9d"
             activeDot={{ r: 8 }}

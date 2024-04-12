@@ -1,16 +1,15 @@
 import React from 'react';
-import { BarChart, Bar, XAxis,YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis,YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const BarGraph = ({ BuyerData,SellerData }) => {
  
 
   return (
-    <div>
-      <BarChart 
-      width={200} 
-      height={150} 
-      barSize={30}  
+  <ResponsiveContainer>
+ <BarChart 
+      barSize={20}  
       data={[{BuyerData, SellerData }]}
+      margin={{ top: -1, right: -1, left: -61, bottom: -31 }} 
       layout='vertical'
       >
         <CartesianGrid strokeDasharray="1 1" />
@@ -21,7 +20,9 @@ const BarGraph = ({ BuyerData,SellerData }) => {
         <Bar dataKey="BuyerData" fill="#8884d8" />
         <Bar dataKey="SellerData" fill="orange"  />
       </BarChart>
-    </div>
+  </ResponsiveContainer>
+     
+
   );
 };
 

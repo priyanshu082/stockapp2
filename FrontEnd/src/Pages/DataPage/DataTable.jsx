@@ -1,6 +1,6 @@
 import { React } from 'react'
 
-const DataTable = ({ allData }) => {
+const DataTable = ({ allData,noOfStrikes }) => {
 
 
 console.log(allData)
@@ -59,6 +59,10 @@ console.log(allData)
     
     return {};
   }
+
+  // allData.forEach(element => {
+  //   console.log(Math.abs(element.Strike_Price-element.underlyingValue))
+  // });
   // Find the index of the row with the minimum absolute difference between Strike_Price and underlyingValue
   const indexOfCurrentStrikePrice = () => {
     if (!allData || allData.length === 0) return -1;
@@ -66,15 +70,18 @@ console.log(allData)
     let minDiff = Math.abs(
       allData[0].Strike_Price - allData[0].underlyingValue
     );
+    console.log(minDiff)
     let index = 0;
 
     for (let i = 1; i < allData.length; i++) {
       let diff = Math.abs(allData[i].Strike_Price - allData[i].underlyingValue);
       if (diff < minDiff) {
         minDiff = diff;
-        index = i%24;
+        index = i%(noOfStrikes*2);
       }
     }
+    console.log(minDiff)
+    console.log("index:-",index)
 
     return index;
   };
@@ -202,11 +209,11 @@ console.log(allData)
     <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
       <h2 className="font-bold">Table for Time: {time}</h2>
       <table className="w-[100%] ">
-        <thead className='border-[0.5px] border-black'>
-          <tr>
+        <thead className='border-[0.5px] border-black '>
+          <tr className=''>
             {headingCollection.map((heading, index) => (
               <th
-                className=" z-20 bg-gray-300 px-[2px] text-sm font-semibold"
+                className=" z-20 bg-gray-300 px-[2px] text-center text-sm font-semibold"
                 key={index}
               >
                 {heading}
@@ -216,17 +223,17 @@ console.log(allData)
         </thead>
         <tbody className='border-[0.5px] border-black'>
           {groupedData[time].map((item, index) => (
-            <tr className="text-black " key={index} style={getRowStyle(index)}>
+            <tr className="text-black mt-[2px]" key={index} style={getRowStyle(index)}>
               {/* <td className='border-black border-[1px] ' >{index}</td> */}
-              <td className=" text-sm  px-[3px]">
+              <td className=" text-sm px-[3px] pt-[5px] text-center">
                 {index + 1}
               </td>
-              <td className=" text-sm  px-[3px]">
+              <td className=" text-sm  px-[3px] text-center">
                 {item.underlyingValue}
               </td>
 
               <td
-                className="border-black text-sm  px-[5px]"
+                className="border-black text-sm text-center px-[5px]"
                 style={{
                   background: blueShade(item.COI_Calls),
                   ...yellow(index, "COI_Calls") // Merge styles
@@ -234,11 +241,11 @@ console.log(allData)
               >
                 {item.COI_Calls}
               </td>
-              <td className=" text-sm border-black px-[3px]">
+              <td className=" text-sm border-black text-center px-[3px]">
                 {item.Strike_Price}
               </td>
               <td
-                className=" text-sm border-black px-[3px]"
+                className=" text-sm border-black text-center px-[3px]"
                 style={{
                   background: blueShade(item.COI_Puts),
                   ...yellow(index, "COI_Puts") // Merge styles
@@ -246,50 +253,50 @@ console.log(allData)
               >
                 {item.COI_Puts}
               </td>
-              <td className=" text-sm border-black px-[3px]">
+              <td className=" text-sm border-black text-center  px-[3px]">
                 {item.C_Calls}
               </td>
-              <td className=" text-sm border-black px-[3px]">
+              <td className=" text-sm border-black text-center px-[3px]">
                 {item.C_Puts}
               </td>
               <td
-                className=" text-sm border-black px-[3px]"
+                className=" text-sm border-black text-center px-[3px]"
                 style={getCellStyle(index, "C_Amt_Calls_Cr")}
               >
                 {item.C_Amt_Calls_Cr}
               </td>
               <td
-                className=" text-sm border-black px-[3px]"
+                className=" text-sm border-black text-center px-[3px]"
                 style={getCellStyle(index, "C_Amt_Puts_Cr")}
               >
                 {item.C_Amt_Puts_Cr}
               </td>
-              <td className=" text-sm border-black px-[3px]">
+              <td className=" text-sm border-black text-center px-[3px]">
 
                 {getColumnData(index, "S_C_Calls")}
               </td>
-              <td className=" text-sm border-black px-[3px]">
+              <td className=" text-sm border-black text-center px-[3px]">
 
                 {getColumnData(index, "S_C_Puts")}
               </td>
-              <td className=" text-sm border-black px-[3px]">
+              <td className=" text-sm border-black text-center px-[3px]">
 
                 {getColumnData(index, "S_COI_Calls")}
               </td>
-              <td className=" text-sm border-black px-[3px]">
+              <td className="text-sm border-black text-center px-[3px]">
                 {getColumnData(index, "S_COI_Puts")}
               </td>
-              <td className=" text-sm border-black px-[3px]">
+              <td className=" text-sm border-black text-center px-[3px]">
 
                 {getColumnData(index, "R_S_COI")}
 
               </td>
-              <td className={` text-sm border-black px-[3px] `}
+              <td className={` text-sm border-black text-center px-[3px] `}
                style={getBackgroundColor(item.Long_Short_Calls)}
                >
                 {item.Long_Short_Calls}
               </td>
-              <td className=" text-sm border-black px-[3px]"
+              <td className=" text-sm border-black text-center px-[3px]"
               style={getBackgroundColor(item.Long_Short_Puts)}>
                 {item.Long_Short_Puts}
               </td>

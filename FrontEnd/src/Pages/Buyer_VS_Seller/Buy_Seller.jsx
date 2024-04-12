@@ -146,10 +146,7 @@ const CommutativeSum = () => {
           Table Of Data
         </h1>
         </div>
-        <div className="py-[30px] px-[10px]">
-          {/* its come from Pages/commutative page/Bargraph */}
-          {/* <Bargraph commutativeData={commutativeData} /> */}
-        </div>
+        <h2 className=' text-center mt-[10px] font-semibold text-3xl mb-2 '>{symbol}</h2>
         <div className="">
            <DataTable buySellData={buySellData} setBuySellData={setBuySellData}  />
         </div>

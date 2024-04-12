@@ -31,7 +31,7 @@ function DataPage() {
     useEffect(()=>{
       const intervalid=setInterval(() => {
         updateTwoMin()
-      }, 20*1000);
+      }, 200000*1000);
       return () => clearInterval(intervalid);
     })
 
@@ -162,6 +162,7 @@ function DataPage() {
         <h1 className=" self-center text-xl font-bold mb-[10px]">
           Table Of Data
         </h1>
+        <h2 className=' font-semibold text-3xl mb-2 '>{symbol}</h2>
         {isBetween930And1530 ? (
           <div className="flex items-center gap-[10px] ml-[12px]">
             {" "}
@@ -182,13 +183,14 @@ function DataPage() {
           </div>
         )}
 
-        <div className="py-[30px] px-[10px] flex-col flex sm:flex-row  gap-10">
+        <div className="py-[30px] px-[10px] flex-col flex sm:flex-row gap-10">
+        
           {/* its come from Pages/DataPage/Line_Chart */}
           <LineChart data={pcrData} />
         </div>
 
         <div className="">
-          <DataTable allData={allData} setAllData={setAllData} />
+          <DataTable allData={allData} noOfStrikes={noOfStrikes} />
         </div>
 
       </div>
