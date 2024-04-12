@@ -24,7 +24,7 @@ const CommutativeSum = () => {
     useEffect(()=>{
       const intervalid=setInterval(() => {
         updateTwoMin()
-      }, 2*60*1000);
+      }, 30*1000);
       return () => clearInterval(intervalid);
     })
 
@@ -46,7 +46,7 @@ const CommutativeSum = () => {
     
           const data = response.data;
           setCommutativeData(data.data);
-          console.log(data.data);
+          // console.log(data.data);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -65,7 +65,7 @@ const CommutativeSum = () => {
           });
     
           const data = response.data;
-          console.log(data.data);
+          // console.log(data.data);
           setExpiryDates(data.data);
           setExpiryDate(data.data[0])
         } catch (error) {

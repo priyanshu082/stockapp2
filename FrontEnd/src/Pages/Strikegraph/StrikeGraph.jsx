@@ -29,7 +29,7 @@ const StrikeGraph = () => {
     useEffect(()=>{
       const intervalid=setInterval(() => {
         updateTwoMin()
-      }, 2*60*1000);
+      }, 30*1000);
       return () => clearInterval(intervalid);
     })
 
@@ -60,7 +60,7 @@ const StrikeGraph = () => {
         if (symbol && expiryDate && noOfStrikes ) {
           fetchStrikepriceData();
         }
-      }, [symbol, expiryDate, noOfStrikes]);
+      }, [symbol, expiryDate, noOfStrikes,twoMin]);
     
 
       //strike price api call
@@ -76,8 +76,8 @@ const StrikeGraph = () => {
           setStrikePriceData(data.data);
           setStrikePrice(data.data[0])
           setStrikePriceHigh(data.data[noOfStrikes*2-1])
-          console.log(strikePrice);
-          console.log(strikePriceHigh)
+          // console.log(strikePrice);
+          // console.log(strikePriceHigh)
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -143,7 +143,8 @@ const StrikeGraph = () => {
           <h2 className=' text-center text-2xl mb-2 '>LTP Calls And Puts Graph</h2>
           <LineChartsCallsPuts data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
         </div>
-      </div>    </>
+      </div>    
+      </>
   )
 }
 

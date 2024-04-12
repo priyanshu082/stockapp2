@@ -33,7 +33,7 @@ const CommutativeSum = () => {
     useEffect(()=>{
       const intervalid=setInterval(() => {
         updateTwoMin()
-      }, 2*60*1000);
+      }, 30*1000);
       return () => clearInterval(intervalid);
     })
 
@@ -60,8 +60,6 @@ const CommutativeSum = () => {
      
           const data = response.data;
           setBuySellData(data.data);
-  
-  
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -74,7 +72,7 @@ const CommutativeSum = () => {
         if (symbol && expiryDate && noOfStrikes ) {
           fetchStrikepriceData();
         }
-      }, [symbol, expiryDate, noOfStrikes]);
+      }, [symbol, expiryDate, noOfStrikes,twoMin]);
     
 
       //strike price api call

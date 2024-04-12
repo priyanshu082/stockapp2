@@ -207,7 +207,7 @@ if __name__ == "__main__":
 
 
 
-        with open("./backEndPython/symbols.txt") as f:
+        with open("/root/stockapp2/backEndPython/symbols.txt") as f:
             data = f.readlines()
 
         symbols = [i.strip('\n') for i in data]

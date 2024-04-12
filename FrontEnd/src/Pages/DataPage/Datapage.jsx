@@ -25,7 +25,7 @@ function DataPage() {
     useEffect(()=>{
       const intervalid=setInterval(() => {
         updateTwoMin()
-      }, 2*60*1000);
+      }, 20*1000);
       return () => clearInterval(intervalid);
     })
 
@@ -34,6 +34,7 @@ function DataPage() {
     if (symbol && expiryDate && noOfStrikes && timeRange) {
       fetchData();
     }
+
   }, [symbol, expiryDate, noOfStrikes, timeRange,twoMin]);
 
   const fetchData = async () => {
@@ -48,7 +49,7 @@ function DataPage() {
 
       const data = response.data;
       setAllData(data.data);
-      console.log(allData)
+      // console.log(allData)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -59,7 +60,7 @@ function DataPage() {
     if (symbol && expiryDate && noOfStrikes) {
       fetchPcrData();
     }
-  }, [symbol, expiryDate, noOfStrikes]);
+  }, [symbol, expiryDate, noOfStrikes,twoMin]);
 
   const fetchPcrData = async () => {
     try {
