@@ -27,7 +27,7 @@ const DataTableComm = ({commutativeData}) => {
               <tr>
                 {headingCollection.map((heading, index) => (
                   <th
-                    className=" bg-gray-300 border-[.5px] border-black   text-sm font-semibold"
+                    className=" bg-gray-300 border-[.5px] border-black text-sm font-semibold"
                     key={index}
                   >
                     {heading}
@@ -36,7 +36,7 @@ const DataTableComm = ({commutativeData}) => {
               </tr>
             </thead>
             <tbody>
-              {commutativeData.map((item, index) => (
+              {commutativeData.slice().reverse().map((item, index) => (
                 <tr className="text-black" key={index}>
                   <td className="border-[1px] text-sm text-center border-black ">{index + 1}</td>
                   <td className="border-[1px] text-sm text-center border-black ">{item.Time}</td>
@@ -46,7 +46,7 @@ const DataTableComm = ({commutativeData}) => {
                   <td className="border-[1px] text-sm text-center border-black ">{item.S_COI_Puts}</td>
                   <td className="border-[1px] text-sm text-center border-black ">{item.S_C_Puts}</td>
                   <td className="border-black border-[1px] text-center text-sm ">{item.PC_Puts.toFixed(3)}</td>
-                  <td className="border-black border-[1px] flex justify-center ">    
+                  <td className="border-black border-[1px]  ">    
                   <BarGraph item={item}  PC_Calls={item.PC_Calls.toFixed(3)} PC_Puts ={item.PC_Puts.toFixed(3)}/>
               </td>
                 </tr>

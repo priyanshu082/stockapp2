@@ -17,6 +17,12 @@ function DataPage() {
   const [live, setLive] = useState();
   const [twoMin,setTwoMin]=useState()
 
+  const currentHour = new Date().getHours();
+  const currentMinutes = new Date().getMinutes();
+  const isBetween930And1530 =
+    (currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) &&
+    (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
+
     const updateTwoMin=()=>{
       const currentTime=new Date()
       setTwoMin(currentTime)
@@ -100,20 +106,25 @@ function DataPage() {
     }
   };
 
+  // console.log(allData)
+
   // Iterate through the allData array to find the maximum values
   if (Array.isArray(allData) && allData.length > 0) {
     // Initialize variables to store the maximum values
     var maxUnderlyingValue = -Infinity;
     var maxTime = "";
+    const len=(allData.length)
+    maxTime=allData[len-1].Time;
+    maxUnderlyingValue=allData[len-1].underlyingValue
 
     // Iterate through the allData array to find the maximum values
-    allData.forEach((data) => {
-      // Check if the current underlyingValue is greater than the current maxUnderlyingValue
-      if (data.underlyingValue > maxUnderlyingValue) {
-        maxUnderlyingValue = data.underlyingValue;
-        maxTime = data.Time;
-      }
-    });
+    // allData.forEach((data) => {
+    //   // Check if the current underlyingValue is greater than the current maxUnderlyingValue
+    //   if (data.underlyingValue > maxUnderlyingValue) {
+    //     maxUnderlyingValue = data.underlyingValue;
+    //     maxTime = data.Time;
+    //   }
+    // });
 
     // Now maxUnderlyingValue contains the maximum underlyingValue and maxTime contains the corresponding Time
   }
@@ -151,8 +162,8 @@ function DataPage() {
         <h1 className=" self-center text-xl font-bold mb-[10px]">
           Table Of Data
         </h1>
-        {live ? (
-          <div className="flex   items-center gap-[10px] ml-[12px]">
+        {isBetween930And1530 ? (
+          <div className="flex items-center gap-[10px] ml-[12px]">
             {" "}
             <h1 className=" text-lg font-semibold ">Live</h1>
             <div className="flex items-center justify-center">

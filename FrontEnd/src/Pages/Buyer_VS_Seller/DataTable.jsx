@@ -34,7 +34,7 @@ const DataTable = ({buySellData}) => {
               </tr>
             </thead>
             <tbody>
-              {buySellData.map((item, index) => (
+              {buySellData.slice().reverse().map((item, index) => (
                 <tr className="text-black" key={index}>
                   <td className="border-[1px] text-sm text-center border-black ">{index + 1}</td>
                   <td className="border-[1px] text-sm text-center border-black ">{item.Time}</td>

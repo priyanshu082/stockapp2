@@ -201,12 +201,12 @@ console.log(allData)
   const tables = sortedKeys.map((time, index) => (
     <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
       <h2 className="font-bold">Table for Time: {time}</h2>
-      <table className="w-[100%]">
-        <thead>
+      <table className="w-[100%] ">
+        <thead className='border-[0.5px] border-black'>
           <tr>
             {headingCollection.map((heading, index) => (
               <th
-                className=" z-20 bg-gray-300 border-[.5px] border-black px-[2px] text-sm font-semibold"
+                className=" z-20 bg-gray-300 px-[2px] text-sm font-semibold"
                 key={index}
               >
                 {heading}
@@ -214,19 +214,19 @@ console.log(allData)
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className='border-[0.5px] border-black'>
           {groupedData[time].map((item, index) => (
             <tr className="text-black " key={index} style={getRowStyle(index)}>
               {/* <td className='border-black border-[1px] ' >{index}</td> */}
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm  px-[3px]">
                 {index + 1}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm  px-[3px]">
                 {item.underlyingValue}
               </td>
 
               <td
-                className="border-black text-sm border-[1px] px-[5px]"
+                className="border-black text-sm  px-[5px]"
                 style={{
                   background: blueShade(item.COI_Calls),
                   ...yellow(index, "COI_Calls") // Merge styles
@@ -234,11 +234,11 @@ console.log(allData)
               >
                 {item.COI_Calls}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm border-black px-[3px]">
                 {item.Strike_Price}
               </td>
               <td
-                className="border-[1px] text-sm border-black px-[3px]"
+                className=" text-sm border-black px-[3px]"
                 style={{
                   background: blueShade(item.COI_Puts),
                   ...yellow(index, "COI_Puts") // Merge styles
@@ -246,50 +246,50 @@ console.log(allData)
               >
                 {item.COI_Puts}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm border-black px-[3px]">
                 {item.C_Calls}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm border-black px-[3px]">
                 {item.C_Puts}
               </td>
               <td
-                className="border-[1px] text-sm border-black px-[3px]"
+                className=" text-sm border-black px-[3px]"
                 style={getCellStyle(index, "C_Amt_Calls_Cr")}
               >
                 {item.C_Amt_Calls_Cr}
               </td>
               <td
-                className="border-[1px] text-sm border-black px-[3px]"
+                className=" text-sm border-black px-[3px]"
                 style={getCellStyle(index, "C_Amt_Puts_Cr")}
               >
                 {item.C_Amt_Puts_Cr}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm border-black px-[3px]">
 
                 {getColumnData(index, "S_C_Calls")}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm border-black px-[3px]">
 
                 {getColumnData(index, "S_C_Puts")}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm border-black px-[3px]">
 
                 {getColumnData(index, "S_COI_Calls")}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm border-black px-[3px]">
                 {getColumnData(index, "S_COI_Puts")}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]">
+              <td className=" text-sm border-black px-[3px]">
 
                 {getColumnData(index, "R_S_COI")}
 
               </td>
-              <td className={`border-[1px] text-sm border-black px-[3px] `}
+              <td className={` text-sm border-black px-[3px] `}
                style={getBackgroundColor(item.Long_Short_Calls)}
                >
                 {item.Long_Short_Calls}
               </td>
-              <td className="border-[1px] text-sm border-black px-[3px]"
+              <td className=" text-sm border-black px-[3px]"
               style={getBackgroundColor(item.Long_Short_Puts)}>
                 {item.Long_Short_Puts}
               </td>

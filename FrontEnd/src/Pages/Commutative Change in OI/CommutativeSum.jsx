@@ -46,7 +46,7 @@ const CommutativeSum = () => {
     
           const data = response.data;
           setCommutativeData(data.data);
-          // console.log(data.data);
+         console.log(data.data);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
