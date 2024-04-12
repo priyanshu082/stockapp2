@@ -34,12 +34,10 @@ function DataPage() {
     if (symbol && expiryDate && noOfStrikes && timeRange) {
       fetchData();
     }
-
-  }, [symbol, expiryDate, noOfStrikes, timeRange,twoMin]);
+  }, [symbol, expiryDate, noOfStrikes, timeRange]);
 
   const fetchData = async () => {
     try {
-    
       const response = await axios.post(`${localapi}/all`, {
         symbol,
         expiryDate,
@@ -60,11 +58,10 @@ function DataPage() {
     if (symbol && expiryDate && noOfStrikes) {
       fetchPcrData();
     }
-  }, [symbol, expiryDate, noOfStrikes,twoMin]);
+  }, [symbol, expiryDate, noOfStrikes,timeRange,twoMin]);
 
   const fetchPcrData = async () => {
     try {
-      
       const response = await axios.post(`${localapi}/pcr`, {
         symbol,
         expiryDate,
@@ -90,7 +87,6 @@ function DataPage() {
 
   const fetchExpiryDates = async () => {
     try {
-   
       const response = await axios.post(`${localapi}/expirydates`, {
         symbol,
       });
@@ -147,6 +143,7 @@ function DataPage() {
           setSymbol={setSymbol}
           live={live}
           setLive={setLive}
+          twoMin={twoMin}
         />
       </div>
 

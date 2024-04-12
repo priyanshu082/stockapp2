@@ -159,10 +159,10 @@ console.log(allData)
 
 
   const getBackgroundColor = (value) => ({
-    'Long Unwinding': { backgroundColor: 'orange' },
-    'Short Covering': { backgroundColor: 'skyblue' },
-    'Long Buildup': { backgroundColor: 'lightgreen' },
-    'Short Buildup': { backgroundColor: '#FF6347' },
+    'Long Unwinding ↑': { backgroundColor: 'orange' },
+    'Short Covering ↑': { backgroundColor: 'skyblue' },
+    'Long Buildup ↓': { backgroundColor: 'lightgreen' },
+    'Short Buildup ↓': { backgroundColor: '#FF6347' },
   }[value] || {backgroundColor: 'white'});
   
   

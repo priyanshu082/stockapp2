@@ -12,7 +12,8 @@ const DropDown = ({
   setTimeRange,
   expiryDates,
   live,
-  setLive
+  setLive,
+  twoMin,
 }) => {
   
   const noOfStrikesOptions = [12, 14, 16, 18, 20];
@@ -50,7 +51,7 @@ const DropDown = ({
   useEffect(() => {
     setCurrentTime(getFormattedTime());
     setTime30MinutesAgo(getFormattedTime(new Date(Date.now() - 30 * 60 * 1000)));
-  }, []); // Run only once when the component mounts
+  }, [twoMin]); // Run only once when the component mounts
 
   function getFormattedTime(date = new Date()) {
     const hours = String(date.getHours()).padStart(2, '0');
@@ -63,10 +64,14 @@ const DropDown = ({
     let currentRange=`${time30MinutesAgo}-${currentTime}`
     setTimeRange(currentRange);
   }
+  
    useEffect(() => {
-    let currentRange=`${time30MinutesAgo}-${currentTime}`
-     setTimeRange(currentRange);
-   }, []);
+    if(live){
+      let currentRange=`${time30MinutesAgo}-${currentTime}`
+      setTimeRange(currentRange); 
+    }
+
+   }, [twoMin]);
 
   const currentHour = new Date().getHours();
   const currentMinutes = new Date().getMinutes();
@@ -75,7 +80,6 @@ const DropDown = ({
     (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
   
   const timeRangesCollection = [
-    `${isBetween930And1530  && ( `${time30MinutesAgo}-${currentTime}`)}`,
     "09:15:00-09:45:00",
     "09:45:00-10:15:00",
     "10:15:00-10:45:00",
@@ -99,7 +103,7 @@ const DropDown = ({
     } else {
         setLive(false);
     }
-}, [timeRange, time30MinutesAgo, currentTime]);
+}, [timeRange, time30MinutesAgo, currentTime,twoMin]);
 
    
   
@@ -178,7 +182,7 @@ const DropDown = ({
           ))}
         </select>
       </div>
-      <div className="  flex flex-col">
+     {!live && ( <div className="  flex flex-col">
         <label className="text-md font-semibold" htmlFor="">
           Select Time Range
         </label>
@@ -188,14 +192,14 @@ const DropDown = ({
 
           onChange={(e) => setTimeRange(e.target.value)}
         >
-          <option value="15:15:00-15:30:00">15:15:00-15:30:00</option>
+          {/* <option value="15:15:00-15:30:00">15:15:00-15:30:00</option> */}
           {timeRangesCollection.map((range, index) => (
             <option key={index} value={range}>
               {range}
             </option>
           ))}
         </select>
-      </div>
+      </div>)}
 
       {isBetween930And1530 && (
         <div className="flex items-center justify-center">

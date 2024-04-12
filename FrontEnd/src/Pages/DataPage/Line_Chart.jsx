@@ -43,7 +43,7 @@ const Line_Chart = ({ data }) => {
             domain={[minValueCOI, maxValueCOI]}
             orientation="right"
           />
-          <YAxis yAxisId="left" domain={[minValue, maxValue]} />
+          <YAxis yAxisId="left" domain={[1, 1]} />
           <Tooltip />
           <Legend />
           <Line
@@ -58,7 +58,7 @@ const Line_Chart = ({ data }) => {
           {/* Adding second line based on 'underlyingValue' */}
           <Line
             type="monotone"
-            dataKey="underlyingValue"
+             dataKey="1"
             // strokeWidth={2}
             stroke="#82ca9d"
             activeDot={{ r: 8 }}

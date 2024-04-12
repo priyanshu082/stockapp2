@@ -204,7 +204,7 @@ const Navbar = () => {
             </li>
 
             <li>
-            {isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/AboutUs">
+            {!isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/AboutUs">
                 ABOUT US
               </Link>):(<Link className="block text-[16px] text-[#265786]" to="/Data">
                 PCR
@@ -213,7 +213,7 @@ const Navbar = () => {
             </li>
 
             <li>
-            {isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/RefundandCancel">
+            {!isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/RefundandCancel">
             REFUND & CANCELLATION
               </Link>):(<Link className="block text-[16px] text-[#265786]" to="/CommutativeSum">
               CALL v/s PUT
@@ -222,7 +222,7 @@ const Navbar = () => {
 
 
             <li>
-            {isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/termAndCondition">
+            {!isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/termAndCondition">
                T&C
               </Link>):(<Link className="block text-[16px] text-[#265786]" to="/StrikeGraph">
                PRICE
@@ -231,11 +231,14 @@ const Navbar = () => {
 
           
             <li>
-            {isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/Privacypolicy">
+            {!isLoggedIn ? 
+            (<Link className="block text-[16px] text-[#265786]" to="/Privacypolicy">
                 PRIVACY
-              </Link>):(<Link className="block text-[16px] text-[#265786]" to="/Buyer_VS_Seller">
+              </Link>) : 
+              (<Link className="block text-[16px] text-[#265786]" to="/Buyer_VS_Seller">
                 BUYERvsSELLER
-              </Link>)}
+              </Link>)
+              }
             </li>
     
 
