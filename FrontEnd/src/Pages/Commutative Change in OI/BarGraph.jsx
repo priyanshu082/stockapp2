@@ -8,7 +8,7 @@ const BarGraph = ({ item }) => {
   return (
   <ResponsiveContainer >
   <BarChart 
-      barSize={45} 
+      barSize={25} 
       data={[{ PC_Calls, PC_Puts }]}
       layout='vertical'
       margin={{ top: -1, right: -1, left: -61, bottom: -31 }}

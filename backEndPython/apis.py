@@ -4,11 +4,24 @@ from pymongo import MongoClient
 import requests
 import pandas as pd
 import numpy as np
+from nsepython import nsefetch
 
 app = Flask(__name__)
 CORS(app)
 client = MongoClient('mongodb://localhost:27017/')
 db = client['optionChainData']
+
+@app.route('/ismarketopen', methods=['GET'])
+def market_status():
+    data=nsefetch('https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY')
+    data=data['records']
+    timestamp = data['timestamp'][-8:]
+
+    if timestamp[0:6] == '15:30':
+        return jsonify({"satatus": False})
+    else:
+        return jsonify({"satatus": True})
+
 
 @app.route('/expirydates', methods=['POST'])
 def expiryDates():
@@ -165,6 +178,60 @@ def pcrData():
     response = {"data": data}
     return jsonify(response)
 
+
+@app.route('/screener', methods=['POST'])
+def screener():
+    try:
+        request_data = request.get_json()
+        symbol = request_data.get('symbol')
+        noOfStrikes = 12
+        # noOfStrikes = int(request_data.get('noOfStrikes'))
+        symbolCollection = db[symbol]
+
+
+        with open("/root/stockapp2/backEndPython/symbols.txt") as f:
+            data = f.readlines()
+
+        symbols = [i.removesuffix('\n') for i in data]
+
+        result = {}
+        for symbol in symbols:
+            expiryDate = symbolCollection.distinct('Expiry_Date').sort()[0]
+            data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate} ,{'_id':0})]
+            allStikePrices = [x['Strike_Price'] for x in data]
+            allStikePrices = set(allStikePrices)
+            allStikePrices = list(allStikePrices)
+            allStikePrices.sort()
+            if len(allStikePrices) > noOfStrikes*2:
+                elementsToLeave = len(allStikePrices)-noOfStrikes*2
+                requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
+            else:
+                requiredStrikePrices = allStikePrices
+
+            data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
+            df = pd.DataFrame(data)
+
+            df['S_C_Calls'] = df.groupby('Time')['C_Calls'].transform('sum')
+            df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
+            df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
+            df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
+            df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], np.nan)
+
+            df['Trend'] = np.where((df['R_S_COI'] > 1.2), 'Bullish ↑', 
+            np.where((df['R_S_COI'] <= 1.2) & (df['R_S_COI'] >= 0.7), 'Sideways',
+                     np.where((df['R_S_COI'] < 0.7), 'Bearish ↓')))
+        
+            df = df[['Time', 'R_S_COI', 'Trend']]
+            df.sort_values(by=['Time'], ascending=[False])
+            df.reset_index(drop=True, inplace=True)
+            result[symbol] = [df.iloc[0, 1], df.iloc[0, 2]] 
+
+        data = result
+    except:
+        data = "Error"
+    response = {"data": data}
+    return jsonify(response)
+
 @app.route('/price', methods=['POST'])
 def priceData():
     try:
@@ -230,6 +297,3 @@ def buySellData():
 
 if __name__ == '__main__':
     app.run(debug=True,host="103.184.192.5")
-
-
-
