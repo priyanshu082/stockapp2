@@ -179,14 +179,12 @@ def pcrData():
     return jsonify(response)
 
 
-@app.route('/screener', methods=['POST'])
+@app.route('/screener', methods=['GET'])
 def screener():
     try:
-        request_data = request.get_json()
-        symbol = request_data.get('symbol')
-        noOfStrikes = 12
+        # request_data = request.get_json()
         # noOfStrikes = int(request_data.get('noOfStrikes'))
-        symbolCollection = db[symbol]
+        noOfStrikes = 12
 
 
         with open("/root/stockapp2/backEndPython/symbols.txt") as f:
@@ -196,7 +194,12 @@ def screener():
 
         result = {}
         for symbol in symbols:
-            expiryDate = symbolCollection.distinct('Expiry_Date').sort()[0]
+   
+            symbolCollection = db[symbol]
+            
+            expiryDate = symbolCollection.distinct('Expiry_Date')
+            expiryDate.sort()
+            expiryDate=expiryDate[0]
             data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate} ,{'_id':0})]
             allStikePrices = [x['Strike_Price'] for x in data]
             allStikePrices = set(allStikePrices)
@@ -217,18 +220,25 @@ def screener():
             df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
             df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], np.nan)
 
-            df['Trend'] = np.where((df['R_S_COI'] > 1.2), 'Bullish ↑', 
-            np.where((df['R_S_COI'] <= 1.2) & (df['R_S_COI'] >= 0.7), 'Sideways',
-                     np.where((df['R_S_COI'] < 0.7), 'Bearish ↓')))
-        
-            df = df[['Time', 'R_S_COI', 'Trend']]
+            conditions = [
+                (df['R_S_COI'] > 1.2),
+                (df['R_S_COI'] < 0.7)
+            ]
+            choices = ['Bullish', 'Bearish']
+            # Default choice if none of the conditions are met
+            default_choice = 'Sideways'
+            df['Trend'] = np.select(conditions, choices, default=default_choice)
+            print("here")
+           
+            df = df[['Time', 'Trend']]
             df.sort_values(by=['Time'], ascending=[False])
             df.reset_index(drop=True, inplace=True)
-            result[symbol] = [df.iloc[0, 1], df.iloc[0, 2]] 
+            result[symbol] = df.iloc[0, 1]
+            print("here2")
 
         data = result
-    except:
-        data = "Error"
+    except Exception as e :
+        data = f"Error {str(e)}"
     response = {"data": data}
     return jsonify(response)
 
@@ -297,3 +307,5 @@ def buySellData():
 
 if __name__ == '__main__':
     app.run(debug=True,host="103.184.192.5")
+    # app.run(debug=True)
+

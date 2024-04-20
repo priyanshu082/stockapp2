@@ -15,6 +15,7 @@ import RefundandCancel from "./Pages/RefundandCancel/RefundandCancel";
 import Buy_Seller from "./Pages/Buyer_VS_Seller/Buy_Seller"
 import { useContext } from "react";
 import { AuthContext } from "./Context/AuthContext";
+import Screener from "./Pages/Screener/Screener";
 
 
 function AllRoute() {
@@ -38,6 +39,7 @@ function AllRoute() {
       <Route path="/CommutativeSum" element={isLoggedIn ? <CommutativeSum /> : <Login/>} />
       <Route path="/StrikeGraph" element={isLoggedIn ? <StrikeGraph /> : <Login/>} />
       <Route path="/Buyer_VS_Seller" element={isLoggedIn ? <Buy_Seller /> : <Login/>} />
+      <Route path="/screener" element={isLoggedIn ? <Screener /> : <Login/>} />
   
    
     </Routes>

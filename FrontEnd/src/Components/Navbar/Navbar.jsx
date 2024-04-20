@@ -136,6 +136,19 @@ const Navbar = () => {
                    BUYERvsSELLER
                   </NavLink>
                 )}
+              </li>       
+
+              <li data-aos="fade-down" data-aos-delay="600">
+                {isLoggedIn && (
+                  <NavLink
+                    className={({ isActive }) =>
+                      `nav ${isActive ? "text-orange-600" : ""}`
+                    }
+                    to="/screener"
+                  >
+                   Screener
+                  </NavLink>
+                )}
               </li>           
 
 
@@ -237,6 +250,14 @@ const Navbar = () => {
               </Link>) : 
               (<Link className="block text-[16px] text-[#265786]" to="/Buyer_VS_Seller">
                 BUYERvsSELLER
+              </Link>)
+              }
+            </li>
+
+            <li>
+            {!isLoggedIn && 
+              (<Link className="block text-[16px] text-[#265786]" to="/screener">
+                Screener
               </Link>)
               }
             </li>
