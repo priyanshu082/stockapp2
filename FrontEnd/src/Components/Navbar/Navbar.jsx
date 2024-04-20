@@ -146,7 +146,7 @@ const Navbar = () => {
                     }
                     to="/screener"
                   >
-                   Screener
+                   SCREENER
                   </NavLink>
                 )}
               </li>           
@@ -257,7 +257,7 @@ const Navbar = () => {
             <li>
             {!isLoggedIn && 
               (<Link className="block text-[16px] text-[#265786]" to="/screener">
-                Screener
+                SCREENER
               </Link>)
               }
             </li>
