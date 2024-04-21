@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn } = useContext(AuthContext);
 
   // const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const Login = () => {
         if (result) {
           setIsLoggedIn(true);
           localStorage.setItem("token", result.data.token);
+          localStorage.setItem("user", result.data.user);
           navigate("/");
         }
       })
@@ -33,8 +34,6 @@ const Login = () => {
         setLoginError(err.response.status)
       });
   };
-
-  
 
   return (
     <>

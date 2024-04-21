@@ -28,9 +28,9 @@ const Screener = () => {
     ]
 
     const getBackgroundColor = (value) => ({
-        'Bullish': { backgroundColor: '#EF5350' },
+        'Bearish': { backgroundColor: '#EF5350' },
         'Sideways': { backgroundColor: '' },
-        'Bearish': { backgroundColor: 'lightgreen' },
+        'Bullish': { backgroundColor: 'lightgreen' },
         }[value] || {backgroundColor: 'white'});
 
     

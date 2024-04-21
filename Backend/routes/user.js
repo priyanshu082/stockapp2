@@ -51,16 +51,25 @@ router.post("/login", async (req, res) => {
   if (user) {
     if(password===user.password){
       const userId = user._id;
+
+      const tokenData={
+      name:user.name,
+      email: user.email,
+      id:user._id,
+      mobile: user.mobile,
+      isSubscribed: user.isSubscribed,
+      }
+
       const token = jwt.sign(
-        {
-          userId,
-        },
+        tokenData,
         JWT_SECRET
       );
+
       res.json({
         token: token,
-        user,
+        user:tokenData
       });
+
     }else res.status(400).json({
       key:"Wrong Password"
     })

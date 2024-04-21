@@ -27,7 +27,7 @@ export const PagesDetail=[
     },
     {
         id:5,
-        detail:"not available",
+        detail:"Get the best and the simplest real-time trend analysis of all the stocks and indexes",
         img:screener
     },
 ]
