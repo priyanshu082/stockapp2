@@ -7,8 +7,9 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { AuthContext } from "../../Context/AuthContext";
 
+
 const Navbar = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const {isLoggedin, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   AOS.init({
@@ -21,6 +22,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user")
     window.location.reload()
   };
 
@@ -51,7 +53,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!isLoggedIn ? (
+                {!user.isSubscribed ? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -73,7 +75,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!isLoggedIn? (
+                {!user.isSubscribed? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -95,7 +97,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!isLoggedIn ? (
+                {!user.isSubscribed ? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -117,7 +119,7 @@ const Navbar = () => {
               </li>       
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!isLoggedIn ? (
+                {!user.isSubscribed ? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -139,7 +141,7 @@ const Navbar = () => {
               </li>       
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {isLoggedIn && (
+                {user.isSubscribed && (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -156,7 +158,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex gap-5">
-            {!isLoggedIn ? (
+            {!user ? (
               <Link
                 to="/login"
                 className="button z-20 py-[5px] flex items-center text-[12px] rounded-xl px-[15px] text-white"
@@ -192,14 +194,14 @@ const Navbar = () => {
 
           <div>
 
-          <Link
-                to={isLoggedIn ? "/SubscriptionPage" :"/login"}
+         {!user.isSubscribed && ( <Link
+                to={user ? "/SubscriptionPage" :"/login"}
                 className="button z-20 py-[5px] flex items-center text-[14px] rounded-xl px-[15px] text-white"
                 data-aos="fade-down"
                 data-aos-delay="1400"
               >
                 Subscribe
-           </Link>
+           </Link>) }
 
           </div>
 
@@ -217,7 +219,7 @@ const Navbar = () => {
             </li>
 
             <li>
-            {!isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/AboutUs">
+            {!user.isSubscribed ? (<Link className="block text-[16px] text-[#265786]" to="/AboutUs">
                 ABOUT US
               </Link>):(<Link className="block text-[16px] text-[#265786]" to="/Data">
                 PCR
@@ -226,7 +228,7 @@ const Navbar = () => {
             </li>
 
             <li>
-            {!isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/RefundandCancel">
+            {!user.isSubscribed ? (<Link className="block text-[16px] text-[#265786]" to="/RefundandCancel">
             REFUND & CANCELLATION
               </Link>):(<Link className="block text-[16px] text-[#265786]" to="/CommutativeSum">
               CALL v/s PUT
@@ -235,7 +237,7 @@ const Navbar = () => {
 
 
             <li>
-            {!isLoggedIn ? (<Link className="block text-[16px] text-[#265786]" to="/termAndCondition">
+            {!user.isSubscribed ? (<Link className="block text-[16px] text-[#265786]" to="/termAndCondition">
                T&C
               </Link>):(<Link className="block text-[16px] text-[#265786]" to="/StrikeGraph">
                PRICE
@@ -244,7 +246,7 @@ const Navbar = () => {
 
           
             <li>
-            {!isLoggedIn ? 
+            {!user.isSubscribed ? 
             (<Link className="block text-[16px] text-[#265786]" to="/Privacypolicy">
                 PRIVACY
               </Link>) : 
@@ -255,7 +257,7 @@ const Navbar = () => {
             </li>
 
             <li>
-            {!isLoggedIn && 
+            {!user.isSubscribed && 
               (<Link className="block text-[16px] text-[#265786]" to="/screener">
                 SCREENER
               </Link>)

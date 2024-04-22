@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password:String,
   mobile:Number,
   isSubscribed:Boolean,
+  SubscriptionType:Number
 });
 const User = mongoose.model('User',userSchema);
 

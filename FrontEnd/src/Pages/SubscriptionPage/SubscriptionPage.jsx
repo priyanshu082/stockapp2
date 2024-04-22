@@ -1,7 +1,35 @@
-import React from "react";
+import React ,{useContext,useState,useEffect} from "react";
 import SubscriptionCard from "./SubscriptionCard";
+import { AuthContext } from "../../Context/AuthContext";
+import axios from 'axios';
+import { authApi } from "../../Assets/config";
 
 const SubscriptionPage = () => {
+
+  const {user,setUser}=useContext(AuthContext)
+
+//   useEffect(() => {
+//     const token = localStorage.getItem('token');
+    
+//     const fetchData=async()=>{
+//       try {
+//         const response =await axios.get(`${authApi}/user/me`,{
+//           headers:{
+//             Authorization:"Bearer "+localStorage.getItem("token")
+//           }
+//         })
+       
+//         setUser(response.data.user)
+//       } catch (error) {
+//         console.log(error)
+//       }
+//     }
+    
+//  if(token) fetchData();
+//   }, []);
+
+  console.log(user)
+ 
  
   return (
     <>
@@ -25,6 +53,8 @@ const SubscriptionPage = () => {
             third="Lorem ipsum dolor sit amet."
             fourth="Lorem ipsum dolor sit amet."
             buttonValue="Get Basic Plan"
+            type={1}
+            
           />
           <SubscriptionCard
             tittle="Premium Plan"
@@ -36,6 +66,8 @@ const SubscriptionPage = () => {
             third="Lorem ipsum dolor sit amet."
             fourth="Lorem ipsum dolor sit amet."
             buttonValue="Get Premium Plan"
+            type={2}
+            
           />
           <SubscriptionCard
             tittle="VIP Plan"
@@ -47,6 +79,8 @@ const SubscriptionPage = () => {
             third="Lorem ipsum dolor sit amet."
             fourth="Lorem ipsum dolor sit amet."
             buttonValue="Get VIP Plan"
+            type={3}
+            
           />
         </div>
       </div>

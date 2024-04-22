@@ -7,24 +7,30 @@ import FeedbackSection from "../Components/Sections/FeedbackSection";
 import Navbar from "../Components/Navbar/Navbar";
 import Footer from "../Components/Footer/Footer";
 import { AuthContext } from "../Context/AuthContext";
-// import jwt_decode from 'jsonwebtoken';
+import { authApi } from "../Assets/config";
+import axios from "axios";
+
 // import { getDataFromToken } from "../Assets/CookiesDecoder";
 
 
-
 function Home() {
-  const token = localStorage.getItem('token');
-const [data,setData]=useState()
-  // const { user} = useContext(AuthContext);
-  // console.log(user)
-//  useEffect(()=>{
-//   const decodedToken = jwt_decode(token);
-//   setData(decodedToken)
-//  },[])
 
- console.log(data)
+
+  const {user,setUser} = useContext(AuthContext);
+
+
+  useEffect(()=>{
+     
+  },[])
+
+
+    console.log(user)
+
+
   return (
+    
   <> 
+
   <div className="w-full h-auto bg-white">
       <Navbar/>
      <HeroSection/>

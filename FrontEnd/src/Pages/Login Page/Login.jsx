@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn,user,setUser } = useContext(AuthContext);
 
   // const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -26,7 +26,9 @@ const Login = () => {
           setIsLoggedIn(true);
           localStorage.setItem("token", result.data.token);
           localStorage.setItem("user", result.data.user);
+          setUser(result.data.user)
           navigate("/");
+          window.location.reload()
         }
       })
       .catch((err) => {

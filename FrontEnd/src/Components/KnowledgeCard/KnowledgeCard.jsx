@@ -30,8 +30,8 @@ const KnowledgeCard = () => {
   return (
    <>
 
-{data.map(e =>(
-    <div className=" sm:max-md:w-[45vw] sm:max-md:h-[33vw]  w-[90vw] sm:w-[35vw] rounded-3xl  shadow-lg bg-white sm:h-[20vw] h-[60vw] flex flex-col gap-2 ">
+{data.map((e,index) =>(
+    <div key={index} className=" sm:max-md:w-[45vw] sm:max-md:h-[33vw]  w-[90vw] sm:w-[35vw] rounded-3xl  shadow-lg bg-white sm:h-[20vw] h-[60vw] flex flex-col gap-2 ">
       <div className='w-[100%] h-[80%] flex  overflow-hidden'>
      <img className="w-[100%] h-[100%] object-fill" data-aos="fade-down"   data-aos-delay="200"src={e.img} alt="" />
      </div>
