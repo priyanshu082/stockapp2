@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import companylogo from "../../Assets/Navbar-img/NavLogo.png";
-import {authApi } from "../../Assets/config";
+import {authApi, localapi } from "../../Assets/config";
 
 const Registration = () => {
   const [name, setName] = useState("");
@@ -61,22 +61,23 @@ const Registration = () => {
 
 
 
-    axios.post(`${authApi}/user/signup`, {
+    axios.post(`${localapi}/register`, {
         name: name,
         email: email,
         mobile: mobile,
         password: password,
       })
       .then((result) => {
-        console.log(result);
-        localStorage.setItem("token",result.data.token);
+        console.log(result.data);
+        // localStorage.setItem("token",result.data.token);
         navigate("/login");
       })
       .catch((err) => {
         console.log(err)
-        setUserExist(err.response.status)
-        console.log(userExist)
       })
+
+    
+
   };
 
   return (

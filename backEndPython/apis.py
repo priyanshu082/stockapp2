@@ -5,11 +5,119 @@ import requests
 import pandas as pd
 import numpy as np
 from nsepython import nsefetch
+import bcrypt
+from datetime import datetime, timedelta
+
 
 app = Flask(__name__)
 CORS(app)
 client = MongoClient('mongodb://localhost:27017/')
 db = client['optionChainData']
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    name = data.get('name')
+    email = data.get('email')
+    mobile = data.get('mobile')
+    password = data.get('password')
+
+    if not name or not email or not password or not mobile:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    users_collection = db['users']
+    existing_user = users_collection.find_one({'email': email},{'_id':0})
+    if existing_user:
+        return jsonify({'message': 'User already exists'}), 401
+
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    new_user = {'name': name, 'email': email, 'password': hashed_password, 'mobile': mobile}
+
+
+    users_collection.insert_one(new_user)
+
+    return jsonify({'data': {'name': name, 'email': email, 'mobile': mobile}}), 200
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({'message': 'Missing email or password'}), 400
+
+    users_collection = db['users']
+    user = users_collection.find_one({'email': email},{'_id':0})
+
+    if not user:
+        return jsonify({'message': 'User does not exsists'}), 400
+    
+    if not bcrypt.checkpw(password.encode('utf-8'),user['password']):
+        return jsonify({'message': 'Invalid password'}), 400
+
+    user.pop('password')
+    return jsonify({'data': user}), 200
+
+@app.route('/subscribe', methods=['POST'])
+def subscribe():
+    data = request.get_json()
+    email = data.get('email')
+    tenure = data.get('tenure')
+
+    if not email or not tenure:
+        return jsonify({'message': 'Missing required fields'}), 400
+    
+    users_collection = db['users']
+    user = users_collection.find_one({'email': email},{'_id':0})
+
+    if not user:
+        return jsonify({'message': 'User does not exsists'}), 400
+
+    subscribers_collection = db['subscribers']
+
+    current_date = datetime.now()
+    # Add n months to the current date
+    future_date = current_date + timedelta(days=30 * tenure)
+
+    new_subscriber = {'email': email, 'start': current_date.strftime("%Y-%m-%d") , 'end': future_date.strftime("%Y-%m-%d")}
+    subscribers_collection.insert_one(new_subscriber)
+
+    new_subscriber['_id'] = str(new_subscriber['_id'])
+    return jsonify({'data': new_subscriber}), 200
+
+@app.route('/issubscribed', methods=['POST'])
+def isSubscribed():
+    data = request.get_json()
+    email = data.get('email')
+
+    if not email:
+        return jsonify({'message': 'Missing required fields'}), 400
+    
+    users_collection = db['users']
+    user = users_collection.find_one({'email': email},{'_id':0})
+
+    if not user:
+        return jsonify({'message': 'User does not exsists'}), 400
+
+    subscribers_collection = db['subscribers']
+    subscriber = subscribers_collection.find_one({'email': email},{'_id':0})
+
+    if not subscriber:
+        return jsonify({'message': 'Subscriber does not exsists'}), 400
+
+    end_date = datetime.strptime(subscriber['end'], "%Y-%m-%d")
+    # Get the current date
+    current_date = datetime.now()
+    # Compare the future date with the current date
+
+    if end_date >= current_date:
+        return jsonify({'data': subscriber}), 200
+        
+    return jsonify({'message': 'Subscription expired'}), 400
+
+
 
 @app.route('/ismarketopen', methods=['GET'])
 def market_status():

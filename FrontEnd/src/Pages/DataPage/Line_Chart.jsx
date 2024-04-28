@@ -27,11 +27,11 @@ const Line_Chart = ({ data }) => {
   const minYValueCOI = Math.min(
     ...(Array.isArray(data) ? data.map((item) => item.R_S_COI) : [])
   );
-  const minValueCOI = minYValueCOI;
+  // const minValueCOI = minYValueCOI;
   const maxYValueCOI = Math.max(
     ...(Array.isArray(data) ? data.map((item) => item.R_S_COI) : [])
   );
-  const maxValueCOI = maxYValueCOI;
+  // const maxValueCOI = maxYValueCOI;
 
   return (
     <>

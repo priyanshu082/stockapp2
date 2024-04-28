@@ -6,7 +6,7 @@ import { authApi } from "../../Assets/config";
 
 const SubscriptionPage = () => {
 
-  const {user,setUser}=useContext(AuthContext)
+  const {isSubscribed , user , setUser, setIsSubscribed}=useContext(AuthContext)
 
 //   useEffect(() => {
 //     const token = localStorage.getItem('token');
@@ -46,40 +46,39 @@ const SubscriptionPage = () => {
           <SubscriptionCard
             tittle="Basic Plan"
             price="$99"
-            month="/month"x
+            month="/One Month"x
             cardDescription="Lorem ipsum dolor sit amet."
             first="Lorem ipsum dolor sit amet."
             second="Lorem ipsum dolor sit amet."
             third="Lorem ipsum dolor sit amet."
             fourth="Lorem ipsum dolor sit amet."
             buttonValue="Get Basic Plan"
-            type={1}
-            
+            tenure={1}
           />
           <SubscriptionCard
             tittle="Premium Plan"
             price="$199"
-            month="/month"
+            month="/Three Months"
             cardDescription="Lorem ipsum dolor sit amet."
             first="Lorem ipsum dolor sit amet."
             second="Lorem ipsum dolor sit amet."
             third="Lorem ipsum dolor sit amet."
             fourth="Lorem ipsum dolor sit amet."
             buttonValue="Get Premium Plan"
-            type={2}
+            tenure={3}
             
           />
           <SubscriptionCard
             tittle="VIP Plan"
             price="$299"
-            month="/month"
+            month="/Twelve Months"
             cardDescription="Lorem ipsum dolor sit amet."
             first="Lorem ipsum dolor sit amet."
             second="Lorem ipsum dolor sit amet."
             third="Lorem ipsum dolor sit amet."
             fourth="Lorem ipsum dolor sit amet."
             buttonValue="Get VIP Plan"
-            type={3}
+            tenure={12}
             
           />
         </div>

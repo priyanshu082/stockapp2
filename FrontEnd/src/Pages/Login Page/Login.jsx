@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import companylogo from "../../Assets/Navbar-img/NavLogo.png";
 import { AuthContext } from "../../Context/AuthContext";
-import { authApi } from "../../Assets/config";
+import { authApi, localapi } from "../../Assets/config";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
-  const { setIsLoggedIn,user,setUser } = useContext(AuthContext);
+  const { user,setUser } = useContext(AuthContext);
 
   // const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -19,22 +19,27 @@ const Login = () => {
     e.preventDefault();
 
     axios
-      .post(`${authApi}/user/login`, { email, password })
+      .post(`${localapi}/login`, { email, password })
       .then((result) => {
-        console.log(result);
         if (result) {
-          setIsLoggedIn(true);
-          localStorage.setItem("token", result.data.token);
-          localStorage.setItem("user", result.data.user);
-          setUser(result.data.user)
+       
+          if (typeof result.data.data !== 'string') {
+            // If it's not a string, stringify it before storing in localStorage
+            localStorage.setItem("user", JSON.stringify(result.data.data));
+        } else {
+            // If it's already a string, directly store it in localStorage
+            localStorage.setItem("user", result.data.data);
+        }
+          setUser(result.data.data)
           navigate("/");
-          window.location.reload()
+           window.location.reload()
         }
       })
       .catch((err) => {
         console.log(err)
-        setLoginError(err.response.status)
+        // setLoginError(err.response.status)
       });
+      
   };
 
   return (

@@ -7,7 +7,7 @@ import FeedbackSection from "../Components/Sections/FeedbackSection";
 import Navbar from "../Components/Navbar/Navbar";
 import Footer from "../Components/Footer/Footer";
 import { AuthContext } from "../Context/AuthContext";
-import { authApi } from "../Assets/config";
+import { localapi } from "../Assets/config";
 import axios from "axios";
 
 // import { getDataFromToken } from "../Assets/CookiesDecoder";
@@ -16,15 +16,32 @@ import axios from "axios";
 function Home() {
 
 
-  const {user,setUser} = useContext(AuthContext);
-
+  const {setIsSubscribed,user,setUser} = useContext(AuthContext);
+  // console.log(user)
 
   useEffect(()=>{
+    
+      axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {
+        console.log(result.data.data);
+         if (typeof result.data.data !== 'string') {
+           // If it's not a string, stringify it before storing in localStorage
+           localStorage.setItem("isSubscribed", JSON.stringify(result.data.data));
+       } else {
+           // If it's already a string, directly store it in localStorage
+           localStorage.setItem("isSubscribed", result.data.data);
+       }
+       setIsSubscribed(result.data.data)
      
-  },[])
+      })
+      .catch((err) => {
+        console.log(err)
+        // setUserExist(err.response.status)
+      })
+    
+  },[user])
 
 
-    console.log(user)
+   
 
 
   return (
@@ -38,7 +55,7 @@ function Home() {
      <PlatformSection/>
      <KnowledgeSection/>
      <FeedbackSection/>
-  <Footer/>
+      <Footer/>
      </div>
   </>
   );
