@@ -14,7 +14,7 @@ const Screener = () => {
         try {
             const response=await axios.get(`${localapi}/screener`)
             const data=response.data.data
-            console.log(response.data.data)
+            // console.log(response.data.data)
             setData(data)
         } catch (error) {
             console.log("Data not fetched" ,error)

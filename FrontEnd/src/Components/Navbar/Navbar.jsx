@@ -52,7 +52,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!isSubscribed ? (
+                {!user ? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -66,7 +66,8 @@ const Navbar = () => {
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
                     }
-                    to="/Data"
+                   
+                    to={!isSubscribed ? "/SubscriptionPage" :"/Data"}
                   >
                    PCR
                   </NavLink>
@@ -74,7 +75,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!isSubscribed? (
+                {!user? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -88,7 +89,8 @@ const Navbar = () => {
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
                     }
-                    to="/CommutativeSum"
+                  
+                    to={!isSubscribed ? "/SubscriptionPage" :"/CommutativeSum"}
                   >
                   CALL v/s PUT
                   </NavLink>
@@ -96,7 +98,7 @@ const Navbar = () => {
               </li>
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!isSubscribed ? (
+                {!user ? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -110,7 +112,8 @@ const Navbar = () => {
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
                     }
-                    to="/StrikeGraph"
+              
+                    to={!isSubscribed ? "/SubscriptionPage" :"/StrikeGraph"}
                   >
                    PRICE
                   </NavLink>
@@ -118,7 +121,7 @@ const Navbar = () => {
               </li>       
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {!isSubscribed ? (
+                {!user ? (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
@@ -132,7 +135,8 @@ const Navbar = () => {
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
                     }
-                    to="/Buyer_VS_Seller"
+                
+                    to={!isSubscribed ? "/SubscriptionPage" :"/Buyer_VS_Seller"}
                   >
                    BUYERvsSELLER
                   </NavLink>
@@ -140,12 +144,12 @@ const Navbar = () => {
               </li>       
 
               <li data-aos="fade-down" data-aos-delay="600">
-                {isSubscribed && (
+                {user && (
                   <NavLink
                     className={({ isActive }) =>
                       `nav ${isActive ? "text-orange-600" : ""}`
                     }
-                    to="/screener"
+                    to={!isSubscribed ? "/SubscriptionPage" :"/screener"}
                   >
                    SCREENER
                   </NavLink>
@@ -218,46 +222,52 @@ const Navbar = () => {
             </li>
 
             <li>
-            {!isSubscribed ? (<Link className="block text-[16px] text-[#265786]" to="/AboutUs">
+            {!user ? (<Link className="block text-[16px] text-[#265786]" to="/AboutUs">
                 ABOUT US
-              </Link>):(<Link className="block text-[16px] text-[#265786]" to="/Data">
+              </Link>):(<Link className="block text-[16px] text-[#265786]" 
+    
+              to={!isSubscribed ? "/SubscriptionPage" :"/Data"}
+              >
                 PCR
               </Link>)}
               
             </li>
 
             <li>
-            {!isSubscribed ? (<Link className="block text-[16px] text-[#265786]" to="/RefundandCancel">
+            {!user ? (<Link className="block text-[16px] text-[#265786]" to="/RefundandCancel">
             REFUND & CANCELLATION
-              </Link>):(<Link className="block text-[16px] text-[#265786]" to="/CommutativeSum">
+              </Link>):(<Link className="block text-[16px] text-[#265786]" to={!isSubscribed ? "/SubscriptionPage" :"/CommutativeSum"} >
               CALL v/s PUT
               </Link>)}
             </li>
 
 
             <li>
-            {!isSubscribed ? (<Link className="block text-[16px] text-[#265786]" to="/termAndCondition">
+            {!user ? (<Link className="block text-[16px] text-[#265786]" 
+            to="/termAndCondition">
                T&C
-              </Link>):(<Link className="block text-[16px] text-[#265786]" to="/StrikeGraph">
+              </Link>):(<Link className="block text-[16px] text-[#265786]" 
+              
+              to={!isSubscribed ? "/SubscriptionPage" :"/StrikeGraph"}>
                PRICE
               </Link>)}
             </li>
 
           
             <li>
-            {!isSubscribed ? 
+            {!user ? 
             (<Link className="block text-[16px] text-[#265786]" to="/Privacypolicy">
                 PRIVACY
               </Link>) : 
-              (<Link className="block text-[16px] text-[#265786]" to="/Buyer_VS_Seller">
+              (<Link className="block text-[16px] text-[#265786]" to={!isSubscribed ? "/SubscriptionPage" :"/Buyer_VS_Seller"}  >
                 BUYERvsSELLER
               </Link>)
               }
             </li>
 
             <li>
-            {!isSubscribed && 
-              (<Link className="block text-[16px] text-[#265786]" to="/screener">
+            {!user && 
+              (<Link className="block text-[16px] text-[#265786]" to={!isSubscribed ? "/SubscriptionPage" :"/screener"} >
                 SCREENER
               </Link>)
               }

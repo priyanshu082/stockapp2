@@ -3,7 +3,7 @@ import { React } from 'react'
 const DataTable = ({ allData,noOfStrikes }) => {
 
 
-console.log(allData)
+// console.log(allData)
   const headingCollection = [
     "S.No",
     "underlyingValue",
@@ -80,8 +80,8 @@ console.log(allData)
         index = i%(noOfStrikes*2);
       }
     }
-    console.log(minDiff)
-    console.log("index:-",index)
+     console.log(minDiff)
+     console.log("index:-",index)
 
     return index;
   };

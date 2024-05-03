@@ -37,7 +37,7 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err)
-        // setLoginError(err.response.status)
+        setLoginError(err.response.data.message)
       });
       
   };
@@ -116,8 +116,9 @@ const Login = () => {
             </form>
 
             <div className="text-[20px] text-red-500 w-full mb-[15px] flex justify-center ml-[-3.5vw]">
-                  {loginError===400 && (<div>Wrong Password</div>)}
-                  {loginError===500 && (<div>Email doesn't exist</div>)}
+                  {loginError && (<div>{loginError}</div>)}
+                  
+
             </div>
 
             <div className="gotologinpage w-[90%] sm:w-[70%] h-10 flex gap items-center gap-[10px]  pl-[15px] sm:pl-[0px]">

@@ -14,7 +14,9 @@ const Registration = () => {
   const [mobileError, setMobileError] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-  const [userExist ,setUserExist]=useState()
+  const [error,setError]=useState();
+
+
   // const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -74,6 +76,7 @@ const Registration = () => {
       })
       .catch((err) => {
         console.log(err)
+        setError(err.response.data.message)
       })
 
     
@@ -205,8 +208,7 @@ const Registration = () => {
               
             </form>
             <div className="text-[20px] text-red-500 w-full mb-[10px] flex justify-center ml-[-3.5vw]">
-                  {userExist===400 && (<div>Email is Already in use</div>)}
-                  {userExist===500 && (<div>Network error occured</div>)}
+              {error && (<div>{error}</div>)}
             </div>
 
             <div className="gotologinpage w-[90%] sm:w-[70%]  h-10 flex gap items-center gap-[10px]  pl-[15px] sm:pl-[0px]">

@@ -13,14 +13,12 @@ import AboutUs from "./Pages/AboutUs/AboutUs";
 import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 import RefundandCancel from "./Pages/RefundandCancel/RefundandCancel";
 import Buy_Seller from "./Pages/Buyer_VS_Seller/Buy_Seller"
-import { useContext } from "react";
-import { AuthContext } from "./Context/AuthContext";
 import Screener from "./Pages/Screener/Screener";
 
 
 function AllRoute() {
 
-  const {isLoggedIn}=useContext(AuthContext)
+
 
   return (
     <Routes>
@@ -35,11 +33,11 @@ function AllRoute() {
 
       {/* here the login and signup pages start where auth is required */}
       
-      <Route path="/Data" element={isLoggedIn ? <Datapage /> : <Login/>} />
-      <Route path="/CommutativeSum" element={isLoggedIn ? <CommutativeSum /> : <Login/>} />
-      <Route path="/StrikeGraph" element={isLoggedIn ? <StrikeGraph /> : <Login/>} />
-      <Route path="/Buyer_VS_Seller" element={isLoggedIn ? <Buy_Seller /> : <Login/>} />
-      <Route path="/screener" element={isLoggedIn ? <Screener /> : <Login/>} />
+      <Route path="/Data" element={ <Datapage /> } />
+      <Route path="/CommutativeSum" element={<CommutativeSum /> } />
+      <Route path="/StrikeGraph" element={ <StrikeGraph /> } />
+      <Route path="/Buyer_VS_Seller" element={<Buy_Seller /> } />
+      <Route path="/screener" element={<Screener /> } />
   
    
     </Routes>

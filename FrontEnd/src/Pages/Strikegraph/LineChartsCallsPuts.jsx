@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 const LineChartsCalls = ({ data,strikePriceData, strikePrice, strikePriceHigh }) => {
-    console.log(data)
+    // console.log(data)
     // console.log(strikePriceHigh)
   // if (!Array.isArray(data) || data.length === 0) {
   //     return <h1>Data Not Found</h1>; // or some fallback JSX if needed
