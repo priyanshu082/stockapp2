@@ -46,7 +46,7 @@ const DataTable = ({ allData, noOfStrikes }) => {
     const data = groupedData[time];
     if (!data || data.length === 0) return -1;
     let minDiff = Math.abs(data[0].Strike_Price - data[0].underlyingValue);
-    console.log(minDiff);
+    // console.log(minDiff);
     let index = 0;
     for (let i = 1; i < data.length; i++) {
       let diff = Math.abs(data[i].Strike_Price - data[i].underlyingValue);
@@ -55,8 +55,8 @@ const DataTable = ({ allData, noOfStrikes }) => {
         index = i % (noOfStrikes * 2);
       }
     }
-    console.log(minDiff);
-    console.log('index:-', index);
+    // console.log(minDiff);
+    // console.log('index:-', index);
     return index;
   };
 
@@ -170,7 +170,7 @@ const DataTable = ({ allData, noOfStrikes }) => {
       groupedData[time].push(item);
     });
 
-  console.log(groupedData);
+  // console.log(groupedData);
 
   const sortedKeys = Object.keys(groupedData).sort((a, b) => {
     const timeA = a.split(':').map(Number);
@@ -184,7 +184,7 @@ const DataTable = ({ allData, noOfStrikes }) => {
     return 0;
   });
 
-  console.log(sortedKeys);
+  // console.log(sortedKeys);
 
   const tables = sortedKeys.map((time, index) => (
     <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
@@ -291,11 +291,6 @@ const DataTable = ({ allData, noOfStrikes }) => {
 
 return <>{tables}</>;
 
-  return (
-    <>
-      {tables}
-    </>
-  )
 }
 
 export default DataTable
