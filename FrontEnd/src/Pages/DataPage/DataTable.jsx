@@ -156,7 +156,7 @@ const DataTable = ({ allData, noOfStrikes }) => {
     'Short Covering ↑': { backgroundColor: 'skyblue' },
     'Long Buildup ↓': { backgroundColor: 'lightgreen' },
     'Short Buildup ↓': { backgroundColor: '#FF6347' },
-  }[value] || { backgroundColor: 'white' });
+  } [value] || { backgroundColor: 'white' });
 
   const groupedData = {};
 

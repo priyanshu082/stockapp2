@@ -167,69 +167,69 @@ def market_status():
         
 
 if __name__ == "__main__":
-    # IST = pytz.timezone('Asia/Kolkata') 
-    # while True:
-    #     if not ('09:18:00' <= datetime.now(IST).strftime("%H:%M:%S") <= '15:33:00'):
-    #         continue
-    #     else:
-    #         if market_status():
-    #             while ('09:18:00' <= datetime.now(IST).strftime("%H:%M:%S") <= '15:33:00'):
-    #                         start = time.time()
+    IST = pytz.timezone('Asia/Kolkata') 
+    while True:
+        if not ('09:18:00' <= datetime.now(IST).strftime("%H:%M:%S") <= '15:33:00'):
+            continue
+        else:
+            if market_status():
+                while ('09:18:00' <= datetime.now(IST).strftime("%H:%M:%S") <= '15:33:00'):
+                            start = time.time()
 
-    #                         with open("backend/symbols.txt") as f:
-    #                             data = f.readlines()
+                            with open("/root/stockapp2/backEndPython/symbols.txt") as f:
+                                data = f.readlines()
 
-    #                         num_cores = multiprocessing.cpu_count()
-    #                         symbols = [i.strip('\n') for i in data]
-    #                         no_of_batches = 3*num_cores
-    #                         avg_elements = len(symbols) // no_of_batches
-    #                         remainder = len(symbols) % no_of_batches
+                            num_cores = multiprocessing.cpu_count()
+                            symbols = [i.strip('\n') for i in data]
+                            no_of_batches = 3*num_cores
+                            avg_elements = len(symbols) // no_of_batches
+                            remainder = len(symbols) % no_of_batches
 
-    #                         symbol_batches = [symbols[i * avg_elements + min(i, remainder):(i + 1) * avg_elements + min(i + 1, remainder)] for i in range(no_of_batches)]       
+                            symbol_batches = [symbols[i * avg_elements + min(i, remainder):(i + 1) * avg_elements + min(i + 1, remainder)] for i in range(no_of_batches)]       
 
 
-    #                         # Use the number of CPU cores as the number of processes
-    #                         with multiprocessing.Pool(processes=no_of_batches) as pool:
-    #                             # Use the pool to map the worker function onto the tasks
-    #                             results = pool.map(call_batch, symbol_batches)
+                            # Use the number of CPU cores as the number of processes
+                            with multiprocessing.Pool(processes=no_of_batches) as pool:
+                                # Use the pool to map the worker function onto the tasks
+                                results = pool.map(call_batch, symbol_batches)
 
-    #                         flattened_list = [item for sublist in results for item in sublist]
+                            flattened_list = [item for sublist in results for item in sublist]
 
-    #                         print(f"\nPassed: {flattened_list.count(True)}\nFailed: {flattened_list.count(False)}")
-    #                         end = time.time()
+                            print(f"\nPassed: {flattened_list.count(True)}\nFailed: {flattened_list.count(False)}")
+                            end = time.time()
 
-    #                         print(f'{end-start}\n')
-    #                         time.sleep(120-(end-start))
+                            print(f'{end-start}\n')
+                            time.sleep(120-(end-start))
             
-    #         else:
-    #             #to sleep on holiday for the hours in which market remains open
-    #             time.sleep(25200)
+            else:
+                #to sleep on holiday for the hours in which market remains open
+                time.sleep(25200)
 
 
 
-        with open("/root/stockapp2/backEndPython/symbols.txt") as f:
-            data = f.readlines()
+        # with open("/root/stockapp2/backEndPython/symbols.txt") as f:
+        #     data = f.readlines()
 
-        symbols = [i.strip('\n') for i in data]
-        num_cores = multiprocessing.cpu_count()
-        no_of_batches = 3*num_cores
-        avg_elements = len(symbols) // no_of_batches
-        remainder = len(symbols) % no_of_batches
+        # symbols = [i.strip('\n') for i in data]
+        # num_cores = multiprocessing.cpu_count()
+        # no_of_batches = 3*num_cores
+        # avg_elements = len(symbols) // no_of_batches
+        # remainder = len(symbols) % no_of_batches
 
-        symbol_batches = [symbols[i * avg_elements + min(i, remainder):(i + 1) * avg_elements + min(i + 1, remainder)] for i in range(no_of_batches)]       
+        # symbol_batches = [symbols[i * avg_elements + min(i, remainder):(i + 1) * avg_elements + min(i + 1, remainder)] for i in range(no_of_batches)]       
         
-        while True:
-            start = time.time()
+        # while True:
+        #     start = time.time()
 
-            # Use the number of CPU cores as the number of processes
-            with multiprocessing.Pool(processes=no_of_batches) as pool:
-                # Use the pool to map the worker function onto the tasks
-                results = pool.map(call_batch, symbol_batches)
+        #     # Use the number of CPU cores as the number of processes
+        #     with multiprocessing.Pool(processes=no_of_batches) as pool:
+        #         # Use the pool to map the worker function onto the tasks
+        #         results = pool.map(call_batch, symbol_batches)
 
-            flattened_list = [item for sublist in results for item in sublist]
+        #     flattened_list = [item for sublist in results for item in sublist]
 
-            print(f"\nPassed: {flattened_list.count(True)}\nFailed: {flattened_list.count(False)}")
-            end = time.time()
+        #     print(f"\nPassed: {flattened_list.count(True)}\nFailed: {flattened_list.count(False)}")
+        #     end = time.time()
 
-            print(f'{end-start}\n')
-            time.sleep(120-(end-start))
+        #     print(f'{end-start}\n')
+        #     time.sleep(120-(end-start))
