@@ -1,23 +1,41 @@
-import { React } from 'react';
+import React, { Fragment } from 'react';
+
+
 
 const DataTable = ({ allData, noOfStrikes }) => {
   const headingCollection = [
     'S.No',
+    '',
     'underlyingValue',
+    '',
     'COI_Calls',
+    '',
     'Strike_Price',
+    '',
     'COI_Puts',
+    '',
     'C_Calls',
+    '',
     'C_Puts',
+    '',
     'C_Amt_Calls_Cr',
+    '',
     'C_Amt_Puts_Cr',
+    '',
     'S_C_Calls',
+    '',
     'S_C_Puts',
+    '',
     'S_COI_Calls',
+    '',
     'S_COI_Puts',
+    '',
     'R_S_COI',
-    'Long_Short_Calls',
-    'Long_Short_Puts',
+    '',
+    'Long_Short_Calls_data',
+    '',
+    'Long_Short_Puts_data',
+    '',
   ];
 
   const blueShade = (value) => {
@@ -81,10 +99,16 @@ const DataTable = ({ allData, noOfStrikes }) => {
       return {
         backgroundColor: 'yellow ',
         color: 'black',
-        fontWeight: '600',
+        fontWeight: '800',
+      };
+    } else {
+      return {
+        backgroundColor: '#dee2e6',
+        color: 'black',
+        fontWeight: '400',
       };
     }
-    return {};
+
   };
 
   const getCellStyle = (index, columnName, groupedData, time, noOfStrikes) => {
@@ -184,109 +208,292 @@ const DataTable = ({ allData, noOfStrikes }) => {
     return 0;
   });
 
-  // console.log(sortedKeys);
+ 
 
-  const tables = sortedKeys.map((time, index) => (
-    <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
-      <h2 className="font-bold">Table for Time: {time}</h2>
-      <table className="w-[100%] ">
-        <thead className="border-[0.5px] border-black ">
+//   const tables = sortedKeys.map((time, index) => (
+//     <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
+//       <h2 className="font-bold">Table for Time: {time}</h2>
+//       <table className="w-[100%] ">
+//         <thead className="border-[0.5px]  ">
+//         <tr className="">
+//      {headingCollection.map((heading, index) => (
+//      <th
+//      className={`${heading ? "Data" :"blank"} z-20 bg-gray-300  text-center text-sm font-semibold`}
+//      key={index}
+//      >
+//      {heading}
+//    </th>
+//  ))}
+// </tr>
+// </thead>
+// <tbody className="">
+//  {groupedData[time].map((item, index) => (
+//   <React.Fragment key={index}>
+//    <tr
+//      className="text-black "
+//      key={index}
+//      style={getRowStyle(index, groupedData, time, noOfStrikes)}
+//    >
+//      <td className=" text-sm text-center">
+//        {index + 1}
+//      </td>
+
+//      <td className=" text-sm   text-center">
+//      </td>
+     
+//      <td className="  text-sm bg-gray-300  text-center">
+//        {item.underlyingValue}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td
+//        className=" text-sm text-center "
+//        style={{
+//          background: blueShade(item.COI_Calls),
+//          ...yellow(index, "COI_Calls", groupedData, time)
+//        }}
+//      >
+//        {item.COI_Calls}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td className=" text-sm  text-center ">
+//        {item.Strike_Price}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td
+//        className=" text-sm  text-center "
+//        style={{
+//          background: blueShade(item.COI_Puts),
+//          ...yellow(index, "COI_Puts", groupedData, time)
+//        }}
+//      >
+//        {item.COI_Puts}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td className=" text-sm  text-center  ">
+//        {item.C_Calls}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td className=" text-sm  text-center ">
+//        {item.C_Puts}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td
+//        className=" text-sm  text-center "
+//        style={getCellStyle(index, "C_Amt_Calls_Cr", groupedData, time, noOfStrikes)}
+//      >
+//        {item.C_Amt_Calls_Cr}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td
+//        className=" text-sm  text-center "
+//        style={getCellStyle(index, "C_Amt_Puts_Cr", groupedData, time, noOfStrikes)}
+//      >
+//        {item.C_Amt_Puts_Cr}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td className=" text-sm  text-center ">
+//        {getColumnData(index, "S_C_Calls", groupedData, time, noOfStrikes)}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td className=" text-sm  text-center ">
+//        {getColumnData(index, "S_C_Puts", groupedData, time, noOfStrikes)}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td className=" text-sm  text-center ">
+//        {getColumnData(index, "S_COI_Calls", groupedData, time, noOfStrikes)}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td className="text-sm  text-center ">
+//        {getColumnData(index, "S_COI_Puts", groupedData, time, noOfStrikes)}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td className=" text-sm  text-center ">
+//        {getColumnData(index, "R_S_COI", groupedData, time, noOfStrikes)}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//      <td
+//        className={` text-sm  text-center  `}
+//        style={getBackgroundColor(item.Long_Short_Calls)}
+//      >
+//        {item.Long_Short_Calls}
+//      </td>
+
+//       <td className=" text-sm  text-center">
+//      </td>
+     
+//      <td
+//        className=" text-sm  text-center "
+//        style={getBackgroundColor(item.Long_Short_Puts)}
+//      >
+//        {item.Long_Short_Puts}
+//      </td>
+//       <td className=" text-sm  text-center">
+//      </td>
+//    </tr>
+//    <tr>
+//         <td colSpan={headingCollection.length + 1}></td>
+//       </tr>
+//    </React.Fragment>
+//  ))}
+// </tbody>
+// </table>
+// </div>
+// ));
+
+
+const tables = sortedKeys.map((time, index) => (
+  <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
+    <h2 className="font-bold">Table for Time: {time}</h2>
+    <table className="w-[100%] ">
+      <thead className="border-[0.5px] border-gray-300 border-[0.5px]">
         <tr className="">
- {headingCollection.map((heading, index) => (
-   <th
-     className=" z-20 bg-gray-300 px-[2px] text-center text-sm font-semibold"
-     key={index}
-   >
-     {heading}
-   </th>
- ))}
-</tr>
-</thead>
-<tbody className="border-[0.5px] border-black">
- {groupedData[time].map((item, index) => (
-   <tr
-     className="text-black mt-[2px]"
-     key={index}
-     style={getRowStyle(index, groupedData, time, noOfStrikes)}
-   >
-     <td className=" text-sm px-[3px] pt-[5px] text-center">
-       {index + 1}
-     </td>
-     <td className=" text-sm  px-[3px] text-center">
-       {item.underlyingValue}
-     </td>
+          {headingCollection.map((heading, index) => (
+            <th
+              className={`${
+                heading ? "Data" : "blank"
+              } z-20 bg-gray-200 text-center text-sm font-medium`}
+              key={index}
+            >
+              {heading}
+            </th>
+          ))}
+        </tr>
+      </thead>
 
-     <td
-       className="border-black text-sm text-center px-[5px]"
-       style={{
-         background: blueShade(item.COI_Calls),
-         ...yellow(index, "COI_Calls", groupedData, time)
-       }}
-     >
-       {item.COI_Calls}
-     </td>
-     <td className=" text-sm border-black text-center px-[3px]">
-       {item.Strike_Price}
-     </td>
-     <td
-       className=" text-sm border-black text-center px-[3px]"
-       style={{
-         background: blueShade(item.COI_Puts),
-         ...yellow(index, "COI_Puts", groupedData, time)
-       }}
-     >
-       {item.COI_Puts}
-     </td>
-     <td className=" text-sm border-black text-center  px-[3px]">
-       {item.C_Calls}
-     </td>
-     <td className=" text-sm border-black text-center px-[3px]">
-       {item.C_Puts}
-     </td>
-     <td
-       className=" text-sm border-black text-center px-[3px]"
-       style={getCellStyle(index, "C_Amt_Calls_Cr", groupedData, time, noOfStrikes)}
-     >
-       {item.C_Amt_Calls_Cr}
-     </td>
-     <td
-       className=" text-sm border-black text-center px-[3px]"
-       style={getCellStyle(index, "C_Amt_Puts_Cr", groupedData, time, noOfStrikes)}
-     >
-       {item.C_Amt_Puts_Cr}
-     </td>
-     <td className=" text-sm border-black text-center px-[3px]">
-       {getColumnData(index, "S_C_Calls", groupedData, time, noOfStrikes)}
-     </td>
-     <td className=" text-sm border-black text-center px-[3px]">
-       {getColumnData(index, "S_C_Puts", groupedData, time, noOfStrikes)}
-     </td>
-     <td className=" text-sm border-black text-center px-[3px]">
-       {getColumnData(index, "S_COI_Calls", groupedData, time, noOfStrikes)}
-     </td>
-     <td className="text-sm border-black text-center px-[3px]">
-       {getColumnData(index, "S_COI_Puts", groupedData, time, noOfStrikes)}
-     </td>
-     <td className=" text-sm border-black text-center px-[3px]">
-       {getColumnData(index, "R_S_COI", groupedData, time, noOfStrikes)}
-     </td>
-     <td
-       className={` text-sm border-black text-center px-[3px] `}
-       style={getBackgroundColor(item.Long_Short_Calls)}
-     >
-       {item.Long_Short_Calls}
-     </td>
-     <td
-       className=" text-sm border-black text-center px-[3px]"
-       style={getBackgroundColor(item.Long_Short_Puts)}
-     >
-       {item.Long_Short_Puts}
-     </td>
-   </tr>
- ))}
-</tbody>
-</table>
-</div>
+      <tbody className="">
+        {groupedData[time].map((item, index) => (
+          <React.Fragment key={index}>
+            <tr
+              className="text-black "
+              key={index}
+              style={getRowStyle(index, groupedData, time, noOfStrikes)}
+            >
+              <td className="filled-cell text-sm text-center">
+                {index + 1}
+              </td>
+
+              <td className="blank-cell text-sm text-center"></td>
+
+              <td className="filled-cell  text-sm  text-center">
+                {item.underlyingValue}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td
+                style={{
+                  background: blueShade(item.COI_Calls),
+                  ...yellow(index, "COI_Calls", groupedData, time)
+                }}
+                className="filled-cell border-gray-300 border-[0.5px] text-sm text-center"
+              >
+                {item.COI_Calls}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center ">
+                {item.Strike_Price}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td
+                className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center "
+                style={{
+                  background: blueShade(item.COI_Puts),
+                  ...yellow(index, "COI_Puts", groupedData, time)
+                }}
+              >
+                {item.COI_Puts}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center  ">
+                {item.C_Calls}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center ">
+                {item.C_Puts}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td
+                className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center "
+                style={getCellStyle(
+                  index,
+                  "C_Amt_Calls_Cr",
+                  groupedData,
+                  time,
+                  noOfStrikes
+                )}
+              >
+                {item.C_Amt_Calls_Cr}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td
+                className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center "
+                style={getCellStyle(
+                  index,
+                  "C_Amt_Puts_Cr",
+                  groupedData,
+                  time,
+                  noOfStrikes
+                )}
+              >
+                {item.C_Amt_Puts_Cr}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center ">
+                {getColumnData(index, "S_C_Calls", groupedData, time, noOfStrikes)}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center ">
+                {getColumnData(index, "S_C_Puts", groupedData, time, noOfStrikes)}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center ">
+                {getColumnData(index, "S_COI_Calls", groupedData, time, noOfStrikes)}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center ">
+                {getColumnData(index, "S_COI_Puts", groupedData, time, noOfStrikes)}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center ">
+                {getColumnData(index, "R_S_COI", groupedData, time, noOfStrikes)}
+              </td>
+              <td className="blank-cell text-sm text-center"></td>
+              <td
+                className={`filled-cell  text-sm border-gray-300 border-[0.5px] text-center  `}
+                style={getBackgroundColor(item.Long_Short_Calls)}
+              >
+                {item.Long_Short_Calls}
+              </td>
+
+              <td className="blank-cell text-sm text-center"></td>
+
+              <td
+                className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center "
+                style={getBackgroundColor(item.Long_Short_Puts)}
+              >
+                {item.Long_Short_Puts}
+              </td>
+              
+            </tr>
+            <tr className="blank-row">
+              <td colSpan={headingCollection.length + 1}></td>
+            </tr>
+          </React.Fragment>
+        ))}
+      </tbody>
+    </table>
+  </div>
 ));
 
 return <>{tables}</>;

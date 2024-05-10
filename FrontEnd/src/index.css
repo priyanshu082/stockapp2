@@ -78,3 +78,25 @@ transition: all ease .7s;
 top: 0;
   }
 }
+
+
+/* Styles for blank rows */
+.blank-row td {
+  border: 0.5px solid #6e6c6c;
+  background-color: #f8f8f8;
+  padding: 9px;
+}
+
+/* Styles for filled cells */
+.filled-cell {
+  border: 0.5px solid #6e6c6c;
+  /* background-color: #dee2e6; */
+  padding: 3px;
+}
+
+/* Styles for blank cells */
+.blank-cell {
+  border: 0.5px solid #6e6c6c;
+  background-color: #f8f8f8;
+  padding: 5px;
+}

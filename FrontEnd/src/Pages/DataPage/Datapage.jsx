@@ -31,7 +31,7 @@ function DataPage() {
     useEffect(()=>{
       const intervalid=setInterval(() => {
         updateTwoMin()
-      }, 200000*1000);
+      }, 30*1000);
       return () => clearInterval(intervalid);
     })
 
