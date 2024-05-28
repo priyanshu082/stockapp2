@@ -14,6 +14,7 @@ import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 import RefundandCancel from "./Pages/RefundandCancel/RefundandCancel";
 import Buy_Seller from "./Pages/Buyer_VS_Seller/Buy_Seller"
 import Screener from "./Pages/Screener/Screener";
+import PrivateRoute from "./Pages/Private";
 
 
 function AllRoute() {
@@ -33,12 +34,31 @@ function AllRoute() {
 
       {/* here the login and signup pages start where auth is required */}
       
-      <Route path="/Data" element={ <Datapage /> } />
-      <Route path="/CommutativeSum" element={<CommutativeSum /> } />
-      <Route path="/StrikeGraph" element={ <StrikeGraph /> } />
-      <Route path="/Buyer_VS_Seller" element={<Buy_Seller /> } />
-      <Route path="/screener" element={<Screener /> } />
-  
+      <Route path="/Data" element={
+            <PrivateRoute>
+              <Datapage />
+            </PrivateRoute>
+          } />
+          <Route path="/CommutativeSum" element={
+            <PrivateRoute>
+              <CommutativeSum />
+            </PrivateRoute>
+          } />
+          <Route path="/StrikeGraph" element={
+            <PrivateRoute>
+              <StrikeGraph />
+            </PrivateRoute>
+          } />
+          <Route path="/Buyer_VS_Seller" element={
+            <PrivateRoute>
+              <Buy_Seller />
+            </PrivateRoute>
+          } />
+          <Route path="/screener" element={
+            <PrivateRoute>
+              <Screener />
+            </PrivateRoute>
+          } />
    
     </Routes>
   );

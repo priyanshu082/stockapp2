@@ -1,13 +1,42 @@
-import {React,useEffect,useState} from 'react'
+import {React,useEffect,useState,useContext} from 'react'
 import axios from "axios";
 import DropDown from "./DropDown";
 import DataTable from "./DataTable";
 // import Bargraph from "./BarGraph";
 import { localapi } from '../../Assets/config';
 import Navbar from '../../Components/Navbar/Navbar';
+import { AuthContext } from "../../Context/AuthContext";
 
 
 const CommutativeSum = () => {
+
+  const {setIsSubscribed,user,setUser} = useContext(AuthContext);
+  // console.log(user)
+
+  useEffect(()=>{
+    if(user){
+      axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {
+        console.log(result.data.data);
+         if (typeof result.data.data !== 'string') {
+           // If it's not a string, stringify it before storing in localStorage
+           localStorage.setItem("isSubscribed", JSON.stringify(result.data.data));
+       } else {
+           // If it's already a string, directly store it in localStorage
+           localStorage.setItem("isSubscribed", result.data.data);
+       }
+       setIsSubscribed(result.data.data)
+     
+      })
+      .catch((err) => {
+        console.log(err)
+        // setUserExist(err.response.status)
+      })
+    }
+      
+    
+  },[user])
+
+
     // const [symbol, setSymbol] = useState("BANKNIFTY");
     // const [expiryDate, setExpiryDate] = useState("");
     // const [noOfStrikes, setNoOfStrikes] = useState("12");

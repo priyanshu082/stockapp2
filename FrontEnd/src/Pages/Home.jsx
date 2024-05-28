@@ -20,7 +20,7 @@ function Home() {
   // console.log(user)
 
   useEffect(()=>{
-    
+    if(user){
       axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {
         console.log(result.data.data);
          if (typeof result.data.data !== 'string') {
@@ -37,6 +37,8 @@ function Home() {
         console.log(err)
         // setUserExist(err.response.status)
       })
+    }
+      
     
   },[user])
 

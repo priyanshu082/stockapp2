@@ -1,6 +1,7 @@
 import React, { createContext, useState,useEffect } from 'react';
 import axios from 'axios';
 import { authApi } from '../Assets/config';
+import { localapi } from '../Assets/config';
 
 
 export const AuthContext = createContext();
@@ -16,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
+  
   return (
     <AuthContext.Provider value={{ isSubscribed , user , setUser, setIsSubscribed }}>
       {children}

@@ -9,11 +9,11 @@ export const SubscriptionCard = ({tittle,price,month,cardDescription,first,secon
 
     const navigate=useNavigate()
 
-  console.log(user.id)
+  console.log(user?.id)
 
   const handleSubscription= async(tenure)=>{
       try {
-        const email=user.email
+        const email=user?.email
         const response =await axios.post(`${localapi}/subscribe`,{email:email,tenure:tenure})
         console.log(response.data)
         localStorage.removeItem("token");

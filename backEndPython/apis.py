@@ -336,13 +336,11 @@ def screener():
             # Default choice if none of the conditions are met
             default_choice = 'Sideways'
             df['Trend'] = np.select(conditions, choices, default=default_choice)
-            print("here")
            
             df = df[['Time', 'Trend']]
             df.sort_values(by=['Time'], ascending=[False])
             df.reset_index(drop=True, inplace=True)
             result[symbol] = df.iloc[0, 1]
-            print("here2")
 
         data = result
     except Exception as e :

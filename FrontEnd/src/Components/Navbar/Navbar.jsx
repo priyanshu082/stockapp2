@@ -22,6 +22,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user")
+    localStorage.removeItem("isSubscribed")
     window.location.reload()
   };
 

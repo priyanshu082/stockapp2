@@ -3,10 +3,32 @@ import SubscriptionCard from "./SubscriptionCard";
 import { AuthContext } from "../../Context/AuthContext";
 import axios from 'axios';
 import { authApi } from "../../Assets/config";
+import { localapi } from "../../Assets/config";
 
 const SubscriptionPage = () => {
 
   const {isSubscribed , user , setUser, setIsSubscribed}=useContext(AuthContext)
+  // console.log(user)
+
+  useEffect(()=>{
+      axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {
+        console.log(result.data.data);
+         if (typeof result.data.data !== 'string') {
+           // If it's not a string, stringify it before storing in localStorage
+           localStorage.setItem("isSubscribed", JSON.stringify(result.data.data));
+       } else {
+           // If it's already a string, directly store it in localStorage
+           localStorage.setItem("isSubscribed", result.data.data);
+       }
+       setIsSubscribed(result.data.data)
+     
+      })
+      .catch((err) => {
+        console.log(err)
+        // setUserExist(err.response.status)
+      })
+    
+  },[user])
 
 //   useEffect(() => {
 //     const token = localStorage.getItem('token');

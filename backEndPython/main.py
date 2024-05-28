@@ -23,21 +23,23 @@ def call_api(symbol):
     try:
         data = nsefetch(url)
         data = data['records']
-        print(f'Data Fetched: {symbol}')
     except:
         return False
 
     underlyingValue = data['underlyingValue']
+    timestamp = data['timestamp'][-8:]
+
     initialUnderlyingValueCollection = db['initialUnderlyingValues']
 
     if not initialUnderlyingValueCollection.find_one({'symbol': symbol}):
         initialUnderlyingValueCollection.insert_one({'symbol': symbol, 'underlyingValue': underlyingValue})
         initialUnderlyingValue = underlyingValue
     else:
+        if timestamp < '09:17:00':
+            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue}})
         initialUnderlyingValue=initialUnderlyingValueCollection.find_one({'symbol': symbol})['underlyingValue']
 
 
-    timestamp = data['timestamp'][-8:]
 
     relevant_data = data['data']
     extracted_data = []
@@ -199,7 +201,8 @@ if __name__ == "__main__":
                             end = time.time()
 
                             print(f'{end-start}\n')
-                            time.sleep(120-(end-start))
+                            if end-start < 120:
+                                time.sleep(120-(end-start))
             
             else:
                 #to sleep on holiday for the hours in which market remains open

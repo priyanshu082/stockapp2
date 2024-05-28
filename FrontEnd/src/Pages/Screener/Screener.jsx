@@ -1,14 +1,56 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import axios from 'axios'
 import { localapi } from '../../Assets/config'
 import Navbar from '../../Components/Navbar/Navbar'
+import { AuthContext } from "../../Context/AuthContext";
 
 const Screener = () => {
+
+  const {setIsSubscribed,user,setUser} = useContext(AuthContext);
+  // console.log(user)
+
+  useEffect(()=>{
+    if(user){
+      axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {
+        console.log(result.data.data);
+         if (typeof result.data.data !== 'string') {
+           // If it's not a string, stringify it before storing in localStorage
+           localStorage.setItem("isSubscribed", JSON.stringify(result.data.data));
+       } else {
+           // If it's already a string, directly store it in localStorage
+           localStorage.setItem("isSubscribed", result.data.data);
+       }
+       setIsSubscribed(result.data.data)
+     
+      })
+      .catch((err) => {
+        console.log(err)
+        // setUserExist(err.response.status)
+      })
+    }
+      
+    
+  },[user])
+
+  
     const [data,setData]=useState()
+    const [twoMin,setTwoMin]=useState()
+
+    const updateTwoMin=()=>{
+      const currentTime=new Date()
+      setTwoMin(currentTime)
+    }
+ 
+    useEffect(()=>{
+      const intervalid=setInterval(() => {
+        updateTwoMin()
+      }, 30*1000);
+      return () => clearInterval(intervalid);
+    })
 
     useEffect(()=>{
         fetchData()
-    },[])
+    },[twoMin])
 
     const fetchData=async()=>{
         try {
