@@ -267,7 +267,7 @@ const Navbar = () => {
             </li>
 
             <li>
-            {!user && 
+            {user && 
               (<Link className="block text-[16px] text-[#265786]" to={!isSubscribed ? "/SubscriptionPage" :"/screener"} >
                 SCREENER
               </Link>)

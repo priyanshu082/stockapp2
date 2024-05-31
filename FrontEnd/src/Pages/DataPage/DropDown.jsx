@@ -192,7 +192,7 @@ const DropDown = ({
 
           onChange={(e) => setTimeRange(e.target.value)}
         >
-          {/* <option value="15:15:00-15:30:00">15:15:00-15:30:00</option> */}
+          {/* <option defaultValue>15:15:00-15:30:00</option> */}
           {timeRangesCollection.map((range, index) => (
             <option key={index} value={range}>
               {range}

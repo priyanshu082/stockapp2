@@ -2,10 +2,11 @@ import {React,useState,useEffect,useContext} from 'react'
 import DropDown from "./DropDown";
 import axios from "axios";
 import  LineChartsCallsPuts  from './LineChartsCallsPuts';
+import  LineChartsCallsPuts2  from './LineChartsCallsPuts2';
 import { localapi } from '../../Assets/config';
 import Navbar from '../../Components/Navbar/Navbar';
 import { AuthContext } from "../../Context/AuthContext";
-// import  LineChartsPuts  from './LineChartsPuts';
+// import  LineChartsPuts from './LineChartsPuts';
 // import LineChartPrice from "./LineChartPrice";
 
 
@@ -74,8 +75,10 @@ const StrikeGraph = () => {
             expiryDate,
             strikePrice,
             timeInterval,
+            noOfStrikes
           });
           const data = response.data;
+          console.log(data.data)
           setStrikegraphData(data.data);
           //  console.log(data.data);
         } catch (error) {
@@ -170,7 +173,11 @@ const StrikeGraph = () => {
           {/* its come from Pages/strike graph page/Bargraph */}
           <h2 className=' text-center font-semibold text-3xl mb-2 '>{symbol}</h2>
           <h2 className=' text-center text-2xl mb-2 '>COI Calls And Puts Graph</h2>
+          <div className='flex flex-row justify-between mt-[50px]'>
+
           <LineChartsCallsPuts data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
+          <LineChartsCallsPuts2 data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
+          </div>
         </div>
       </div>    
       </>

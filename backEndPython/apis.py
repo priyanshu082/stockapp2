@@ -300,7 +300,8 @@ def screener():
 
         symbols = [i.removesuffix('\n') for i in data]
 
-        result = {}
+        result = []
+        i=0
         for symbol in symbols:
    
             symbolCollection = db[symbol]
@@ -337,10 +338,16 @@ def screener():
             default_choice = 'Sideways'
             df['Trend'] = np.select(conditions, choices, default=default_choice)
            
-            df = df[['Time', 'Trend']]
-            df.sort_values(by=['Time'], ascending=[False])
+            df = df[['Time', 'underlyingValue', 'R_S_COI', 'Trend']]
+            df=df.sort_values(by=['Time'], ascending=False)
             df.reset_index(drop=True, inplace=True)
-            result[symbol] = df.iloc[0, 1]
+            result.append({})
+            result[i]['symbol'] = symbol
+            result[i]['Time'] = df.iloc[0, 0]
+            result[i]['underlyingValue'] = df.iloc[0, 1]
+            result[i]['R_S_COI'] = df.iloc[0, 2]
+            result[i]['Trend'] = df.iloc[0, 3]
+            i+=1
 
         data = result
     except Exception as e :
@@ -374,14 +381,37 @@ def strikeGraph():
         expiryDate = request_data.get('expiryDate')
         strikePrice = int(request_data.get('strikePrice'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10
+        noOfStrikes = int(request_data.get('noOfStrikes'))
+
 
         symbolCollection = db[symbol]
         
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'Time':1,'COI_Calls':1, 'COI_Puts':1,'underlyingValue':1})]
-        df = pd.DataFrame(data)
+        data1 = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'COI_Calls':1, 'COI_Puts':1,'underlyingValue':1})]
+        df1 = pd.DataFrame(data1)
 
-        df.sort_values('Time')
+        data2 = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0, 'Time':1, 'Strike_Price':1, 'COI_Calls':1, 'COI_Puts':1})]
+        allStikePrices = [x['Strike_Price'] for x in data2]
+        allStikePrices = set(allStikePrices)
+        allStikePrices = list(allStikePrices)
+        allStikePrices.sort()
+        if len(allStikePrices) > noOfStrikes*2:
+            elementsToLeave = len(allStikePrices)-noOfStrikes*2
+            requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
+        else:
+            requiredStrikePrices = allStikePrices
+
+        data2 = [x for x in data2 if x['Strike_Price'] in requiredStrikePrices]
+        df2 = pd.DataFrame(data2)
+
+        df2['S_COI_Calls'] = df2.groupby('Time')['COI_Calls'].transform('sum')
+        df2['S_COI_Puts'] = df2.groupby('Time')['COI_Puts'].transform('sum')
+        df2 = df2[['Time', 'S_COI_Calls', 'S_COI_Puts']]
+        df2 = df2.drop_duplicates()
+        df = pd.concat([df1.reset_index(drop=True), df2.reset_index(drop=True)], axis=1)
+
+        df = df.sort_values('Time')
         data = df.to_dict(orient='records')[::timeInterval//2]
+        # print(data)
 
     except:
         data = "Error"
@@ -402,7 +432,7 @@ def buySellData():
         data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'Time':1,'TotalBuyQuantity_Calls':1, 'TotalSellQuantity_Calls':1, 'TotalBuyQuantity_Puts':1, 'TotalSellQuantity_Puts':1})]
         df = pd.DataFrame(data)
 
-        df.sort_values('Time')
+        df = df.sort_values('Time')
         data = df.to_dict(orient='records')[::timeInterval//2]
 
     except:
@@ -414,4 +444,3 @@ def buySellData():
 if __name__ == '__main__':
     app.run(debug=True,host="103.184.192.5")
     # app.run(debug=True)
-

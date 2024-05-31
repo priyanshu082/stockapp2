@@ -357,7 +357,7 @@ const DataTable = ({ allData, noOfStrikes }) => {
 const tables = sortedKeys.map((time, index) => (
   <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
     <h2 className="font-bold">Table for Time: {time}</h2>
-    <table className="w-[100%] ">
+    <table className="w-[100%]">
       <thead className="border-[0.5px] border-gray-300 border-[0.5px]">
         <tr className="">
           {headingCollection.map((heading, index) => (
@@ -401,7 +401,7 @@ const tables = sortedKeys.map((time, index) => (
                 {item.COI_Calls}
               </td>
               <td className="blank-cell text-sm text-center"></td>
-              <td className="filled-cell  text-sm border-gray-300 border-[0.5px] text-center ">
+              <td className="filled-cell text-sm border-gray-300 border-[0.5px] text-center ">
                 {item.Strike_Price}
               </td>
               <td className="blank-cell text-sm text-center"></td>
@@ -484,7 +484,6 @@ const tables = sortedKeys.map((time, index) => (
               >
                 {item.Long_Short_Puts}
               </td>
-              
             </tr>
             <tr className="blank-row">
               <td colSpan={headingCollection.length + 1}></td>

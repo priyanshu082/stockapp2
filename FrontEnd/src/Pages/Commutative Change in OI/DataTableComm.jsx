@@ -21,12 +21,13 @@ const DataTableComm = ({commutativeData}) => {
    
       // Render tables
       const tables = Array.isArray(commutativeData) && commutativeData?.length > 0 && (
-        <div className="overflow-x-auto w-full h-auto ">
-          <table className="w-[100%]">
-            <thead>
+        <div className="overflow-x-auto items-center flex justify-center">
+          <table className="w-[100%] border-collapse border border-gray-400">
+            <thead className="bg-gray-200">
               <tr>
                 {headingCollection.map((heading, index) => (
-                  <th className="bg-gray-300 border-[.5px] border-black text-sm font-semibold max-content"
+                  <th
+                    className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold"
                     key={index}
                   >
                     {heading}
@@ -36,18 +37,38 @@ const DataTableComm = ({commutativeData}) => {
             </thead>
             <tbody>
               {commutativeData.slice().reverse().map((item, index) => (
-                <tr className="text-black" key={index}>
-                  <td className=" text-sm text-center max-content">{index + 1}</td>
-                  <td className=" text-sm text-center max-content">{item.Time}</td>
-                  <td className=" text-sm text-center max-content">{item.S_COI_Calls}</td>
-                  <td className=" text-sm text-center max-content">{item.S_C_Calls}</td>
-                  <td className=" text-sm text-center max-content">{item.PC_Calls.toFixed(3)}</td>
-                  <td className=" text-sm text-center max-content">{item.S_COI_Puts}</td>
-                  <td className=" text-sm text-center max-content">{item.S_C_Puts}</td>
-                  <td className=" text-sm text-center max-content">{item.PC_Puts.toFixed(3)}</td>
-                  <td className=" text-center text-sm w-[9vw] h-[4vw]">    
-                  <BarGraph item={item}  PC_Calls={item.PC_Calls.toFixed(3)} PC_Puts ={item.PC_Puts.toFixed(3)}/>
-              </td>
+                <tr key={index} className="even:bg-gray-100">
+                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                    {index + 1}
+                  </td>
+                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                    {item.Time}
+                  </td>
+                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                    {item.S_COI_Calls}
+                  </td>
+                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                    {item.S_C_Calls}
+                  </td>
+                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                    {item.PC_Calls.toFixed(3)}
+                  </td>
+                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                    {item.S_COI_Puts}
+                  </td>
+                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                    {item.S_C_Puts}
+                  </td>
+                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                    {item.PC_Puts.toFixed(3)}
+                  </td>
+                  <td className="border border-gray-300 text-center w-[9vw] h-[4vw]">
+                    <BarGraph
+                      item={item}
+                      PC_Calls={item.PC_Calls.toFixed(3)}
+                      PC_Puts={item.PC_Puts.toFixed(3)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
