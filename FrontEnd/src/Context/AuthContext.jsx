@@ -7,6 +7,8 @@ import { localapi } from '../Assets/config';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
+  const [symbol, setSymbol] = useState("NIFTY");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [user,setUser]=useState('')
 
@@ -19,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
   
   return (
-    <AuthContext.Provider value={{ isSubscribed , user , setUser, setIsSubscribed }}>
+    <AuthContext.Provider value={{ isSubscribed , user , setUser, setIsSubscribed ,symbol ,setSymbol}}>
       {children}
     </AuthContext.Provider>
   );

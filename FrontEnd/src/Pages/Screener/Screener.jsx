@@ -4,9 +4,12 @@ import axios from 'axios';
 import { localapi } from '../../Assets/config';
 import Navbar from '../../Components/Navbar/Navbar';
 import { AuthContext } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Screener = () => {
-  const { setIsSubscribed, user, setUser } = useContext(AuthContext);
+  const { isSubscribed , user , setUser, setIsSubscribed ,symbol ,setSymbol } = useContext(AuthContext);
+  const navigate = useNavigate();
+  console.log(symbol)
   // console.log(user)
   useEffect(() => {
     if (user) {
@@ -109,7 +112,12 @@ const Screener = () => {
             <tbody>
               {Array.isArray(data) && data.length > 0 ? (
               sortedData.map((item, index) => (
-                <tr key={index} className="even:bg-gray-100 text-center">
+                <tr 
+                onClick={()=>{
+                  setSymbol(item.symbol)
+                  navigate("/data")
+                }}
+                key={index} className="even:bg-gray-100 text-center cursor-pointer hover:bg-blue-100">
                   <td className="border border-gray-300 px-4 py-4 text-sm">{index + 1}</td>
                   <td className="border border-gray-300 px-4 py-4 text-sm">{item.symbol}</td>
                   <td
