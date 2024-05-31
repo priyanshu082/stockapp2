@@ -4,7 +4,6 @@ import BarGraph from "./BarGraph";
 const DataTableComm = ({commutativeData}) => {
 
   
-
     const headingCollection = [
         "S.No",
         "Time",
@@ -27,7 +26,7 @@ const DataTableComm = ({commutativeData}) => {
               <tr>
                 {headingCollection.map((heading, index) => (
                   <th
-                    className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold"
+                    className="border text-center border-gray-300 px-3 py-2 text-left text-sm font-semibold"
                     key={index}
                   >
                     {heading}
@@ -38,28 +37,28 @@ const DataTableComm = ({commutativeData}) => {
             <tbody>
               {commutativeData.slice().reverse().map((item, index) => (
                 <tr key={index} className="even:bg-gray-100">
-                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                  <td className="text-sm text-center border border-gray-300 px-3 py-2">
                     {index + 1}
                   </td>
-                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                  <td className="text-sm text-center border border-gray-300 px-3 py-2">
                     {item.Time}
                   </td>
-                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                  <td className="text-sm text-center border border-gray-300 px-3 py-2">
                     {item.S_COI_Calls}
                   </td>
-                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                  <td className="text-sm text-center border border-gray-300 px-3 py-2">
                     {item.S_C_Calls}
                   </td>
-                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                  <td className="text-sm text-center border border-gray-300 px-3 py-2">
                     {item.PC_Calls.toFixed(3)}
                   </td>
-                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                  <td className="text-sm text-center border border-gray-300 px-3 py-2">
                     {item.S_COI_Puts}
                   </td>
-                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                  <td className="text-sm text-center border border-gray-300 px-3 py-2">
                     {item.S_C_Puts}
                   </td>
-                  <td className="text-sm text-center border border-gray-300 px-4 py-2">
+                  <td className="text-sm text-center border border-gray-300 px-3 py-2">
                     {item.PC_Puts.toFixed(3)}
                   </td>
                   <td className="border border-gray-300 text-center w-[9vw] h-[4vw]">

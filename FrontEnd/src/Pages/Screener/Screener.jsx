@@ -73,6 +73,18 @@ const Screener = () => {
     'Bullish': { backgroundColor: 'lightgreen' },
   }[value] || { backgroundColor: 'white' });
 
+  const sortedData = data.sort((a, b) => {
+    // Define the order of trends
+    const trendOrder = {
+      'Bullish': 1,
+      'Bearish': 2,
+      'Sideways': 3
+    };
+  
+    // Compare the trend values based on the defined order
+    return trendOrder[a.Trend] - trendOrder[b.Trend];
+  });
+
   return (
     <>
       <Navbar />
@@ -96,25 +108,25 @@ const Screener = () => {
             </thead>
             <tbody>
               {Array.isArray(data) && data.length > 0 ? (
-                data.map((item, index) => (
-                  <tr key={index} className="even:bg-gray-100 text-center">
-                    <td className="border border-gray-300 px-4 py-4 text-sm">{index + 1}</td>
-                    <td className="border border-gray-300 px-4 py-4 text-sm">{item.symbol}</td>
-                    <td
-                      className={`border border-gray-300 px-4 py-4 text-sm text-center ${
-                        item.Trend === 'Bearish'
-                          ? 'bg-red-500'
-                          : item.Trend === 'Bullish'
-                          ? 'bg-green-400'
-                          : ''
-                      }`}
-                    >
-                      {item.Trend}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-4 text-sm">{item.underlyingValue}</td>
-                    <td className="border border-gray-300 px-4 py-4 text-sm">{item.Time}</td>
-                  </tr>
-                ))
+              sortedData.map((item, index) => (
+                <tr key={index} className="even:bg-gray-100 text-center">
+                  <td className="border border-gray-300 px-4 py-4 text-sm">{index + 1}</td>
+                  <td className="border border-gray-300 px-4 py-4 text-sm">{item.symbol}</td>
+                  <td
+                    className={`border border-gray-300 px-4 py-4 text-sm text-center ${
+                      item.Trend === 'Bearish'
+                        ? 'bg-red-500'
+                        : item.Trend === 'Bullish'
+                        ? 'bg-green-400'
+                        : ''
+                    }`}
+                  >
+                    {item.Trend}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-4 text-sm">{item.underlyingValue}</td>
+                  <td className="border border-gray-300 px-4 py-4 text-sm">{item.Time}</td>
+                </tr>
+              ))
               ) : (
                 <tr>
                   <td colSpan="5" className="border border-gray-300 px-4 py-2 text-center">

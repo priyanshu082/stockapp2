@@ -36,7 +36,7 @@ function DataPage() {
   },[user])
 
 
-  const [symbol, setSymbol] = useState("BANKNIFTY");
+  const [symbol, setSymbol] = useState("NIFTY");
   const [expiryDate, setExpiryDate] = useState("");
   const [noOfStrikes, setNoOfStrikes] = useState("12");
   const [timeRange, setTimeRange] = useState("15:15:00-15:30:00");
@@ -82,7 +82,7 @@ function DataPage() {
 
       const data = response.data;
       setAllData(data.data);
-      // console.log(allData)
+      //console.log(allData)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -106,7 +106,7 @@ function DataPage() {
       const data = response.data;
       // setTableData(data.data);
       setPcrData(data.data);
-      // console.log(data.data);
+      console.log(data.data);
       // console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
