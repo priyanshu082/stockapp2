@@ -79,6 +79,7 @@ def call_api(symbol):
         #expected error due to id col in collection
         past_all_df = pd.DataFrame(symbolCollection.find({}))
         past_all_df['Expiry_Date'] = pd.to_datetime(past_all_df['Expiry_Date'], format='%Y-%m-%d')
+        df = df.sort(by=['Time'])
         prev_df = past_all_df.tail(len(result_df))
         prev_df = prev_df.sort_values(by=['Expiry_Date', 'Strike_Price'])
         prev_df.reset_index(drop=True, inplace=True)
@@ -160,8 +161,7 @@ def market_status():
     data=nsefetch('https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY')
     data=data['records']
     timestamp = data['timestamp'][-8:]
-
-    if timestamp[0:6] == '15:30':
+    if timestamp[0:5] == '15:30':
         return False
     else:
         return True

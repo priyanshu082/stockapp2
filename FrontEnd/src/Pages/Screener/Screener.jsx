@@ -67,6 +67,7 @@ const Screener = () => {
     "Stocks",
     "Trend",
     "Underlying Value",
+    "PCR",
     "Time"
   ];
 
@@ -132,13 +133,14 @@ const Screener = () => {
                     {item.Trend}
                   </td>
                   <td className="border border-gray-300 px-4 py-4 text-sm">{item.underlyingValue}</td>
+                  <td className="border border-gray-300 px-4 py-4 text-sm">{item.R_S_COI}</td>
                   <td className="border border-gray-300 px-4 py-4 text-sm">{item.Time}</td>
                 </tr>
               ))
               ) : (
                 <tr>
                   <td colSpan="5" className="border border-gray-300 px-4 py-2 text-center">
-                    No data available
+                    Loading...
                   </td>
                 </tr>
               )}

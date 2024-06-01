@@ -125,7 +125,7 @@ def market_status():
     data=data['records']
     timestamp = data['timestamp'][-8:]
 
-    if timestamp[0:6] == '15:30':
+    if timestamp[0:5] == '15:30':
         return jsonify({"satatus": False})
     else:
         return jsonify({"satatus": True})
@@ -202,6 +202,8 @@ def allData():
         df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
         df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
         df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], np.nan)
+        # Replace np.nan with None
+        df = df.replace({np.nan: None}) 
 
         data = df.to_dict(orient='records')
     except:
@@ -244,6 +246,8 @@ def CommutativeSumData():
         df = df.sort_values('Time')
         subDf = df[['Time', 'S_COI_Calls', 'S_C_Calls', 'PC_Calls', 'S_COI_Puts', 'S_C_Puts', 'PC_Puts']]
         subDf = subDf.drop_duplicates()
+        # Replace np.nan with None
+        subDf = subDf.replace({np.nan: None})
 
         data = subDf.to_dict(orient='records')[::timeInterval//2]
     except:
@@ -280,6 +284,8 @@ def pcrData():
         df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
         df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], np.nan)
         df = df[['Time', 'R_S_COI', 'underlyingValue']]
+        # Replace np.nan with None
+        df = df.replace({np.nan: None})
         data = df.to_dict(orient='records')
     except:
         data = "Error"
@@ -366,6 +372,8 @@ def priceData():
         df = pd.DataFrame(data)
 
         df  = df.drop_duplicates()
+        # Replace np.nan with None
+        df = df.replace({np.nan: None})
 
         data = df.to_dict(orient='records')
     except:
@@ -410,6 +418,8 @@ def strikeGraph():
         df = pd.concat([df1.reset_index(drop=True), df2.reset_index(drop=True)], axis=1)
 
         df = df.sort_values('Time')
+        # Replace np.nan with None
+        df = df.replace({np.nan: None})
         data = df.to_dict(orient='records')[::timeInterval//2]
         # print(data)
 
@@ -433,6 +443,8 @@ def buySellData():
         df = pd.DataFrame(data)
 
         df = df.sort_values('Time')
+        # Replace np.nan with None
+        df = df.replace({np.nan: None})
         data = df.to_dict(orient='records')[::timeInterval//2]
 
     except:
