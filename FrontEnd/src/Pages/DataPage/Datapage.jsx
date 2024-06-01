@@ -63,8 +63,8 @@ const marketOpen = async () => {
     const response = await axios.get(`${localapi}/ismarketopen`);
 
     const data = response.data;
-    console.log(data.satatus);
-    setLive(data.satatus)
+    console.log(data.status);
+    setLive(data.status)
   } catch (error) {
     console.error("Error fetching market holiday", error);
   }

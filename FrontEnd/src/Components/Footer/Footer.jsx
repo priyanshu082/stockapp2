@@ -1,5 +1,6 @@
 import React from 'react'
 import  Footerimage  from "../../Assets/Footerimage/footerimage.png";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -20,10 +21,39 @@ const Footer = () => {
         </ul>
 
         <ul className='flex flex-col gap-3'>
-            <li>About Us</li>
-            <li>Refund & Cancellation</li>
-            <li>T&C</li>
-            <li>PRIVACY</li>
+        <li>
+  <NavLink
+    
+    to="/AboutUs"
+  >
+    About Us
+  </NavLink>
+</li>
+<li>
+  <NavLink
+    
+    to="/RefundandCancel"
+  >
+    Refund & Cancellation
+  </NavLink>
+</li>
+<li>
+  <NavLink
+    
+    to="/termAndCondition"
+  >
+    T&C
+  </NavLink>
+</li>
+<li>
+  <NavLink
+    
+    to="/Privacypolicy"
+  >
+    PRIVACY
+  </NavLink>
+</li>
+
             
         </ul>
         

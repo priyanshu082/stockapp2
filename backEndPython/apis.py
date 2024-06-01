@@ -126,9 +126,9 @@ def market_status():
     timestamp = data['timestamp'][-8:]
 
     if timestamp[0:5] == '15:30':
-        return jsonify({"satatus": False})
+        return jsonify({"status": False})
     else:
-        return jsonify({"satatus": True})
+        return jsonify({"status": True})
 
 
 @app.route('/expirydates', methods=['POST'])
