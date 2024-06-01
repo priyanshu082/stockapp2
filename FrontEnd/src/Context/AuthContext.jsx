@@ -8,7 +8,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-  const [symbol, setSymbol] = useState("NIFTY");
+  const [symbol, setSymbol] = useState("BANKNIFTY");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [user,setUser]=useState('')
 

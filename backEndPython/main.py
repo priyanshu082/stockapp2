@@ -79,7 +79,7 @@ def call_api(symbol):
         #expected error due to id col in collection
         past_all_df = pd.DataFrame(symbolCollection.find({}))
         past_all_df['Expiry_Date'] = pd.to_datetime(past_all_df['Expiry_Date'], format='%Y-%m-%d')
-        df = df.sort(by=['Time'])
+        past_all_df = past_all_df.sort(by=['Time'])
         prev_df = past_all_df.tail(len(result_df))
         prev_df = prev_df.sort_values(by=['Expiry_Date', 'Strike_Price'])
         prev_df.reset_index(drop=True, inplace=True)

@@ -52,6 +52,24 @@ function DataPage() {
     (currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) &&
     (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
 
+
+
+useEffect(()=>{
+  marketOpen()
+},[twoMin])
+
+const marketOpen = async () => {
+  try {
+    const response = await axios.get(`${localapi}/ismarketopen`);
+
+    const data = response.data;
+    console.log(data.satatus);
+    setLive(data.satatus)
+  } catch (error) {
+    console.error("Error fetching market holiday", error);
+  }
+};
+
     const updateTwoMin=()=>{
       const currentTime=new Date()
       setTwoMin(currentTime)

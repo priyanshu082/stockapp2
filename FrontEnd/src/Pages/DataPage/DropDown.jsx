@@ -1,4 +1,6 @@
 import { React, useEffect, useState } from "react";
+import axios from "axios";
+import { localapi } from "../../Assets/config";
 
 const DropDown = ({
   timeRange,
@@ -43,6 +45,7 @@ const DropDown = ({
   ];
 
   const [currentTime, setCurrentTime] = useState(getFormattedTime());
+  
   const [time30MinutesAgo, setTime30MinutesAgo] = useState(
     getFormattedTime(new Date(Date.now() - 30 * 60 * 1000))
   );
@@ -96,16 +99,17 @@ const DropDown = ({
   ];
   
 
-  useEffect(() => {
-    let currentRange = `${time30MinutesAgo}-${currentTime}`;
-    if (timeRange === currentRange && isBetween930And1530) {
-        setLive(true);
-    } else {
-        setLive(false);
-    }
-}, [timeRange, time30MinutesAgo, currentTime,twoMin]);
+//   useEffect(() => {
 
-   
+//     let currentRange = `${time30MinutesAgo}-${currentTime}`;
+//     if (timeRange === currentRange && isBetween930And1530) {
+//         setLive(true);
+//     } else {
+//         setLive(false);
+//     }
+// }, [timeRange, time30MinutesAgo, currentTime,twoMin]);
+
+
   
  
   return (
@@ -201,7 +205,7 @@ const DropDown = ({
         </select>
       </div>)}
 
-      {isBetween930And1530 && (
+      {isBetween930And1530 && live && (
         <div className="flex items-center justify-center">
           <input
             type="checkbox"

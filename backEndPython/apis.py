@@ -201,9 +201,7 @@ def allData():
         df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
         df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
         df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
-        df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], np.nan)
-        # Replace np.nan with None
-        df = df.replace({np.nan: None}) 
+        df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0) 
 
         data = df.to_dict(orient='records')
     except:
@@ -240,14 +238,12 @@ def CommutativeSumData():
         df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
         df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
         df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
-        df['PC_Calls'] = (df['S_C_Calls']/df['S_COI_Calls']).abs()
-        df['PC_Puts'] = (df['S_C_Puts']/df['S_COI_Puts']).abs()
+        df['PC_Calls'] = np.where(df["S_COI_Calls"] != 0, (df['S_C_Calls']/df['S_COI_Calls']).abs(), 0)
+        df['PC_Puts'] = np.where(df["S_COI_Puts"] != 0, (df['S_C_Puts']/df['S_COI_Puts']).abs(), 0)
 
         df = df.sort_values('Time')
         subDf = df[['Time', 'S_COI_Calls', 'S_C_Calls', 'PC_Calls', 'S_COI_Puts', 'S_C_Puts', 'PC_Puts']]
         subDf = subDf.drop_duplicates()
-        # Replace np.nan with None
-        subDf = subDf.replace({np.nan: None})
 
         data = subDf.to_dict(orient='records')[::timeInterval//2]
     except:
@@ -282,10 +278,9 @@ def pcrData():
         df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
         df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
         df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
-        df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], np.nan)
+        df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0)
         df = df[['Time', 'R_S_COI', 'underlyingValue']]
-        # Replace np.nan with None
-        df = df.replace({np.nan: None})
+
         data = df.to_dict(orient='records')
     except:
         data = "Error"
@@ -333,7 +328,7 @@ def screener():
             df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
             df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
             df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
-            df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], np.nan)
+            df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0)
 
             conditions = [
                 (df['R_S_COI'] > 1.2),
@@ -372,8 +367,7 @@ def priceData():
         df = pd.DataFrame(data)
 
         df  = df.drop_duplicates()
-        # Replace np.nan with None
-        df = df.replace({np.nan: None})
+
 
         data = df.to_dict(orient='records')
     except:
@@ -393,12 +387,9 @@ def strikeGraph():
 
 
         symbolCollection = db[symbol]
-        
-        data1 = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'COI_Calls':1, 'COI_Puts':1,'underlyingValue':1})]
-        df1 = pd.DataFrame(data1)
 
-        data2 = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0, 'Time':1, 'Strike_Price':1, 'COI_Calls':1, 'COI_Puts':1})]
-        allStikePrices = [x['Strike_Price'] for x in data2]
+        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0, 'Time':1, 'Strike_Price':1, 'COI_Calls':1, 'COI_Puts':1,'underlyingValue':1})]
+        allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
         allStikePrices.sort()
@@ -408,18 +399,15 @@ def strikeGraph():
         else:
             requiredStrikePrices = allStikePrices
 
-        data2 = [x for x in data2 if x['Strike_Price'] in requiredStrikePrices]
-        df2 = pd.DataFrame(data2)
+        data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
+        df = pd.DataFrame(data)
 
-        df2['S_COI_Calls'] = df2.groupby('Time')['COI_Calls'].transform('sum')
-        df2['S_COI_Puts'] = df2.groupby('Time')['COI_Puts'].transform('sum')
-        df2 = df2[['Time', 'S_COI_Calls', 'S_COI_Puts']]
-        df2 = df2.drop_duplicates()
-        df = pd.concat([df1.reset_index(drop=True), df2.reset_index(drop=True)], axis=1)
-
+        df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
+        df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
+        df = df[df['Strike_Price']==strikePrice]
+        df = df[['Time', 'S_COI_Calls', 'S_COI_Puts', 'COI_Calls', 'COI_Puts','underlyingValue']]
         df = df.sort_values('Time')
-        # Replace np.nan with None
-        df = df.replace({np.nan: None})
+
         data = df.to_dict(orient='records')[::timeInterval//2]
         # print(data)
 
@@ -443,8 +431,7 @@ def buySellData():
         df = pd.DataFrame(data)
 
         df = df.sort_values('Time')
-        # Replace np.nan with None
-        df = df.replace({np.nan: None})
+
         data = df.to_dict(orient='records')[::timeInterval//2]
 
     except:
