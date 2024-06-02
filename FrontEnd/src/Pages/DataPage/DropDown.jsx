@@ -31,7 +31,6 @@ const DropDown = ({
   const fetchCollection=async()=>{
     try {
       const res= await axios.get(`${localapi}/stocks`)
-      console.log(res.data.data)
       setstocksCollection(res.data.data)
     } catch (error) {
       console.log(error)

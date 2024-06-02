@@ -9,6 +9,7 @@ import Footer from "../Components/Footer/Footer";
 import { AuthContext } from "../Context/AuthContext";
 import { localapi } from "../Assets/config";
 import axios from "axios";
+import InfiniteMoving from "../Components/InfiniteMoving";
 
 // import { getDataFromToken } from "../Assets/CookiesDecoder";
 
@@ -52,6 +53,7 @@ function Home() {
 
   <div className="w-full h-auto bg-white">
       <Navbar/>
+      <InfiniteMoving/>
      <HeroSection/>
      <SectionYoutube/>
      <PlatformSection/>

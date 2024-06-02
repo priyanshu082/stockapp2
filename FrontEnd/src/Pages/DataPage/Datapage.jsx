@@ -6,6 +6,7 @@ import DataTable from "./DataTable";
 import { localapi } from "../../Assets/config";
 import Navbar from "../../Components/Navbar/Navbar";
 import { AuthContext } from "../../Context/AuthContext";
+import InfiniteMoving from "../../Components/InfiniteMoving";
 
 
 function DataPage() {
@@ -179,8 +180,8 @@ const marketOpen = async () => {
   // console.log(allData);
   return (
     <div>
-
   <Navbar/>
+ 
     <div className="sm:p-[50px] p-[10px] ">
       <h1 className="w-full   font-bold text-md sm:text-4xl  my-1 mb-4">
         PCR - RideOnWhale.Com
