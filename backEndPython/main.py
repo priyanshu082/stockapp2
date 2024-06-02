@@ -33,12 +33,12 @@ def call_api(symbol):
     symbolCollection = db[symbol]
 
     if not initialUnderlyingValueCollection.find_one({'symbol': symbol}):
-        initialUnderlyingValueCollection.insert_one({'symbol': symbol, 'underlyingValue': underlyingValue, 'change': 0})
+        initialUnderlyingValueCollection.insert_one({'symbol': symbol, 'underlyingValue': underlyingValue, 'change': 0, 'pchange': 0})
         initialUnderlyingValue = underlyingValue
     else:
         if timestamp < '09:17:00':
             previousClosingValue=symbolCollection.find_one({'Time': '15:30:00'})['underlyingValue']    
-            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue, 'change':underlyingValue-previousClosingValue}})
+            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue, 'change':underlyingValue-previousClosingValue, 'pchange': ((underlyingValue-previousClosingValue)/previousClosingValue).round(2)}})
         initialUnderlyingValue=initialUnderlyingValueCollection.find_one({'symbol': symbol})['underlyingValue']
 
 

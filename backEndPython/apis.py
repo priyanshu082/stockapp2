@@ -224,6 +224,35 @@ def allData():
     response = {"data": data}
     return jsonify(response)
 
+@app.route('/download', methods=['POST'])
+def downloadData():
+    try:
+        request_data = request.get_json()
+        symbol = request_data.get('symbol')
+        expiryDate = request_data.get('expiryDate')
+        noOfStrikes = int(request_data.get('noOfStrikes'))
+
+        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0})]
+        allStikePrices = [x['Strike_Price'] for x in data]
+        allStikePrices = set(allStikePrices)
+        allStikePrices = list(allStikePrices)
+        allStikePrices.sort()
+        if len(allStikePrices) > noOfStrikes*2:
+            elementsToLeave = len(allStikePrices)-noOfStrikes*2
+            requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
+        else:
+            requiredStrikePrices = allStikePrices
+
+        data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
+        df = pd.DataFrame(data)
+
+        df['S_C_Calls'] = df.groupby('Time')['C_Calls'].transform('sum')
+        df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
+        df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
+        df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
+        df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0) 
+
+
 @app.route('/commutativesum', methods=['POST'])
 def CommutativeSumData():
     try:
