@@ -11,7 +11,7 @@ import { AuthContext } from "../../Context/AuthContext";
 function DataPage() {
 
   const {isSubscribed , user , setUser, setIsSubscribed ,symbol ,setSymbol} = useContext(AuthContext);
-   console.log(symbol)
+  //  console.log(symbol)
   useEffect(()=>{
     if(user){
       axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {

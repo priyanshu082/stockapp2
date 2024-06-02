@@ -130,6 +130,14 @@ def market_status():
     else:
         return jsonify({"status": True})
 
+@app.route('/stocks', methods=['GET'])
+def getStocks():
+
+    with open("/root/stockapp2/backEndPython/symbols.txt") as f:
+        data = f.readlines()
+    symbols = [i.strip('\n') for i in data][4:]
+    response = {'data': symbols}
+    return jsonify(response)
 
 @app.route('/expirydates', methods=['POST'])
 def expiryDates():
@@ -167,6 +175,13 @@ def strikePrices():
         data = requiredStrikePrices
     except:
         data = "Error"
+    response = {"data": data}
+    return jsonify(response)
+
+@app.route('/banner', methods=['GET'])
+def getBanner():
+    collection = db["initialUnderlyingValues"]
+    data = list(collection.find({}, {'_id':0}))
     response = {"data": data}
     return jsonify(response)
 
@@ -328,7 +343,7 @@ def screener():
             df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
             df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
             df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
-            df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0)
+            df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0).round(2)
 
             conditions = [
                 (df['R_S_COI'] > 1.2),

@@ -30,13 +30,15 @@ def call_api(symbol):
     timestamp = data['timestamp'][-8:]
 
     initialUnderlyingValueCollection = db['initialUnderlyingValues']
+    symbolCollection = db[symbol]
 
     if not initialUnderlyingValueCollection.find_one({'symbol': symbol}):
-        initialUnderlyingValueCollection.insert_one({'symbol': symbol, 'underlyingValue': underlyingValue})
+        initialUnderlyingValueCollection.insert_one({'symbol': symbol, 'underlyingValue': underlyingValue, 'change': 0})
         initialUnderlyingValue = underlyingValue
     else:
         if timestamp < '09:17:00':
-            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue}})
+            previousClosingValue=symbolCollection.find_one({'Time': '15:30:00'})['underlyingValue']    
+            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue, 'change':underlyingValue-previousClosingValue}})
         initialUnderlyingValue=initialUnderlyingValueCollection.find_one({'symbol': symbol})['underlyingValue']
 
 
@@ -73,7 +75,6 @@ def call_api(symbol):
     result_df = pd.concat([above_df, below_df], ignore_index=True)
     result_df = result_df.sort_values(by=['Expiry_Date', 'Strike_Price'])
 
-    symbolCollection = db[symbol]
 
     if symbolCollection.find_one({}):
         #expected error due to id col in collection

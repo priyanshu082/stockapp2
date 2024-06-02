@@ -20,29 +20,48 @@ const DropDown = ({
   
   const noOfStrikesOptions = [12, 14, 16, 18, 20];
 
+  const [stocksCollection, setstocksCollection] = useState([])
+  
   const symbolsCollection = ["NIFTY", "FINNIFTY", "BANKNIFTY", "MIDCPNIFTY"];
-  const stocksCollection = [
-    "KOTAKBANK",
-    "HDFCBANK",
-    "SBIN",
-    "BANDHANBNK",
-    "AXISBANK",
-    "IDFCFIRSTB",
-    "AUBANK",
-    "PNB",
-    "FEDERALBNK",
-    "INDUSINDBK",
-    "BANKBARODA",
-    "ICICIBANK",
-    "RELIANCE",
-    "INFY",
-    "TCS",
-    "ITC",
-    "LT",
-    "HINDUNILVR",
-    "BAJFINANCE",
-    "BHARTIARTL",
-  ];
+
+  useEffect(()=>{
+    fetchCollection();
+  },[])
+
+  const fetchCollection=async()=>{
+    try {
+      const res= await axios.get(`${localapi}/stocks`)
+      console.log(res.data.data)
+      setstocksCollection(res.data.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+ 
+
+  // const stocksCollection = [
+  //   "KOTAKBANK",
+  //   "HDFCBANK",
+  //   "SBIN",
+  //   "BANDHANBNK",
+  //   "AXISBANK",
+  //   "IDFCFIRSTB",
+  //   "AUBANK",
+  //   "PNB",
+  //   "FEDERALBNK",
+  //   "INDUSINDBK",
+  //   "BANKBARODA",
+  //   "ICICIBANK",
+  //   "RELIANCE",
+  //   "INFY",
+  //   "TCS",
+  //   "ITC",
+  //   "LT",
+  //   "HINDUNILVR",
+  //   "BAJFINANCE",
+  //   "BHARTIARTL",
+  // ];
 
   const [currentTime, setCurrentTime] = useState(getFormattedTime());
   
