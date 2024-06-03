@@ -51,9 +51,9 @@ function Home() {
     
   <> 
 
-  <div className="w-full h-auto bg-white flex flex-col">
+  <div className="w-full h-auto bg-white flex flex-col overflow-hidden relative">
       <Navbar/>
-      <div>
+      <div className="">
       <InfiniteMoving/>
       </div>
       <div className="md:mt-[0px] mt-[80px]">

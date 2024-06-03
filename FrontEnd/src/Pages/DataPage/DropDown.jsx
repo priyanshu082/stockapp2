@@ -19,10 +19,10 @@ const DropDown = ({
 }) => {
   
   const noOfStrikesOptions = [12, 14, 16, 18, 20];
-
-  const [stocksCollection, setstocksCollection] = useState([])
+  
   
   const symbolsCollection = ["NIFTY", "FINNIFTY", "BANKNIFTY", "MIDCPNIFTY"];
+  const [stocksCollection, setstocksCollection] = useState([])
 
   useEffect(()=>{
     fetchCollection();

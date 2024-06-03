@@ -13,11 +13,11 @@ const Footer = () => {
 
       <div className=" text-sm bottom w-[100%]  h-[70%] sm:h-[50%] bg-[#403B3B] flex  justify-evenly text-white items-start pt-10 sm:pt-20 px-8 sm:max-md:px-4 sm:px-0 gap-8 sm:gap-0">
       <div className='flex flex-col justify-around sm:flex-row gap-10 sm:gap-20 sm:max-md:gap-10 text-sm'>
-        <ul className='w-[150px] flex flex-col gap-4'>
-            <li>Definedge
-3rd floor, Ambashish, Plot no. 3-4, Lane number 9, Pakharbag, NDA Pashan Road, Bavdhan, Pune - 411021.</li>
-            <li>020-61923200</li>
-            <li>info@definedge.co</li>
+        <ul className='w-[250px] flex flex-col gap-4'>
+            <li>WARD NO.09, BAGHAUCH ROAD, NEAR DAYA NAND JENERAL SHOP, KHAJURI, Gopalpur, Gopalganj, Bihar
+841505.</li>
+            <li>+91 1234567890</li>
+            <li>rideonwhale@gmail.com</li>
         </ul>
 
         <ul className='flex flex-col gap-3'>
@@ -59,22 +59,7 @@ const Footer = () => {
         
         </div>
         <div className='flex flex-col sm:flex-row gap-10 sm:gap-20'>
-        {/* <ul className='flex flex-col gap-3'>
-            <li>Quick Links</li>
-            <li>Blog</li>
-            <li>Conference</li>
-            <li>Careers</li>
-            <li>Events</li>
-            <li>Past Events</li>
-        </ul> */}
-   
-        {/* <ul className='flex flex-col gap-3'>
-            <li>Policies</li>
-            <li>Privacy</li>
-            <li>Policy</li>
-            <li>Disclaimer</li>
-            <li>Terms & Condition</li>
-        </ul> */}
+       
         <ul className='flex flex-col gap-3'>
             <li>Get in Touch</li>
             <li>Contact Us</li>

@@ -183,6 +183,15 @@ const Navbar = () => {
               </Link>
             )}
 
+{!isSubscribed && ( <Link
+                to={user ? "/SubscriptionPage" :"/login"}
+                className="button z-20 py-[5px] flex items-center text-[14px] rounded-xl px-[15px] text-white"
+                data-aos="fade-down"
+                data-aos-delay="1400"
+              >
+                Subscribe
+           </Link>) }
+
             {toggle ? (
               <AiOutlineClose
                 onClick={() => setToggle(!toggle)}
@@ -198,14 +207,7 @@ const Navbar = () => {
 
           <div>
 
-         {!isSubscribed && ( <Link
-                to={user ? "/SubscriptionPage" :"/login"}
-                className="button z-20 py-[5px] flex items-center text-[14px] rounded-xl px-[15px] text-white"
-                data-aos="fade-down"
-                data-aos-delay="1400"
-              >
-                Subscribe
-           </Link>) }
+         
 
           </div>
 

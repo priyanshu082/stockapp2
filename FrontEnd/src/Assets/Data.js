@@ -8,7 +8,7 @@ export const PagesDetail=[
     {
         id:1,
         heading:"PCR",
-        detail:"Also see at same time Short Covering, Short Buildup, Long Buildup, Long Unwinding and also see support and residence",
+        detail:"Decode the market participants by Option chain in real-time to see where (Institutional investors, Foreign investors, Big players, Big fish) were they putting their money, If you know their move, if you know where their money is going, you can easily drive with them. See it in every 2,4,6,8,10 minutes what they are doing.Also see at same time Short Covering, Short Buildup, Long Buildup, Long Unwinding and also see support and residence",
         img:pcr
 
     },

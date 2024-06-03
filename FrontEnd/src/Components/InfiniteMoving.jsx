@@ -39,6 +39,7 @@ const InfiniteMoving = () => {
             console.log(error)
         }
     }
+    
 
     const xTranslation=useMotionValue(0)
 
@@ -58,8 +59,11 @@ const InfiniteMoving = () => {
 
 
   return (
-    <div className=''>
- <motion.div ref={ref} className='absolute bg-purple-950 left-0 flex flex-row overflow-scroll gap-2 scrollbar-hide mt-[0px]' style={{x:xTranslation}}>
+    <div className=' overflow-hidden '>
+ <motion.div 
+ ref={ref} 
+ className='absolute bg-purple-950 left-0 flex flex-row gap-2 scrollbar-hide mt-[0px]' style={{x:xTranslation}}
+ >
         {[...data,...data].map((item,key)=>(
             <div key={key} className=''>
                     <Card item={item}/>

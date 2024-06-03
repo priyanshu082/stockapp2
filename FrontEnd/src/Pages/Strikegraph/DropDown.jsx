@@ -1,4 +1,6 @@
 import { React, useEffect, useState } from "react";
+import axios from "axios";
+import { localapi } from "../../Assets/config";
 
 const DropDown = ({
   timeInterval,
@@ -17,28 +19,21 @@ const DropDown = ({
   const noOfStrikesOptions = [12, 14, 16, 18, 20];
 
   const symbolsCollection = ["NIFTY", "FINNIFTY", "BANKNIFTY", "MIDCPNIFTY"];
-  const stocksCollection = [
-    "KOTAKBANK",
-    "HDFCBANK",
-    "SBIN",
-    "BANDHANBNK",
-    "AXISBANK",
-    "IDFCFIRSTB",
-    "AUBANK",
-    "PNB",
-    "FEDERALBNK",
-    "INDUSINDBK",
-    "BANKBARODA",
-    "ICICIBANK",
-    "RELIANCE",
-    "INFY",
-    "TCS",
-    "ITC",
-    "LT",
-    "HINDUNILVR",
-    "BAJFINANCE",
-    "BHARTIARTL",
-  ];
+  const [stocksCollection, setstocksCollection] = useState([])
+
+  useEffect(()=>{
+    fetchCollection();
+  },[])
+
+  const fetchCollection=async()=>{
+    try {
+      const res= await axios.get(`${localapi}/stocks`)
+      setstocksCollection(res.data.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+ 
 //   const [currentTime, setCurrentTime] = useState(getFormattedTime());
 //   const [time30MinutesAgo, setTime30MinutesAgo] = useState(
 //     getFormattedTime(new Date(Date.now() - 30 * 60 * 1000))
