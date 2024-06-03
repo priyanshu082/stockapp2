@@ -161,7 +161,6 @@ const DropDown = ({
           onChange={(e) => setStrikePrice(e.target.value)}
         >
           <option value="">Choose an Option</option>
-          {/* <option value='2024-02-29'>2024-02-29</option>  */}
           {Array.isArray(strikePriceData) && strikePriceData.map((strikePriceItem, index) => (
             <option key={index} value={strikePriceItem}>
               {strikePriceItem}
