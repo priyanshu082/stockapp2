@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 from pymongo import MongoClient
 import requests
@@ -198,7 +198,7 @@ def allData():
         startTime, endTime = timeRange.split('-')
         symbolCollection = db[symbol]
 
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Time': {"$gte": startTime, '$lte': endTime }}, {'_id':0})]
+        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Time': {"$gte": startTime, '$lte': endTime }}, {'_id':0, 'OpenInterest_Putss':0, 'OpenInterest_Puts':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -232,6 +232,8 @@ def downloadData():
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
 
+        symbolCollection = db[symbol]
+
         data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
@@ -245,12 +247,63 @@ def downloadData():
 
         data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
         df = pd.DataFrame(data)
+        splitted_dfs = []
+        for i in df["Time"].unique().tolist():
 
-        df['S_C_Calls'] = df.groupby('Time')['C_Calls'].transform('sum')
-        df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
-        df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
-        df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
-        df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0) 
+            temp_df = df[df["Time"]==i].reset_index(drop=True)
+
+            temp_df['S_C_Calls'] = temp_df['C_Calls'].sum()
+            temp_df['S_C_Puts'] = temp_df['C_Puts'].sum()
+            temp_df['S_COI_Calls'] = temp_df['COI_Calls'].sum()
+            temp_df['S_COI_Puts'] = temp_df['COI_Puts'].sum()
+            temp_df['R_S_COI'] = np.where(temp_df["S_COI_Calls"] != 0, temp_df['S_COI_Puts'] / temp_df["S_COI_Calls"], np.nan)
+
+
+            index_of_current_strikePrice = (temp_df['Strike_Price'] - temp_df['underlyingValue']).abs().idxmin()
+
+            temp_df.loc[temp_df.index != index_of_current_strikePrice,['S_C_Calls', 'S_C_Puts', 'S_COI_Calls', 'S_COI_Puts', 'R_S_COI'] ] = np.nan
+
+            temp_df = temp_df.replace({np.nan: ''})
+
+            temp_df = temp_df.style.background_gradient(cmap='Blues', subset = ['COI_Calls', 'COI_Puts'])
+            temp_df = temp_df.map(lambda s: 'background-color: yellow; color: black;', subset = pd.IndexSlice[index_of_current_strikePrice, :])
+            temp_df = temp_df.map(lambda s: 'background-color: Tomato;', subset = pd.IndexSlice[0:index_of_current_strikePrice-1, ['C_Amt_Calls_Cr']])
+            temp_df = temp_df.map(lambda s: 'background-color: MediumSeaGreen;', subset = pd.IndexSlice[index_of_current_strikePrice+1:, ['C_Amt_Puts_Cr']])
+
+            def getColor(s):
+
+                if s == 'Short Buildup ↓':
+                    color = 'Tomato'
+                elif s == 'Long Unwinding ↑':
+                    color = 'orange'
+                elif s == 'Short Covering ↑':
+                    color = 'lightblue'
+                elif s == 'Long Buildup ↓':
+                    color = 'MediumSeaGreen'
+                else:
+                    color = 'None'
+
+                return  f'background-color: {color};'
+
+            temp_df.map(getColor, subset=['Long_Short_Calls', 'Long_Short_Puts'])
+
+            temp_df.format(precision = 2)
+
+            temp_df.set_properties(**{"border": "1px solid black"})
+
+            splitted_dfs.append(temp_df) 
+
+
+        result_df = splitted_dfs[0]
+        for i in splitted_dfs[1:]:
+            result_df = result_df.concat(i)
+        html = result_df.to_html() # convert the DataFrame to HTML
+        data = html.encode("utf-8")# encode the HTML string to bytes
+    except Exception as e:
+        data = (f"<p>Error: {e}</p>").encode("utf-8")
+    response = Response(data, content_type='text/html')
+    response.headers['Content-Disposition'] = 'attachment; filename=data.html'
+    return response
 
 
 @app.route('/commutativesum', methods=['POST'])
@@ -348,7 +401,6 @@ def screener():
         result = []
         i=0
         for symbol in symbols:
-   
             symbolCollection = db[symbol]
             
             expiryDate = symbolCollection.distinct('Expiry_Date')
@@ -367,7 +419,6 @@ def screener():
 
             data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
             df = pd.DataFrame(data)
-
             df['S_C_Calls'] = df.groupby('Time')['C_Calls'].transform('sum')
             df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
             df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
@@ -395,6 +446,7 @@ def screener():
             i+=1
 
         data = result
+        print(data)
     except Exception as e :
         data = f"Error {str(e)}"
     response = {"data": data}
@@ -453,7 +505,7 @@ def strikeGraph():
         df = df.sort_values('Time')
 
         data = df.to_dict(orient='records')[::timeInterval//2]
-        # print(data)
+        # dd(data)
 
     except:
         data = "Error"

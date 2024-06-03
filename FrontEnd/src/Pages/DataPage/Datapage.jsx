@@ -37,6 +37,45 @@ function DataPage() {
   },[user])
 
 
+
+  const [isDownloading, setIsDownloading] = useState(false);
+  
+    const downloadData = async () => {
+      try {
+        setIsDownloading(true)
+        const res = await axios.post(`${localapi}/download`, {
+          symbol,
+          expiryDate,
+          noOfStrikes,
+        });
+        const htmlData = res.data;
+
+        // Create a Blob from the HTML data
+        const blob = new Blob([htmlData], { type: 'text/html;charset=utf-8' });
+  
+        // Create a URL for the Blob
+        const url = URL.createObjectURL(blob);
+  
+        // Create a temporary anchor element
+        const tempLink = document.createElement('a');
+        tempLink.href = url;
+        tempLink.download = 'data.html';
+        tempLink.click();
+  
+        // Clean up the temporary URL object
+        URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log('Error downloading', error);
+    } finally {
+      setIsDownloading(false);
+    }
+    };
+  
+    const handleDownloadClick = () => {
+      downloadData();
+    };
+  
+
   
   const [expiryDate, setExpiryDate] = useState("");
   const [noOfStrikes, setNoOfStrikes] = useState("12");
@@ -205,7 +244,8 @@ const marketOpen = async () => {
           twoMin={twoMin}
         />
       </div>
-
+     
+     
       <div className=" w-full h-auto flex flex-col justify-center mt-[20px]">
         <h1 className=" self-center text-xl font-bold mb-[10px]">
           Table Of Data
@@ -237,9 +277,17 @@ const marketOpen = async () => {
           <LineChart data={pcrData} />
         </div>
 
-        <div className="">
-          <DataTable allData={allData} noOfStrikes={noOfStrikes} />
-        </div>
+<div className="flex flex-col">
+<div className="my-[20px] flex justify-center ">
+      <button 
+      onClick={handleDownloadClick}
+      className="button cursor-pointer w-fit text-[18px] z-20 py-[5px] flex items-center text-[12px] rounded-xl px-[15px] font-semibold text-white">{isDownloading ? 'Downloading...' : 'Download Data'}</button>
+      </div>
+<div className="">
+  <DataTable allData={allData} noOfStrikes={noOfStrikes} />
+</div>
+</div>
+      
 
       </div>
     </div>

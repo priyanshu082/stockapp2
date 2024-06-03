@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Screener = () => {
   const { isSubscribed , user , setUser, setIsSubscribed ,symbol ,setSymbol } = useContext(AuthContext);
   const navigate = useNavigate();
-  console.log(symbol)
+
   // console.log(user)
   useEffect(() => {
     if (user) {
@@ -54,8 +54,9 @@ const Screener = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`${localapi}/screener`);
-      const data = response.data.data;
+      const data = await response.data.data;
       console.log(response.data.data);
+     
       setData(data);
     } catch (error) {
       console.log("Data not fetched", error);
@@ -77,17 +78,7 @@ const Screener = () => {
     'Bullish': { backgroundColor: 'lightgreen' },
   }[value] || { backgroundColor: 'white' });
 
-  const sortedData = data.sort((a, b) => {
-    // Define the order of trends
-    const trendOrder = {
-      'Bullish': 1,
-      'Bearish': 2,
-      'Sideways': 3
-    };
-  
-    // Compare the trend values based on the defined order
-    return trendOrder[a.Trend] - trendOrder[b.Trend];
-  });
+ 
 
   return (
     <>
@@ -112,7 +103,7 @@ const Screener = () => {
             </thead>
             <tbody>
               {Array.isArray(data) && data.length > 0 ? (
-              sortedData.map((item, index) => (
+              data.map((item, index) => (
                 <tr 
                 onClick={()=>{
                   setSymbol(item.symbol)

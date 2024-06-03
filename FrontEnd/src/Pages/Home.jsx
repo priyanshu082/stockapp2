@@ -51,10 +51,14 @@ function Home() {
     
   <> 
 
-  <div className="w-full h-auto bg-white">
+  <div className="w-full h-auto bg-white flex flex-col">
       <Navbar/>
+      <div>
       <InfiniteMoving/>
+      </div>
+      <div className="md:mt-[0px] mt-[80px]">
      <HeroSection/>
+      </div>
      <SectionYoutube/>
      <PlatformSection/>
      <KnowledgeSection/>

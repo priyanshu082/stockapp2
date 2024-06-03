@@ -60,7 +60,7 @@ def call_api(symbol):
             'TotalBuyQuantity_Puts': 0 if i.get('PE', 0)==0 else i['PE']['totalBuyQuantity'],
             'TotalSellQuantity_Puts': 0 if i.get('PE', 0)==0 else i['PE']['totalSellQuantity'],
             'OpenInterest_Calls': 0 if i.get('CE', 0)==0 else i['CE']['openInterest'],
-            'OpenInterest_Putss': 0 if i.get('PE', 0)==0 else i['PE']['openInterest'],
+            'OpenInterest_Puts': 0 if i.get('PE', 0)==0 else i['PE']['openInterest'],
             'Expiry_Date': i['expiryDate']
         }
         extracted_data.append(record)
@@ -80,7 +80,7 @@ def call_api(symbol):
         #expected error due to id col in collection
         past_all_df = pd.DataFrame(symbolCollection.find({}))
         past_all_df['Expiry_Date'] = pd.to_datetime(past_all_df['Expiry_Date'], format='%Y-%m-%d')
-        past_all_df = past_all_df.sort(by=['Time'])
+        # past_all_df = past_all_df.sort_values(by=['Time'])
         prev_df = past_all_df.tail(len(result_df))
         prev_df = prev_df.sort_values(by=['Expiry_Date', 'Strike_Price'])
         prev_df.reset_index(drop=True, inplace=True)
