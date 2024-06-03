@@ -59,7 +59,7 @@ const InfiniteMoving = () => {
 
   return (
     <div className=''>
- <motion.div ref={ref} className='absolute bg-black left-0 flex flex-row overflow-scroll gap-2 scrollbar-hide mt-[0px]' style={{x:xTranslation}}>
+ <motion.div ref={ref} className='absolute bg-purple-950 left-0 flex flex-row overflow-scroll gap-2 scrollbar-hide mt-[0px]' style={{x:xTranslation}}>
         {[...data,...data].map((item,key)=>(
             <div key={key} className=''>
                     <Card item={item}/>

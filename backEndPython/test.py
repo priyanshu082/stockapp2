@@ -7,6 +7,8 @@ database_name = 'optionChainData'
 symbol = 'BANDHANBNK'
 csv_file_name = 'output.csv'
 
+noOfStrikes=12
+
 # Connect to MongoDB
 client = pymongo.MongoClient(mongo_uri)
 
@@ -18,19 +20,24 @@ symbolCollection = db[symbol]
 expiryDate = symbolCollection.distinct('Expiry_Date')
 expiryDate.sort()
 expiryDate=expiryDate[0]
+print(expiryDate)
 data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate} ,{'_id':0})]
 allStikePrices = [x['Strike_Price'] for x in data]
 allStikePrices = set(allStikePrices)
 allStikePrices = list(allStikePrices)
 allStikePrices.sort()
-if len(allStikePrices) > noOfStrikes*2:
+print(allStikePrices)
+if len(allStikePrices) - noOfStrikes*2 > 1:
     elementsToLeave = len(allStikePrices)-noOfStrikes*2
+    print(elementsToLeave)
     requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
 else:
     requiredStrikePrices = allStikePrices
 
+print(requiredStrikePrices)
+
 data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
-df = pd.DataFrame(data)
+
 # If the collection is empty, handle it
 if not data:
     print("No data found in the collection.")

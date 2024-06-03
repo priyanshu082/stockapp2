@@ -166,7 +166,7 @@ def strikePrices():
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
         allStikePrices.sort()
-        if len(allStikePrices) > noOfStrikes*2:
+        if len(allStikePrices) - noOfStrikes*2 > 1:
             elementsToLeave = len(allStikePrices)-noOfStrikes*2
             requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
         else:
@@ -203,7 +203,7 @@ def allData():
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
         allStikePrices.sort()
-        if len(allStikePrices) > noOfStrikes*2:
+        if len(allStikePrices) - noOfStrikes*2 > 1:
             elementsToLeave = len(allStikePrices)-noOfStrikes*2
             requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
         else:
@@ -239,7 +239,7 @@ def downloadData():
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
         allStikePrices.sort()
-        if len(allStikePrices) > noOfStrikes*2:
+        if len(allStikePrices) - noOfStrikes*2 > 1:
             elementsToLeave = len(allStikePrices)-noOfStrikes*2
             requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
         else:
@@ -322,7 +322,7 @@ def CommutativeSumData():
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
         allStikePrices.sort()
-        if len(allStikePrices) > noOfStrikes*2:
+        if len(allStikePrices) - noOfStrikes*2 > 1:
             elementsToLeave = len(allStikePrices)-noOfStrikes*2
             requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
         else:
@@ -362,7 +362,7 @@ def pcrData():
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
         allStikePrices.sort()
-        if len(allStikePrices) > noOfStrikes*2:
+        if len(allStikePrices) - noOfStrikes*2 > 1:
             elementsToLeave = len(allStikePrices)-noOfStrikes*2
             requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
         else:
@@ -411,7 +411,7 @@ def screener():
             allStikePrices = set(allStikePrices)
             allStikePrices = list(allStikePrices)
             allStikePrices.sort()
-            if len(allStikePrices) > noOfStrikes*2:
+            if len(allStikePrices) - noOfStrikes*2 > 1:
                 elementsToLeave = len(allStikePrices)-noOfStrikes*2
                 requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
             else:
@@ -446,7 +446,6 @@ def screener():
             i+=1
 
         data = result
-        print(data)
     except Exception as e :
         data = f"Error {str(e)}"
     response = {"data": data}
@@ -489,7 +488,7 @@ def strikeGraph():
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
         allStikePrices.sort()
-        if len(allStikePrices) > noOfStrikes*2:
+        if len(allStikePrices) - noOfStrikes*2 > 1:
             elementsToLeave = len(allStikePrices)-noOfStrikes*2
             requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
         else:

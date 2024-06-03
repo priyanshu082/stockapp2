@@ -56,8 +56,18 @@ const Screener = () => {
       const response = await axios.get(`${localapi}/screener`);
       const data = await response.data.data;
       console.log(response.data.data);
-     
-      setData(data);
+      const sortedData = data?.sort((a, b) => {
+        // Define the order of trends
+        const trendOrder = {
+          'Bullish': 1,
+          'Bearish': 2,
+          'Sideways': 3
+        };
+      
+        // Compare the trend values based on the defined order
+        return trendOrder[a.Trend] - trendOrder[b.Trend];
+      });
+      setData(sortedData);
     } catch (error) {
       console.log("Data not fetched", error);
     }
