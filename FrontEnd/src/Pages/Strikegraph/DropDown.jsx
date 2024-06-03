@@ -33,29 +33,6 @@ const DropDown = ({
       console.log(error)
     }
   }
- 
-//   const [currentTime, setCurrentTime] = useState(getFormattedTime());
-//   const [time30MinutesAgo, setTime30MinutesAgo] = useState(
-//     getFormattedTime(new Date(Date.now() - 30 * 60 * 1000))
-//   );
-
-
-//   useEffect(() => {
-//     setCurrentTime(getFormattedTime());
-//     setTime30MinutesAgo(getFormattedTime(new Date(Date.now() - 30 * 60 * 1000)));
-//   }, []); // Run only once when the component mounts
-
-//   function getFormattedTime(date = new Date()) {
-//     const hours = String(date.getHours()).padStart(2, '0');
-//     const minutes = String(date.getMinutes()).padStart(2, '0');
-//     const seconds = String(date.getSeconds()).padStart(2, '0');
-//     return `${hours}:${minutes}:${seconds}`;
-//   }
-
-//   useEffect(() => {
-//    let currentRange=`${time30MinutesAgo} - ${currentTime}`
-//     setTimeInterval(currentRange);
-//   }, []);
 
 
   const intervalCollection = [
@@ -65,17 +42,6 @@ const DropDown = ({
     "8",
     "10",
   ];
-
-
-//   useEffect(() => {
-//     let currentRange=`${time30MinutesAgo} - ${currentTime}`
-//     if (timeRange === currentRange) {
-//       setLive(true);
-//     } else {
-//       setLive(false);
-//     }
-//   }, [timeRange]);
-   
   
  
   return (
