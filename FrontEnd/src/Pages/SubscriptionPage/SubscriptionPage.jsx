@@ -68,12 +68,13 @@ const SubscriptionPage = () => {
           <SubscriptionCard
             tittle="Basic Plan"
             price="$99"
-            month="/One Month"x
+            month="/One Month"
             cardDescription="Lorem ipsum dolor sit amet."
-            first="Lorem ipsum dolor sit amet."
-            second="Lorem ipsum dolor sit amet."
-            third="Lorem ipsum dolor sit amet."
-            fourth="Lorem ipsum dolor sit amet."
+            first="-OI Breakup(Chnage OI,commulative OI,Change OI in Amount,PCR,Support & Residence) and many more"
+            second="-Long Buildup,Short Buildup,unwinding,LongBuildup"
+            third="-Compare Commulative Call OI ,Put OI & Price"
+            fourth="-Compare Strike OI, Call OI,Put OI & Price"
+            fifth="-Screener"
             buttonValue="Get Basic Plan"
             tenure={1}
           />
@@ -82,10 +83,11 @@ const SubscriptionPage = () => {
             price="$199"
             month="/Three Months"
             cardDescription="Lorem ipsum dolor sit amet."
-            first="Lorem ipsum dolor sit amet."
-            second="Lorem ipsum dolor sit amet."
-            third="Lorem ipsum dolor sit amet."
-            fourth="Lorem ipsum dolor sit amet."
+            first="-OI Breakup(Chnage OI,commulative OI,Change OI in Amount,PCR,Support & Residence) and many more"
+            second="-Long Buildup,Short Buildup,unwinding,LongBuildup"
+            third="-Compare Commulative Call OI ,Put OI & Price"
+            fourth="-Compare Strike OI, Call OI,Put OI & Price"
+            fifth="-Screener"
             buttonValue="Get Premium Plan"
             tenure={3}
             
@@ -95,10 +97,11 @@ const SubscriptionPage = () => {
             price="$299"
             month="/Twelve Months"
             cardDescription="Lorem ipsum dolor sit amet."
-            first="Lorem ipsum dolor sit amet."
-            second="Lorem ipsum dolor sit amet."
-            third="Lorem ipsum dolor sit amet."
-            fourth="Lorem ipsum dolor sit amet."
+            first="-OI Breakup(Chnage OI,commulative OI,Change OI in Amount,PCR,Support & Residence) and many more"
+            second="-Long Buildup,Short Buildup,unwinding,LongBuildup"
+            third="-Compare Commulative Call OI ,Put OI & Price"
+            fourth="-Compare Strike OI, Call OI,Put OI & Price"
+            fifth="-Screener"
             buttonValue="Get VIP Plan"
             tenure={12}
             

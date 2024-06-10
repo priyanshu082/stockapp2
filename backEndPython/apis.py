@@ -77,14 +77,19 @@ def subscribe():
 
     subscribers_collection = db['subscribers']
 
+
     current_date = datetime.now()
     # Add n months to the current date
     future_date = current_date + timedelta(days=30 * tenure)
-
+        
     new_subscriber = {'email': email, 'start': current_date.strftime("%Y-%m-%d") , 'end': future_date.strftime("%Y-%m-%d")}
-    subscribers_collection.insert_one(new_subscriber)
 
-    new_subscriber['_id'] = str(new_subscriber['_id'])
+    subscriber = subscribers_collection.find_one({'email': email},{'_id':0})
+    if subscriber:
+        subscribers_collection.update_many({'email':email}, {'$set': new_subscriber})
+    else:
+        subscribers_collection.insert_one(new_subscriber)
+
     return jsonify({'data': new_subscriber}), 200
 
 @app.route('/issubscribed', methods=['POST'])

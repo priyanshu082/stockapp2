@@ -37,8 +37,11 @@ def call_api(symbol):
         initialUnderlyingValue = underlyingValue
     else:
         if timestamp < '09:17:00':
-            previousClosingValue=symbolCollection.find_one({'Time': '15:30:00'})['underlyingValue']    
-            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue, 'change':underlyingValue-previousClosingValue, 'pchange': ((underlyingValue-previousClosingValue)/previousClosingValue).round(2)}})
+            past_all_df = pd.DataFrame(symbolCollection.find({}))
+            past_all_df = past_all_df.sort_values(by=['Time'], ascending=[False])
+            first_row_dict = past_all_df.iloc[0].to_dict()
+            previousClosingValue = first_row_dict['underlyingValue']
+            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue, 'change':round(underlyingValue-previousClosingValue, 2), 'pchange': round(((underlyingValue-previousClosingValue)/previousClosingValue),2)}})
         initialUnderlyingValue=initialUnderlyingValueCollection.find_one({'symbol': symbol})['underlyingValue']
 
 
@@ -55,6 +58,8 @@ def call_api(symbol):
             'COI_Puts': 0 if i.get('PE', 0)==0 else i['PE']['changeinOpenInterest'],
             'LTP_Calls': 0 if i.get('CE', 0)==0 else i['CE']['lastPrice'],
             'LTP_Puts': 0 if i.get('PE', 0)==0 else i['PE']['lastPrice'],
+            'CLTP_Calls': 0 if i.get('CE', 0)==0 else i['CE']['change'],
+            'CLTP_Puts': 0 if i.get('PE', 0)==0 else i['PE']['change'],
             'TotalBuyQuantity_Calls': 0 if i.get('CE', 0)==0 else i['CE']['totalBuyQuantity'],
             'TotalSellQuantity_Calls': 0 if i.get('CE', 0)==0 else i['CE']['totalSellQuantity'],
             'TotalBuyQuantity_Puts': 0 if i.get('PE', 0)==0 else i['PE']['totalBuyQuantity'],
@@ -88,8 +93,6 @@ def call_api(symbol):
 
         result_df['C_Calls'] = result_df['COI_Calls'] - prev_df['COI_Calls']
         result_df['C_Puts'] = result_df['COI_Puts'] - prev_df['COI_Puts']
-        result_df['CLTP_Calls'] = result_df['LTP_Calls'] - prev_df['LTP_Calls']
-        result_df['CLTP_Puts'] = result_df['LTP_Puts'] - prev_df['LTP_Puts']
         result_df['C_Amt_Calls_Cr'] = (result_df['C_Calls']*132000)/10000000
         result_df['C_Amt_Puts_Cr'] = (result_df['C_Puts']*132000)/10000000
 
@@ -129,8 +132,6 @@ def call_api(symbol):
     else:
         result_df['C_Calls'] = 0
         result_df['C_Puts'] = 0
-        result_df['CLTP_Calls'] = 0
-        result_df['CLTP_Puts'] = 0
         result_df['C_Amt_Calls_Cr'] = 0.0
         result_df['C_Amt_Puts_Cr'] = 0.0
         result_df['Long_Short_Calls'] = None

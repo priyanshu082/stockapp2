@@ -4,7 +4,7 @@ import { authApi, localapi } from "../../Assets/config";
 import { AuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export const SubscriptionCard = ({tittle,price,month,cardDescription,first,second,third,fourth,buttonValue,tenure}) => {
+export const SubscriptionCard = ({tittle,price,month,cardDescription,first,second,third,fourth,fifth,buttonValue,tenure}) => {
   const {isSubscribed , user , setUser, setIsSubscribed} = useContext(AuthContext);
 
     const navigate=useNavigate()
@@ -33,15 +33,16 @@ export const SubscriptionCard = ({tittle,price,month,cardDescription,first,secon
         </div>
         <p className='text-sm'>{cardDescription}</p>
        <div className="line w-full h-[1px] bg-gray-500"></div>
-       <ul className=' list-inside list-decimal'>
-       {/* <li>{first}</li>
-       <li>{second}</li>
-       <li>{third}</li>
-       <li>{fourth}</li> */}
-       </ul>
+       <div className=' list-inside flex flex-col gap-[1vw] text-sm font-semibold'>
+        <div>{first}</div>
+       <div>{second}</div>
+       <div>{third}</div>
+       <div>{fourth}</div> 
+       <div>{fifth}</div> 
+       </div>
        <button
        onClick={()=>handleSubscription(tenure)}
-        className=' button group-hover:bg-[white] group-hover:text-[#807e7e] z-20 bg-[#9698ED] text-white py-2 px-4 rounded-md w-[100%]  duration-100 ease-in mt-28 text-xl font-semibold' >{buttonValue}</button>
+        className=' button group-hover:bg-[white] group-hover:text-[#807e7e] z-20 bg-[#9698ED] text-white py-2 px-4 rounded-md w-[100%]  duration-100 ease-in text-xl font-semibold' >{buttonValue}</button>
       </div>
     </>
   )

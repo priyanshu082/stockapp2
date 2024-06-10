@@ -91,7 +91,7 @@ const StrikeGraph = () => {
         if (symbol && expiryDate && noOfStrikes ) {
           fetchStrikepriceData();
         }
-      }, [symbol, expiryDate, noOfStrikes,twoMin]);
+      }, [symbol, expiryDate, noOfStrikes]);
     
 
       //strike price api call

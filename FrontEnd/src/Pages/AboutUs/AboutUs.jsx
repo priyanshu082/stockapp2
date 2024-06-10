@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa6";
 import { FaInstagramSquare } from "react-icons/fa";
+
+
+
 const AboutUS = () => {
     return (
         <>
@@ -12,52 +15,88 @@ const AboutUS = () => {
                 <div className="contentBox w-[90%] h-auto bg-white rounded-lg px-10 py-5 shadow-2xl">
                     {/*Founder's Introduction */}
                     <div className="text-center py-5">
-                        <h2 className="text-2xl font-bold mb-4">Founder's Introduction</h2>
-                        <p className="text-lg mb-4">
-                            Hello, I'm Amritesh Chauhan, the founder of RideOnWhale.com. Armed with a degree in civil engineering, my journey into the dynamic world of finance and options trading may seem unconventional, but it's a testament to the transformative power of passion and dedication.
-                        </p>
-                        {/* You can uncomment the following line to add an image */}
-                        {/* <img src="path/to/amritesh_image.jpg" alt="Amritesh Chauhan - Founder" className="w-full mb-4" /> */}
-                    </div>
-                    {/* Professional Journey*/}
-                    <div className=" text-center py-5">
-                        <h2 className="text-2xl font-bold mb-4">Professional Journey</h2>
-                        <p className="text-lg mb-4">
-                            My early professional life was rooted in civil engineering, but my fascination with financial markets, particularly options trading, led me to embark on a parallel journey. For the past 12 years, I've immersed myself in the dynamic world of options trading, honing my skills and gaining invaluable insights along the way.
-                        </p>
-                    </div>
-                    {/* Passion for Trading */}
-                    <div className=" text-center py-5">
-                        <h2 className="text-2xl font-bold mb-4">Passion for Trading</h2>
-                        <p className="text-lg mb-4">
-                            Driven by a deep-seated passion for option trading, I transitioned from being solely an options trader to a dedicated one. The intricate dance of numbers, market dynamics, and the thrill of strategic decision-making became my daily pursuit.
-                        </p>
-                    </div>
-                    {/*Inception of RideOnWhale.com*/}
-                    <div className=" text-center py-5">
-                        <h2 className="text-2xl font-bold mb-4">Inception of RideOnWhale.com</h2>
-                        <p className="text-lg">
-                            The inception of RideOnWhale.com is a result of my desire to share the knowledge and expertise I've acquired over the years.                        </p>
-                        <p className="text-lg ">
-                            Despite not having a financial background, I've come to understand the nuances of the stock market, particularly NSE option chains,                        </p>
-                        <p className="text-lg ">
-                            and I'm excited to provide a platform that simplifies this information for others.                        </p>
-                    </div>
-                    {/*Our Mission*/}
-                    <div className=" text-center py-5">
-                        <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-                        <p className="text-lg ">
-                            At RideOnWhale.com, our mission is clear: to empower individuals with the insights and tools needed to navigate the NSE option chain confidently.                     </p>
-                        <p className="text-lg ">
-                            We're here to bridge the gap between complex financial concepts and everyday traders, making information accessible and actionable.              </p>
-                    </div>
+      <header className="py-5">
+        <h1 className="text-4xl font-bold mb-4">Welcome to Rideonwhale.com</h1>
+        <p className="text-lg mb-4">
+          Your ultimate resource for cutting-edge insights and real-time data on options trading. Since our establishment in 2016, we have been committed to empowering option traders with the knowledge, tools, and data they need to excel in the dynamic option trading market.
+        </p>
+      </header>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
+        <p className="text-lg mb-4">
+          At Rideonwhale.com, our mission is to simplify options trading and provide traders with comprehensive, accurate analysis and real-time data. We aim to make complex trading strategies accessible and actionable, helping traders of all levels achieve their financial goals.
+        </p>
+      </section>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">Who We Serve</h2>
+        <p className="text-lg mb-4">
+          Our platform is designed for option traders looking to elevate their trading skills. Whether you're an experienced professional or a newcomer to the market, Rideonwhale.com offers invaluable resources to enhance your strategies and improve your trading outcomes. We are your trusted partner in navigating the complexities of options trading.
+        </p>
+      </section>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">What Sets Us Apart</h2>
+        <p className="text-lg mb-4">
+          What distinguishes Rideonwhale.com is our dedication to quality, accuracy, and real-time information. Our expert analysts bring extensive experience and deep market insights, ensuring you have the latest and most reliable data at your fingertips. We transform complex data into clear, actionable strategies to help you stay ahead of market trends.
+        </p>
+      </section>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">Real-Time Option Chain Data</h2>
+        <p className="text-lg mb-4">
+          One of our standout features is providing real-time option chain data. We understand the importance of timely information in options trading, and our platform ensures you have access to up-to-the-minute data. This empowers you to make informed decisions and respond quickly to market changes.
+        </p>
+      </section>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">Our Core Values</h2>
+        <ul className="text-lg mb-4 text-start ml-[0vw] list-disc list-inside">
+          <li><strong>Integrity:</strong> We maintain the highest standards of honesty and transparency in our analyses and recommendations.</li>
+          <li><strong>Education:</strong> We are committed to educating our users, helping them become more confident and successful traders.</li>
+          <li><strong>Innovation:</strong> We continuously seek innovative solutions to deliver unparalleled insights and enhance our platform’s user experience.</li>
+          <li><strong>Community:</strong> We foster a supportive and vibrant community where traders can share ideas, strategies, and grow together.</li>
+        </ul>
+      </section>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">Our Journey</h2>
+        <p className="text-lg mb-4">
+          Since our launch in 2016, Rideonwhale.com has grown into a trusted resource for thousands of traders. Our journey is marked by continuous improvement and a relentless pursuit of excellence. Our greatest achievement is the trust and loyalty of our users, which drives us to keep innovating and providing top-tier trading insights.
+        </p>
+      </section>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">Disclaimer</h2>
+        <p className="text-lg mb-4">
+          Rideonwhale.com is not a SEBI (Securities and Exchange Board of India) registered entity. We do not provide financial or investment advice and do not recommend any action to be taken based on the information provided on our platform. All content is for informational purposes only, and traders should conduct their own research or consult with a financial advisor before making any trading decisions.
+        </p>
+      </section>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">Why Choose Us?</h2>
+        <ul className="text-lg mb-4 text-start ml-[0vw] list-disc list-inside">
+          <li><strong>Expert Analysis:</strong> In-depth, timely market analysis from seasoned analysts.</li>
+          <li><strong>Educational Resources:</strong> Comprehensive materials, from beginner guides to advanced strategies.</li>
+          <li><strong>Real-Time Data:</strong> Access to real-time option chain data and market updates.</li>
+          <li><strong>Community Support:</strong> A vibrant community of traders sharing knowledge and experiences.</li>
+        </ul>
+      </section>
+      
+      <section className="py-5">
+        <h2 className="text-2xl font-bold mb-4">Join Us</h2>
+        <p className="text-lg mb-4">
+          Start your trading journey with Rideonwhale.com and unlock your full potential. With our expert guidance, real-time data, and comprehensive resources, you'll be well-equipped to navigate the dynamic world of options trading confidently. Let’s ride the wave of success together!
+        </p>
+        <p className="text-lg mb-4">
+          For more information or to start exploring our resources, visit our website at <a href="https://rideonwhale.com" className="text-blue-600 underline">Rideonwhale.com</a>. Join the Rideonwhale.com community today and take the next step in your trading journey.
+        </p>
+      </section>
+    </div>
+                  
 
-                    {/*Commitment to Transparency*/}
-                    <div className="text-center py-5">
-                        <h2 className="text-2xl font-bold mb-4">Commitment to Transparency</h2>
-                        <p className="text-lg ">I want to emphasize that my journey into the financial world started as a passion project, and RideOnWhale.com operates with transparency.                    </p>
-                        <p className="text-lg ">While my educational background may not be in finance, my commitment to providing valuable insights and fostering a community of informed traders is unwavering.           </p>
-                    </div>
+
                     {/* contactContainer */}
                     <div className="contactContainer  w-full h-auto flex flex-col sm:flex-row sm:items-center sm:justify-between">
                         {/* contact box  */}
