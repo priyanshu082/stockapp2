@@ -44,6 +44,25 @@ const CommutativeSum = () => {
     const [commutativeData, setCommutativeData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
     const [twoMin,setTwoMin]=useState()
+    const [date,setDate]=useState("")
+    const [live, setLive] = useState();
+    const [timeRange, setTimeRange] = useState("15:15:00-15:30:00");
+
+
+
+    const marketOpen = async () => {
+      try {
+        const response = await axios.get(`${localapi}/ismarketopen`);
+        const data = response.data;
+        setLive(data.status)
+      } catch (error) {
+        console.error("Error fetching market holiday", error);
+      }
+    };
+    useEffect(()=>{
+      marketOpen()
+    },[twoMin])
+
 
     const updateTwoMin=()=>{
       const currentTime=new Date()
@@ -51,12 +70,15 @@ const CommutativeSum = () => {
     }
  
     useEffect(()=>{
-      const intervalid=setInterval(() => {
-        updateTwoMin()
-      }, 30*1000);
-      return () => clearInterval(intervalid);
+      if(live){
+        const intervalid=setInterval(() => {
+          updateTwoMin()
+        }, 30*1000);
+        return () => clearInterval(intervalid);
+      }
     })
 
+console.log(date)
 
     useEffect(() => {
         if (symbol && expiryDate && noOfStrikes && timeInterval) {
@@ -71,6 +93,7 @@ const CommutativeSum = () => {
             expiryDate,
             noOfStrikes,
             timeInterval,
+            date
           });
     
           const data = response.data;
@@ -91,6 +114,7 @@ const CommutativeSum = () => {
         try {
           const response = await axios.post(`${localapi}/expirydates`, {
             symbol,
+            date
           });
     
           const data = response.data;
@@ -122,6 +146,12 @@ const CommutativeSum = () => {
           setExpiryDates={setExpiryDates}
           setNoOfStrikes={setNoOfStrikes}
           setSymbol={setSymbol}
+          setDate={setDate}
+          live={live}
+          setLive={setLive}
+          twoMin={twoMin}
+          setTimeRange={setTimeRange}
+          timeRange={timeRange}
         />
       </div>
 

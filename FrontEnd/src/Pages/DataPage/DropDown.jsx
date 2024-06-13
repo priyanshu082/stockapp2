@@ -92,7 +92,6 @@ const DropDown = ({
       let currentRange=`${time30MinutesAgo}-${currentTime}`
       setTimeRange(currentRange); 
     }
-
    }, [twoMin]);
 
   const currentHour = new Date().getHours();
@@ -205,6 +204,7 @@ const DropDown = ({
           ))}
         </select>
       </div>
+
      {!live && ( 
 <div className="flex flex-col">
         <label className="text-md font-semibold" htmlFor="">

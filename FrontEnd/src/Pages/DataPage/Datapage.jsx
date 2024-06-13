@@ -16,7 +16,7 @@ function DataPage() {
   useEffect(()=>{
     if(user){
       axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {
-        console.log(result.data.data);
+     
          if (typeof result.data.data !== 'string') {
            // If it's not a string, stringify it before storing in localStorage
            localStorage.setItem("isSubscribed", JSON.stringify(result.data.data));
@@ -87,13 +87,24 @@ function DataPage() {
   const [live, setLive] = useState();
   const [twoMin,setTwoMin]=useState()
   const [date,setDate]=useState("")
-  console.log(date)
 
 
-  const currentHour = new Date().getHours();
-  const currentMinutes = new Date().getMinutes();
-  const isBetween930And1530 =
-    (currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) &&
+const marketOpen = async () => {
+  try {
+    const response = await axios.get(`${localapi}/ismarketopen`);
+    const data = response.data;
+    setLive(data.status)
+  } catch (error) {
+    console.error("Error fetching market holiday", error);
+  }
+};
+
+
+
+   const currentHour = new Date().getHours();
+   const currentMinutes = new Date().getMinutes();
+   const isBetween930And1530 =
+     (currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) &&
     (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
 
 
@@ -102,17 +113,6 @@ useEffect(()=>{
   marketOpen()
 },[twoMin])
 
-const marketOpen = async () => {
-  try {
-    const response = await axios.get(`${localapi}/ismarketopen`);
-
-    const data = response.data;
-    console.log(data.status);
-    setLive(data.status)
-  } catch (error) {
-    console.error("Error fetching market holiday", error);
-  }
-};
 
     const updateTwoMin=()=>{
       const currentTime=new Date()
@@ -120,10 +120,12 @@ const marketOpen = async () => {
     }
  
     useEffect(()=>{
-      const intervalid=setInterval(() => {
-        updateTwoMin()
-      }, 30*1000);
-      return () => clearInterval(intervalid);
+      if(live){
+        const intervalid=setInterval(() => {
+          updateTwoMin()
+        }, 30*1000);
+        return () => clearInterval(intervalid);
+      }
     })
 
   // fetch all data
