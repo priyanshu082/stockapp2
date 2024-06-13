@@ -47,6 +47,7 @@ function DataPage() {
           symbol,
           expiryDate,
           noOfStrikes,
+          date
         });
         const htmlData = res.data;
 
@@ -85,6 +86,9 @@ function DataPage() {
   const [expiryDates, setExpiryDates] = useState([]);
   const [live, setLive] = useState();
   const [twoMin,setTwoMin]=useState()
+  const [date,setDate]=useState("")
+  console.log(date)
+
 
   const currentHour = new Date().getHours();
   const currentMinutes = new Date().getMinutes();
@@ -136,6 +140,7 @@ const marketOpen = async () => {
         expiryDate,
         noOfStrikes,
         timeRange,
+        date
       });
 
       const data = response.data;
@@ -159,6 +164,7 @@ const marketOpen = async () => {
         symbol,
         expiryDate,
         noOfStrikes,
+        date
       });
 
       const data = response.data;
@@ -182,6 +188,7 @@ const marketOpen = async () => {
     try {
       const response = await axios.post(`${localapi}/expirydates`, {
         symbol,
+        date
       });
 
       const data = response.data;
@@ -242,6 +249,7 @@ const marketOpen = async () => {
           live={live}
           setLive={setLive}
           twoMin={twoMin}
+          setDate={setDate}
         />
       </div>
      

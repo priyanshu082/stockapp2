@@ -1,58 +1,16 @@
-import pymongo
-import pandas as pd
+from pymongo import MongoClient
+from datetime import datetime, timedelta
+import pytz
 
-# Replace the following with your MongoDB connection details
-mongo_uri = 'mongodb://localhost:27017/'
-database_name = 'optionChainData'
-symbol = 'BANDHANBNK'
-csv_file_name = 'output.csv'
+with open("/root/stockapp2/backEndPython/symbols.txt") as f:
+    data = f.readlines()
 
-noOfStrikes=12
+symbols = [i.strip('\n') for i in data]
+client = MongoClient('mongodb://localhost:27017/')
+db = client['optionChainData']
 
-# Connect to MongoDB
-client = pymongo.MongoClient(mongo_uri)
+date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
 
-# Access the database
-db = client[database_name]
-
-symbolCollection = db[symbol]
-
-expiryDate = symbolCollection.distinct('Expiry_Date')
-expiryDate.sort()
-expiryDate=expiryDate[0]
-print(expiryDate)
-data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate} ,{'_id':0})]
-allStikePrices = [x['Strike_Price'] for x in data]
-allStikePrices = set(allStikePrices)
-allStikePrices = list(allStikePrices)
-allStikePrices.sort()
-print(allStikePrices)
-if len(allStikePrices) - noOfStrikes*2 > 1:
-    elementsToLeave = len(allStikePrices)-noOfStrikes*2
-    print(elementsToLeave)
-    requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
-else:
-    requiredStrikePrices = allStikePrices
-
-print(requiredStrikePrices)
-
-data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
-
-# If the collection is empty, handle it
-if not data:
-    print("No data found in the collection.")
-else:
-    # Create a DataFrame from the data
-    df = pd.DataFrame(data)
-
-    # Drop the MongoDB specific _id field if it exists
-    if '_id' in df.columns:
-        df = df.drop(columns=['_id'])
-
-    # Write the DataFrame to a CSV file
-    df.to_csv(csv_file_name, index=False)
-
-    print(f"Data has been successfully written to {csv_file_name}")
-
-# Close the MongoDB connection
-client.close()
+for i in symbols:
+    symbolCollection = db[i]
+    symbolCollection.update_many({}, {"$set":{'Date':date}})

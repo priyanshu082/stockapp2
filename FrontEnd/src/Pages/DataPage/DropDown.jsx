@@ -16,6 +16,7 @@ const DropDown = ({
   live,
   setLive,
   twoMin,
+  setDate
 }) => {
   
   const noOfStrikesOptions = [12, 14, 16, 18, 20];
@@ -204,7 +205,8 @@ const DropDown = ({
           ))}
         </select>
       </div>
-     {!live && ( <div className="  flex flex-col">
+     {!live && ( 
+<div className="flex flex-col">
         <label className="text-md font-semibold" htmlFor="">
           Select Time Range
         </label>
@@ -221,7 +223,22 @@ const DropDown = ({
             </option>
           ))}
         </select>
-      </div>)}
+      </div>
+    )}
+
+     {!live && ( 
+<div className="flex flex-col">
+        <label className="text-md font-semibold" htmlFor="">
+          Select Date
+        </label>
+        <input
+        type="date"
+        className="px-[20px] py-[2px] bg-gray-300 focus:outline-none rounded-md"
+        onChange={(e) => setDate(e.target.value)}
+        />
+       
+      </div>
+    )}
 
       {isBetween930And1530 && (
         <div className="flex items-center justify-center">

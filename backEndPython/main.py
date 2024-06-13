@@ -28,29 +28,25 @@ def call_api(symbol):
 
     underlyingValue = data['underlyingValue']
     timestamp = data['timestamp'][-8:]
+    dataDate = data['timestamp'][:11]
 
     initialUnderlyingValueCollection = db['initialUnderlyingValues']
     symbolCollection = db[symbol]
 
     if not initialUnderlyingValueCollection.find_one({'symbol': symbol}):
-        initialUnderlyingValueCollection.insert_one({'symbol': symbol, 'underlyingValue': underlyingValue, 'change': 0, 'pchange': 0})
+        initialUnderlyingValueCollection.insert_one({'symbol': symbol, 'underlyingValue': underlyingValue})
         initialUnderlyingValue = underlyingValue
     else:
         if timestamp < '09:17:00':
-            past_all_df = pd.DataFrame(symbolCollection.find({}))
-            past_all_df = past_all_df.sort_values(by=['Time'], ascending=[False])
-            first_row_dict = past_all_df.iloc[0].to_dict()
-            previousClosingValue = first_row_dict['underlyingValue']
-            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue, 'change':round(underlyingValue-previousClosingValue, 2), 'pchange': round(((underlyingValue-previousClosingValue)/previousClosingValue),2)}})
+            initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue}})
         initialUnderlyingValue=initialUnderlyingValueCollection.find_one({'symbol': symbol})['underlyingValue']
-
-
 
     relevant_data = data['data']
     extracted_data = []
 
     for i in relevant_data:
         record = {
+            'Date': dataDate,
             'Time': timestamp,
             'underlyingValue': underlyingValue,
             'Strike_Price': i['strikePrice'],
@@ -81,9 +77,9 @@ def call_api(symbol):
     result_df = result_df.sort_values(by=['Expiry_Date', 'Strike_Price'])
 
 
-    if symbolCollection.find_one({}):
+    if symbolCollection.find_one({'Date':dataDate}):
         #expected error due to id col in collection
-        past_all_df = pd.DataFrame(symbolCollection.find({}))
+        past_all_df = pd.DataFrame(symbolCollection.find({'Date': dataDate}))
         past_all_df['Expiry_Date'] = pd.to_datetime(past_all_df['Expiry_Date'], format='%Y-%m-%d')
         # past_all_df = past_all_df.sort_values(by=['Time'])
         prev_df = past_all_df.tail(len(result_df))
@@ -139,14 +135,8 @@ def call_api(symbol):
 
     result_df['Expiry_Date'] = result_df['Expiry_Date'].dt.strftime('%Y-%m-%d')
 
-    #there is a bug that is the data of the first cycle will be wrong as it will perform the calc based on the data of last cycle of prev day.
-    #it is happening as table is never empty or are nver deleted hence the above except condition will never run except the first time the database is created.
-
-    if timestamp < '09:17:00':
-        #to delete data of previous day
-        symbolCollection.delete_many({})
-        symbolCollection.insert_many(result_df.to_dict(orient='records'))
-    else:
+    # currentTime =  datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%H-%M-%S")
+    if not symbolCollection.find_one({'Date': dataDate, 'Time': timestamp}):
         symbolCollection.insert_many(result_df.to_dict(orient='records'))
 
     return True
@@ -177,7 +167,7 @@ if __name__ == "__main__":
             continue
         else:
             if market_status():
-                while ('09:18:00' <= datetime.now(IST).strftime("%H:%M:%S") <= '15:33:00'):
+                while ('09:18:00' <= datetime.now(IST).strftime("%H:%M:%S") <= '15:35:00'):
                             start = time.time()
 
                             with open("/root/stockapp2/backEndPython/symbols.txt") as f:
