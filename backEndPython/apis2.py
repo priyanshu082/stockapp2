@@ -150,7 +150,10 @@ def expiryDates():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
-        date = request_data.get('date')
+        date = request_data.get('Date')
+        print(date)
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
+        print(date)
 
         symbolCollection = db[symbol]
         data = [x for x in symbolCollection.find({'Date': date}, {'_id':0})]
@@ -166,6 +169,7 @@ def strikePrices():
         request_data = request.get_json()
         symbol = request_data.get('symbol')
         date = request_data.get('date')
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
 
@@ -234,6 +238,7 @@ def allData():
         request_data = request.get_json()
         symbol = request_data.get('symbol')
         date = request_data.get('date')
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
         timeRange = request_data.get('timeRange')
@@ -274,6 +279,7 @@ def downloadData():
         request_data = request.get_json()
         symbol = request_data.get('symbol')
         date = request_data.get('date')
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
 
@@ -357,6 +363,7 @@ def CommutativeSumData():
         request_data = request.get_json()
         symbol = request_data.get('symbol')
         date = request_data.get('date')
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10
@@ -400,6 +407,7 @@ def pcrData():
         request_data = request.get_json()
         symbol = request_data.get('symbol')
         date = request_data.get('date')
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
         symbolCollection = db[symbol]
@@ -505,6 +513,7 @@ def priceData():
         request_data = request.get_json()
         symbol = request_data.get('symbol')
         date = request_data.get('date')
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
 
         symbolCollection = db[symbol]
         data = [x for x in symbolCollection.find({'Date':date}, {'_id':0, "Time":1,  'underlyingValue':1})]
@@ -525,6 +534,7 @@ def strikeGraph():
         request_data = request.get_json()
         symbol = request_data.get('symbol')
         date = request_data.get('date')
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
         expiryDate = request_data.get('expiryDate')
         strikePrice = int(request_data.get('strikePrice'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10
@@ -567,6 +577,7 @@ def buySellData():
         request_data = request.get_json()
         symbol = request_data.get('symbol')
         date = request_data.get('date')
+        date = datetime.strptime(date, '%d-%m-%Y').strftime('%d-%b-%Y')
         expiryDate = request_data.get('expiryDate')
         strikePrice = int(request_data.get('strikePrice'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10

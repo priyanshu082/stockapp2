@@ -7,6 +7,7 @@ import numpy as np
 from nsepython import nsefetch
 import bcrypt
 from datetime import datetime, timedelta
+import pytz
 
 
 app = Flask(__name__)
@@ -149,9 +150,17 @@ def expiryDates():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
+        print(symbol,date)
 
         symbolCollection = db[symbol]
-        data = symbolCollection.distinct('Expiry_Date')
+        data = [x for x in symbolCollection.find({'Date': date}, {'_id':0})]
+        data = [x['Expiry_Date'] for x in data] 
+        data = list(set(data))
     except:
         data = "Error"
     response = {"data": data}
@@ -162,11 +171,16 @@ def strikePrices():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
 
         symbolCollection = db[symbol]
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0})]
+        data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate}, {'_id':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -185,8 +199,42 @@ def strikePrices():
 
 @app.route('/banner', methods=['GET'])
 def getBanner():
-    collection = db["initialUnderlyingValues"]
-    data = list(collection.find({}, {'_id':0}))
+
+    try:
+
+        with open("/root/stockapp2/backEndPython/symbols.txt") as f:
+            data = f.readlines()
+        symbols = [i.strip('\n') for i in data][4:]
+
+        data = []
+        i=0
+        for symbol in symbols:
+            symbolCollection = db[symbol]
+            dates = symbolCollection.distinct('Date')
+
+            date_objects = [datetime.strptime(date, "%d-%b-%Y") for date in dates]
+
+            # Sort the datetime objects in descending order
+            sorted_date_objects = sorted(date_objects, reverse=True)
+
+            # Convert the sorted datetime objects back to strings
+            sorted_date_strings = [date.strftime("%d-%b-%Y") for date in sorted_date_objects]
+
+            
+
+            # Execute the aggregation pipeline
+            currentPrice = symbolCollection.find({'Date': sorted_date_strings[0]}).sort('Time', -1).limit(1).next()['underlyingValue']
+            prevClosePrice = symbolCollection.find({'Date': sorted_date_strings[1]}).sort('Time', -1).limit(1).next()['underlyingValue']
+
+            data.append({})
+            data[i]['symbol'] = symbol
+            data[i]['initialUnderlyingValue'] = round(currentPrice,2)
+            data[i]['change'] = round(currentPrice-prevClosePrice, 2)
+            data[i]['pchange'] = round(((currentPrice-prevClosePrice)/prevClosePrice),2)
+            i+=1
+
+    except:
+        data = "Error"
     response = {"data": data}
     return jsonify(response)
 
@@ -195,6 +243,11 @@ def allData():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
         timeRange = request_data.get('timeRange')
@@ -203,7 +256,7 @@ def allData():
         startTime, endTime = timeRange.split('-')
         symbolCollection = db[symbol]
 
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Time': {"$gte": startTime, '$lte': endTime }}, {'_id':0, 'OpenInterest_Putss':0, 'OpenInterest_Puts':0})]
+        data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate, 'Time': {"$gte": startTime, '$lte': endTime }}, {'_id':0, 'OpenInterest_Putss':0, 'OpenInterest_Puts':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -234,12 +287,17 @@ def downloadData():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
 
         symbolCollection = db[symbol]
 
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0})]
+        data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate}, {'_id':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -316,13 +374,18 @@ def CommutativeSumData():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10
 
         symbolCollection = db[symbol]
         
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0})]
+        data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate}, {'_id':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -358,11 +421,16 @@ def pcrData():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
         expiryDate = request_data.get('expiryDate')
         noOfStrikes = int(request_data.get('noOfStrikes'))
         symbolCollection = db[symbol]
 
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0})]
+        data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate}, {'_id':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -396,6 +464,7 @@ def screener():
         # request_data = request.get_json()
         # noOfStrikes = int(request_data.get('noOfStrikes'))
         noOfStrikes = 12
+        date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
 
 
         with open("/root/stockapp2/backEndPython/symbols.txt") as f:
@@ -407,11 +476,11 @@ def screener():
         i=0
         for symbol in symbols:
             symbolCollection = db[symbol]
-            
-            expiryDate = symbolCollection.distinct('Expiry_Date')
-            expiryDate.sort()
-            expiryDate=expiryDate[0]
-            data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate} ,{'_id':0})]
+            expiryDates = [x for x in symbolCollection.find({'Date': date}, {'_id':0})]
+            expiryDates = [x['Expiry_Date'] for x in data]    
+            expiryDates.sort()
+            expiryDate=expiryDates[0]
+            data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate} ,{'_id':0})]
             allStikePrices = [x['Strike_Price'] for x in data]
             allStikePrices = set(allStikePrices)
             allStikePrices = list(allStikePrices)
@@ -461,9 +530,14 @@ def priceData():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
 
         symbolCollection = db[symbol]
-        data = [x for x in symbolCollection.find({}, {'_id':0, "Time":1,  'underlyingValue':1})]
+        data = [x for x in symbolCollection.find({'Date':date}, {'_id':0, "Time":1,  'underlyingValue':1})]
         df = pd.DataFrame(data)
 
         df  = df.drop_duplicates()
@@ -480,6 +554,11 @@ def strikeGraph():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
         expiryDate = request_data.get('expiryDate')
         strikePrice = int(request_data.get('strikePrice'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10
@@ -488,7 +567,7 @@ def strikeGraph():
 
         symbolCollection = db[symbol]
 
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0, 'Time':1, 'Strike_Price':1, 'COI_Calls':1, 'COI_Puts':1,'underlyingValue':1})]
+        data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate}, {'_id':0, 'Time':1, 'Strike_Price':1, 'COI_Calls':1, 'COI_Puts':1,'underlyingValue':1})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -521,13 +600,18 @@ def buySellData():
     try:
         request_data = request.get_json()
         symbol = request_data.get('symbol')
+        date = request_data.get('date')
+        if date:
+            date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%b-%Y')
+        else:
+            date = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d-%b-%Y")
         expiryDate = request_data.get('expiryDate')
         strikePrice = int(request_data.get('strikePrice'))
         timeInterval = int(request_data.get('timeInterval'))#2 4 6 8 10
         
         symbolCollection = db[symbol]
         
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'Time':1,'TotalBuyQuantity_Calls':1, 'TotalSellQuantity_Calls':1, 'TotalBuyQuantity_Puts':1, 'TotalSellQuantity_Puts':1})]
+        data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate, 'Strike_Price': strikePrice}, {'_id':0, 'Time':1,'TotalBuyQuantity_Calls':1, 'TotalSellQuantity_Calls':1, 'TotalBuyQuantity_Puts':1, 'TotalSellQuantity_Puts':1})]
         df = pd.DataFrame(data)
 
         df = df.sort_values('Time')

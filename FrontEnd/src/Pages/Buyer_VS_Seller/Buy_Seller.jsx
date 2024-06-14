@@ -43,6 +43,8 @@ const CommutativeSum = () => {
     // const [commutativeData, setCommutativeData] = useState([]);
     // const [expiryDates, setExpiryDates] = useState([]);
 
+    
+
     const [symbol, setSymbol] = useState("BANKNIFTY");
     const [expiryDate, setExpiryDate] = useState("");
     const [noOfStrikes, setNoOfStrikes] = useState("12");
@@ -52,7 +54,7 @@ const CommutativeSum = () => {
     const [strikePriceData, setStrikePriceData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
     const [twoMin,setTwoMin]=useState()
-    const [date,setDate]=useState("")
+    const [date, setDate] = useState("");
     const [live, setLive] = useState();
 
 

@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 
-const DataTable = ({ allData, noOfStrikes }) => {
+const DataTable = ({ allData, noOfStrikes,date }) => {
   const headingCollection = [
     'S.No',
     '',
@@ -209,6 +209,7 @@ const DataTable = ({ allData, noOfStrikes }) => {
   });
 
  
+ 
 
 //   const tables = sortedKeys.map((time, index) => (
 //     <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
@@ -356,7 +357,9 @@ const DataTable = ({ allData, noOfStrikes }) => {
 
 const tables = sortedKeys.map((time, index) => (
   <div className="overflow-x-auto w-full h-auto mb-[100px]" key={index}>
-    <h2 className="font-bold">Table for Time: {time}</h2>
+    <h2 className="font-bold">Table Timestamp: {date ? (
+      <span>{date}</span>
+    ):(<span>Today</span>)} {time} </h2>
     <table className="w-[100%]">
       <thead className="border-[0.5px] border-gray-300 border-[0.5px]">
         <tr className="">

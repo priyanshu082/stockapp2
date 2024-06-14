@@ -76,8 +76,6 @@ function DataPage() {
       downloadData();
     };
   
-
-  
   const [expiryDate, setExpiryDate] = useState("");
   const [noOfStrikes, setNoOfStrikes] = useState("12");
   const [timeRange, setTimeRange] = useState("15:15:00-15:30:00");
@@ -87,6 +85,11 @@ function DataPage() {
   const [twoMin,setTwoMin]=useState()
   const [date,setDate]=useState("")
   const [live, setLive] = useState();
+
+  console.log(date)
+
+
+
 
 
 const marketOpen = async () => {
@@ -111,11 +114,6 @@ useEffect(()=>{
      (currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) &&
     (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
 
-
-
-
-
-
     const updateTwoMin=()=>{
       const currentTime=new Date()
       setTwoMin(currentTime)
@@ -135,7 +133,7 @@ useEffect(()=>{
     if (symbol && expiryDate && noOfStrikes && timeRange) {
       fetchData();
     }
-  }, [symbol, expiryDate, noOfStrikes, timeRange]);
+  }, [symbol, expiryDate, noOfStrikes, timeRange,date]);
 
   const fetchData = async () => {
     try {
@@ -148,8 +146,8 @@ useEffect(()=>{
       });
 
       const data = response.data;
+      console.log(data.data)
       setAllData(data.data);
-      //console.log(allData)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -160,7 +158,7 @@ useEffect(()=>{
     if (symbol && expiryDate && noOfStrikes) {
       fetchPcrData();
     }
-  }, [symbol, expiryDate, noOfStrikes,timeRange,twoMin]);
+  }, [symbol, expiryDate, noOfStrikes,timeRange,twoMin,date]);
 
   const fetchPcrData = async () => {
     try {
@@ -186,7 +184,8 @@ useEffect(()=>{
     if (symbol) {
       fetchExpiryDates();
     }
-  }, [symbol]);
+  }, [symbol,date]);
+
 
   const fetchExpiryDates = async () => {
     try {
@@ -196,7 +195,7 @@ useEffect(()=>{
       });
 
       const data = response.data;
-      // console.log(data.data);
+      console.log(data.data);
       setExpiryDates(data.data);
       setExpiryDate(data.data[0]);
     } catch (error) {
@@ -296,7 +295,7 @@ useEffect(()=>{
       className="button cursor-pointer w-fit text-[18px] z-20 py-[5px] flex items-center text-[12px] rounded-xl px-[15px] font-semibold text-white">{isDownloading ? 'Downloading...' : 'Download Data'}</button>
       </div>
 <div className="">
-  <DataTable allData={allData} noOfStrikes={noOfStrikes} />
+  <DataTable allData={allData} noOfStrikes={noOfStrikes} date={date} />
 </div>
 </div>
       

@@ -35,6 +35,8 @@ const StrikeGraph = () => {
     }
   },[user])
 
+  
+
 
     const [symbol, setSymbol] = useState("BANKNIFTY")
     const [expiryDate, setExpiryDate] = useState("")
@@ -195,8 +197,7 @@ const StrikeGraph = () => {
           {/* its come from Pages/strike graph page/Bargraph */}
           <h2 className=' text-center font-semibold text-3xl mb-2 '>{symbol}</h2>
           <h2 className=' text-center text-2xl mb-2 '>COI Calls And Puts Graph</h2>
-          <div className='flex flex-row justify-between mt-[50px]'>
-
+          <div className='flex flex-col gap-10 md:gap-[0] md:flex-row justify-between mt-[50px]'>
           <LineChartsCallsPuts data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
           <LineChartsCallsPuts2 data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
           </div>

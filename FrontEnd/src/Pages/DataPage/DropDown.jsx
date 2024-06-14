@@ -248,8 +248,15 @@ const DropDown = ({
               setLive(e.target.checked);
               if (e.target.checked) {
                 setTimeRange(`${time30MinutesAgo}-${currentTime}`);
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
+                setDate(formattedDate);
               } else {
                 setTimeRange("");
+                
               }
             }}
             className="mr-2 h-[20px] w-[20px]"
