@@ -188,14 +188,11 @@ const DropDown = ({
               setLive(e.target.checked);
               if (e.target.checked) {
                 const now = new Date();
-                const formattedDate = new Intl.DateTimeFormat('en-GB', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric'
-                }).format(now).replace(/ /g, '-');
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
                 setDate(formattedDate);
-              } else {
-                setDate("");
               }
             }}
             className="mr-2 h-[20px] w-[20px]"

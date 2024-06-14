@@ -2,7 +2,6 @@ import React, {useEffect,useState,useContext} from 'react'
 import axios from "axios";
 import DropDown from "./DropDown";
 import DataTableComm from "./DataTableComm";
-// import Bargraph from "./BarGraph";
 import { localapi } from '../../Assets/config';
 import Navbar from '../../Components/Navbar/Navbar';
 import { AuthContext } from "../../Context/AuthContext";
@@ -32,23 +31,23 @@ const CommutativeSum = () => {
         // setUserExist(err.response.status)
       })
     }
+
       
     
   },[user])
 
 
-    const [symbol, setSymbol] = useState("BANKNIFTY");
-    const [expiryDate, setExpiryDate] = useState("");
-    const [noOfStrikes, setNoOfStrikes] = useState("12");
-    const [timeInterval, setTimeInterval] = useState("2");
-    const [commutativeData, setCommutativeData] = useState([]);
-    const [expiryDates, setExpiryDates] = useState([]);
+    const [symbol, setSymbol] = useState("BANKNIFTY")
+    const [expiryDate, setExpiryDate] = useState("")
+    const [noOfStrikes, setNoOfStrikes] = useState("12")
+    const [timeInterval, setTimeInterval] = useState("2")
+    const [commutativeData, setCommutativeData] = useState([])
+    const [expiryDates, setExpiryDates] = useState([])
     const [twoMin,setTwoMin]=useState()
     const [date,setDate]=useState("")
-    const [live, setLive] = useState();
-    const [timeRange, setTimeRange] = useState("15:15:00-15:30:00");
+    const [live, setLive] = useState()
 
-
+   
 
     const marketOpen = async () => {
       try {
@@ -59,6 +58,7 @@ const CommutativeSum = () => {
         console.error("Error fetching market holiday", error);
       }
     };
+
     useEffect(()=>{
       marketOpen()
     },[twoMin])
@@ -77,8 +77,6 @@ const CommutativeSum = () => {
         return () => clearInterval(intervalid);
       }
     })
-
-console.log(date)
 
     useEffect(() => {
         if (symbol && expiryDate && noOfStrikes && timeInterval) {
@@ -124,7 +122,8 @@ console.log(date)
         } catch (error) {
           console.error("Error fetching expiry dates:", error);
         }
-      };
+      }
+
   return (
     <>
     <Navbar/>
@@ -150,8 +149,7 @@ console.log(date)
           live={live}
           setLive={setLive}
           twoMin={twoMin}
-          setTimeRange={setTimeRange}
-          timeRange={timeRange}
+          date={date}
         />
       </div>
 

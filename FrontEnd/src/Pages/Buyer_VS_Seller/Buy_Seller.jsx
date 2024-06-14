@@ -2,7 +2,6 @@ import {React,useEffect,useState,useContext} from 'react'
 import axios from "axios";
 import DropDown from "./DropDown";
 import DataTable from "./DataTable";
-// import Bargraph from "./BarGraph";
 import { localapi } from '../../Assets/config';
 import Navbar from '../../Components/Navbar/Navbar';
 import { AuthContext } from "../../Context/AuthContext";
@@ -53,6 +52,23 @@ const CommutativeSum = () => {
     const [strikePriceData, setStrikePriceData] = useState([]);
     const [expiryDates, setExpiryDates] = useState([]);
     const [twoMin,setTwoMin]=useState()
+    const [date,setDate]=useState("")
+    const [live, setLive] = useState();
+
+
+const marketOpen = async () => {
+  try {
+    const response = await axios.get(`${localapi}/ismarketopen`);
+    const data = response.data;
+    setLive(data.status)
+  } catch (error) {
+    console.error("Error fetching market holiday", error);
+  }
+};
+
+useEffect(()=>{
+  marketOpen()
+},[twoMin])
 
     const updateTwoMin=()=>{
       const currentTime=new Date()
@@ -60,12 +76,13 @@ const CommutativeSum = () => {
     }
  
     useEffect(()=>{
-      const intervalid=setInterval(() => {
-        updateTwoMin()
-      }, 30*1000);
-      return () => clearInterval(intervalid);
+      if(live){
+        const intervalid=setInterval(() => {
+          updateTwoMin()
+        }, 30*1000);
+        return () => clearInterval(intervalid);
+      }
     })
-
     
     
     useEffect(() => {
@@ -83,10 +100,9 @@ const CommutativeSum = () => {
             expiryDate,
             strikePrice,
             timeInterval,
+            date
           });
 
-    
-     
           const data = response.data;
           setBuySellData(data.data);
         } catch (error) {
@@ -111,6 +127,7 @@ const CommutativeSum = () => {
             symbol,
             expiryDate,
             noOfStrikes,
+            date
           });
     
           const data = response.data
@@ -132,6 +149,7 @@ const CommutativeSum = () => {
         try {
           const response = await axios.post(`${localapi}/expirydates`, {
             symbol,
+            date
           });
     
           const data = response.data;
@@ -167,6 +185,10 @@ const CommutativeSum = () => {
           strikePriceData={strikePriceData}
           strikePrice={strikePrice}
           setStrikePrice={setStrikePrice}
+          setLive={setLive}
+          live={live}
+          date={date}
+          setDate={setDate}
         />
       </div>
 

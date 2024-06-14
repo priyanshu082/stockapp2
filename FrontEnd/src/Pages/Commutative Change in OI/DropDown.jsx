@@ -15,6 +15,7 @@ const DropDown = ({
   setDate,
   live,
   setLive,
+  date,
   twoMin,
   setTimeRange,
   timeRange
@@ -59,36 +60,7 @@ const DropDown = ({
       console.log(error)
     }
   }
-  const [currentTime, setCurrentTime] = useState(getFormattedTime());
-  
-  const [time30MinutesAgo, setTime30MinutesAgo] = useState(
-    getFormattedTime(new Date(Date.now() - 30 * 60 * 1000))
-  );
-
-
-  useEffect(() => {
-    setCurrentTime(getFormattedTime());
-    setTime30MinutesAgo(getFormattedTime(new Date(Date.now() - 30 * 60 * 1000)));
-  }, [twoMin]); // Run only once when the component mounts
-
-  function getFormattedTime(date = new Date()) {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = "00";
-    return `${hours}:${minutes}:${seconds}`;
-  }
-
-  if(live){
-    let currentRange=`${time30MinutesAgo}-${currentTime}`
-    setTimeRange(currentRange);
-  }
-  
-   useEffect(() => {
-    if(live){
-      let currentRange=`${time30MinutesAgo}-${currentTime}`
-      setTimeRange(currentRange); 
-    }
-   }, [twoMin]);
+ 
 
   const currentHour = new Date().getHours();
   const currentMinutes = new Date().getMinutes();
@@ -226,26 +198,7 @@ const DropDown = ({
           ))}
         </select>
       </div>
-      {/* {!live && ( 
-<div className="flex flex-col">
-        <label className="text-md font-semibold" htmlFor="">
-          Select Time Range
-        </label>
-        <select
-          className=" px-[10px] py-[5px] bg-gray-300 focus:outline-none rounded-md "
-          value={timeRange}
-
-          onChange={(e) => setTimeRange(e.target.value)}
-        >
-           <option defaultValue>15:15:00-15:30:00</option> 
-          {timeRangesCollection.map((range, index) => (
-            <option key={index} value={range}>
-              {range}
-            </option>
-          ))}
-        </select>
-      </div>
-    )}  */}
+     
 
      {!live && ( 
 <div className="flex flex-col">
@@ -271,14 +224,11 @@ const DropDown = ({
               setLive(e.target.checked);
               if (e.target.checked) {
                 const now = new Date();
-                const formattedDate = new Intl.DateTimeFormat('en-GB', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric'
-                }).format(now).replace(/ /g, '-');
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
                 setDate(formattedDate);
-              } else {
-                setDate("");
               }
             }}
             className="mr-2 h-[20px] w-[20px]"
@@ -286,6 +236,8 @@ const DropDown = ({
           <label className="text-2xl font-semibold text-green-800" htmlFor="liveCheckbox">Live</label>
         </div>
       )}
+
+      {date}
      
     </>
   );

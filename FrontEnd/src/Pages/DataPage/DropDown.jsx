@@ -38,8 +38,6 @@ const DropDown = ({
     }
   }
 
- 
-
   // const stocksCollection = [
   //   "KOTAKBANK",
   //   "HDFCBANK",
