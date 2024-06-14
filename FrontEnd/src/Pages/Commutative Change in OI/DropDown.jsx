@@ -236,9 +236,6 @@ const DropDown = ({
           <label className="text-2xl font-semibold text-green-800" htmlFor="liveCheckbox">Live</label>
         </div>
       )}
-
-      {date}
-     
     </>
   );
 };

@@ -84,7 +84,7 @@ const CommutativeSum = () => {
         if (symbol && expiryDate && noOfStrikes && timeInterval) {
           fetchData();
         }
-      }, [symbol, expiryDate, noOfStrikes, timeInterval,twoMin]);
+      }, [symbol, expiryDate, noOfStrikes, timeInterval,twoMin,date]);
     
       const fetchData = async () => {
         try {
@@ -108,7 +108,7 @@ const CommutativeSum = () => {
         if (symbol) {
           fetchExpiryDates();
         }
-      }, [symbol]);
+      }, [symbol,date]);
     
       const fetchExpiryDates = async () => {
         try {

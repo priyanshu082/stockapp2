@@ -254,10 +254,7 @@ const DropDown = ({
                 const day = String(now.getDate()).padStart(2, '0');
                 const formattedDate = `${year}-${month}-${day}`;
                 setDate(formattedDate);
-              } else {
-                setTimeRange("");
-                
-              }
+              } 
             }}
             className="mr-2 h-[20px] w-[20px]"
           />

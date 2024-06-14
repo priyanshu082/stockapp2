@@ -129,6 +129,7 @@ useEffect(()=>{
     })
 
   // fetch all data
+  console.log(timeRange)
   useEffect(() => {
     if (symbol && expiryDate && noOfStrikes && timeRange) {
       fetchData();

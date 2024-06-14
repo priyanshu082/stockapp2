@@ -92,7 +92,7 @@ useEffect(()=>{
         fetchData();
         
       }
-    }, [timeInterval,symbol, expiryDate, strikePrice,twoMin ]);
+    }, [timeInterval,symbol, expiryDate, strikePrice,twoMin ,date]);
 
 
       const fetchData = async () => {
@@ -119,7 +119,7 @@ useEffect(()=>{
         if (symbol && expiryDate && noOfStrikes ) {
           fetchStrikepriceData();
         }
-      }, [symbol, expiryDate, noOfStrikes,twoMin]);
+      }, [symbol, expiryDate, noOfStrikes,twoMin,date]);
     
 
       //strike price api call
@@ -145,7 +145,7 @@ useEffect(()=>{
         if (symbol) {
           fetchExpiryDates();
         }
-      }, [symbol]);
+      }, [symbol,date]);
     
       const fetchExpiryDates = async () => {
         try {

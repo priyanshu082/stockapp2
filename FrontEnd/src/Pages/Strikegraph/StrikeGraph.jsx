@@ -84,7 +84,7 @@ const StrikeGraph = () => {
         if (symbol && expiryDate && strikePrice && timeInterval) {
           fetchData();
         }
-      }, [symbol, expiryDate, strikePrice, timeInterval,twoMin]);
+      }, [symbol, expiryDate, strikePrice, timeInterval,twoMin,date]);
     
       const fetchData = async () => {
         try {
@@ -110,7 +110,7 @@ const StrikeGraph = () => {
         if (symbol && expiryDate && noOfStrikes ) {
           fetchStrikepriceData();
         }
-      }, [symbol, expiryDate, noOfStrikes]);
+      }, [symbol, expiryDate, noOfStrikes,date]);
     
 
       //strike price api call
@@ -141,7 +141,7 @@ const StrikeGraph = () => {
         if (symbol) {
           fetchExpiryDates();
         }
-      }, [symbol]);
+      }, [symbol,date]);
     
       //for expiry dates
       const fetchExpiryDates = async () => {

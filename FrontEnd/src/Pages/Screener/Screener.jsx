@@ -63,10 +63,10 @@ const Screener = () => {
           'Bearish': 2,
           'Sideways': 3
         };
-      
         // Compare the trend values based on the defined order
         return trendOrder[a.Trend] - trendOrder[b.Trend];
       });
+
       setData(sortedData);
     } catch (error) {
       console.log("Data not fetched", error);

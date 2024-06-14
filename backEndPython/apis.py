@@ -228,7 +228,7 @@ def getBanner():
 
             data.append({})
             data[i]['symbol'] = symbol
-            data[i]['initialUnderlyingValue'] = round(currentPrice,2)
+            data[i]['underlyingValue'] = round(currentPrice,2)
             data[i]['change'] = round(currentPrice-prevClosePrice, 2)
             data[i]['pchange'] = round(((currentPrice-prevClosePrice)/prevClosePrice),2)
             i+=1
