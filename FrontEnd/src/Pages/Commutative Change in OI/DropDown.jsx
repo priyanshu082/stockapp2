@@ -270,9 +270,15 @@ const DropDown = ({
             onChange={(e) => {
               setLive(e.target.checked);
               if (e.target.checked) {
-                setTimeRange(`${time30MinutesAgo}-${currentTime}`);
+                const now = new Date();
+                const formattedDate = new Intl.DateTimeFormat('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric'
+                }).format(now).replace(/ /g, '-');
+                setDate(formattedDate);
               } else {
-                setTimeRange("");
+                setDate("");
               }
             }}
             className="mr-2 h-[20px] w-[20px]"

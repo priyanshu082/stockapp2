@@ -84,9 +84,9 @@ function DataPage() {
   const [allData, setAllData] = useState([]);
   const [pcrData, setPcrData] = useState([]);
   const [expiryDates, setExpiryDates] = useState([]);
-  const [live, setLive] = useState();
   const [twoMin,setTwoMin]=useState()
   const [date,setDate]=useState("")
+  const [live, setLive] = useState();
 
 
 const marketOpen = async () => {
@@ -99,6 +99,10 @@ const marketOpen = async () => {
   }
 };
 
+useEffect(()=>{
+  marketOpen()
+},[twoMin])
+
 
 
    const currentHour = new Date().getHours();
@@ -109,9 +113,7 @@ const marketOpen = async () => {
 
 
 
-useEffect(()=>{
-  marketOpen()
-},[twoMin])
+
 
 
     const updateTwoMin=()=>{

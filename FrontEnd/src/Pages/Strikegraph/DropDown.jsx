@@ -14,7 +14,10 @@ const DropDown = ({
   expiryDates,
   strikePriceData,
   setStrikePrice,
-  strikePrice
+  strikePrice,
+  live,
+  setDate,
+  setLive,
 }) => {
   const noOfStrikesOptions = [12, 14, 16, 18, 20];
 
@@ -33,6 +36,12 @@ const DropDown = ({
       console.log(error)
     }
   }
+
+  const currentHour = new Date().getHours();
+  const currentMinutes = new Date().getMinutes();
+  const isBetween930And1530 =
+    (currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) &&
+    (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
 
 
   const intervalCollection = [
@@ -153,6 +162,47 @@ const DropDown = ({
           ))}
         </select>
       </div>
+
+
+      {!live && ( 
+<div className="flex flex-col">
+        <label className="text-md font-semibold" htmlFor="">
+          Select Date
+        </label>
+        <input
+        type="date"
+        className="px-[20px] py-[2px] bg-gray-300 focus:outline-none rounded-md"
+        onChange={(e) => setDate(e.target.value)}
+        />
+       
+      </div>
+    )}
+
+      {isBetween930And1530 && (
+        <div className="flex items-center justify-center">
+          <input
+            type="checkbox"
+            id="liveCheckbox"
+            checked={live}
+            onChange={(e) => {
+              setLive(e.target.checked);
+              if (e.target.checked) {
+                const now = new Date();
+                const formattedDate = new Intl.DateTimeFormat('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric'
+                }).format(now).replace(/ /g, '-');
+                setDate(formattedDate);
+              } else {
+                setDate("");
+              }
+            }}
+            className="mr-2 h-[20px] w-[20px]"
+          />
+          <label className="text-2xl font-semibold text-green-800" htmlFor="liveCheckbox">Live</label>
+        </div>
+      )}
      
     </>
   );

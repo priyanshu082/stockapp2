@@ -27,28 +27,42 @@ const StrikeGraph = () => {
            localStorage.setItem("isSubscribed", result.data.data);
        }
        setIsSubscribed(result.data.data)
-     
       })
       .catch((err) => {
         console.log(err)
         // setUserExist(err.response.status)
       })
     }
-      
-    
   },[user])
 
 
-    const [symbol, setSymbol] = useState("BANKNIFTY");
-    const [expiryDate, setExpiryDate] = useState("");
-    const [noOfStrikes, setNoOfStrikes] = useState("12");
-    const [timeInterval, setTimeInterval] = useState("2");
-    const [strikePrice, setStrikePrice] = useState("");
-    const [strikePriceHigh, setStrikePriceHigh] = useState("");
-    const [strikePriceData, setStrikePriceData] = useState([]);
-    const [strikegraphData, setStrikegraphData] = useState([]);
-    const [expiryDates, setExpiryDates] = useState([]);
+    const [symbol, setSymbol] = useState("BANKNIFTY")
+    const [expiryDate, setExpiryDate] = useState("")
+    const [noOfStrikes, setNoOfStrikes] = useState("12")
+    const [timeInterval, setTimeInterval] = useState("2")
+    const [strikePrice, setStrikePrice] = useState("")
+    const [strikePriceHigh, setStrikePriceHigh] = useState("")
+    const [strikePriceData, setStrikePriceData] = useState([])
+    const [strikegraphData, setStrikegraphData] = useState([])
+    const [expiryDates, setExpiryDates] = useState([])
     const [twoMin,setTwoMin]=useState()
+    const [live, setLive] = useState()
+    const [date,setDate]=useState("")
+
+
+    const marketOpen = async () => {
+      try {
+        const response = await axios.get(`${localapi}/ismarketopen`);
+        const data = response.data;
+        setLive(data.status)
+      } catch (error) {
+        console.error("Error fetching market holiday", error);
+      }
+    };
+    
+    useEffect(()=>{
+      marketOpen()
+    },[twoMin])
 
     const updateTwoMin=()=>{
       const currentTime=new Date()
@@ -56,10 +70,12 @@ const StrikeGraph = () => {
     }
  
     useEffect(()=>{
-      const intervalid=setInterval(() => {
-        updateTwoMin()
-      }, 30*1000);
-      return () => clearInterval(intervalid);
+      if(live){
+        const intervalid=setInterval(() => {
+          updateTwoMin()
+        }, 30*1000);
+        return () => clearInterval(intervalid);
+      }
     })
 
     useEffect(() => {
@@ -75,7 +91,8 @@ const StrikeGraph = () => {
             expiryDate,
             strikePrice,
             timeInterval,
-            noOfStrikes
+            noOfStrikes,
+            date
           });
           const data = response.data;
           console.log(data.data)
@@ -101,6 +118,7 @@ const StrikeGraph = () => {
             symbol,
             expiryDate,
             noOfStrikes,
+            date,
           });
     
           const data = response.data
@@ -128,6 +146,7 @@ const StrikeGraph = () => {
         try {
           const response = await axios.post(`${localapi}/expirydates`, {
             symbol,
+            date,
           });
     
           const data = response.data;
@@ -166,6 +185,9 @@ const StrikeGraph = () => {
           strikePriceData={strikePriceData}
           strikePrice={strikePrice}
           setStrikePrice={setStrikePrice}
+          live={live}
+          setDate={setDate}
+          setLive={setLive}
         />
 
       </div>
