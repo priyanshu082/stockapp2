@@ -15,6 +15,7 @@ import RefundandCancel from "./Pages/RefundandCancel/RefundandCancel";
 import Buy_Seller from "./Pages/Buyer_VS_Seller/Buy_Seller"
 import Screener from "./Pages/Screener/Screener";
 import PrivateRoute from "./Pages/Private";
+import Admin from "./Pages/admin/Admin";
 
 
 function AllRoute() {
@@ -30,13 +31,23 @@ function AllRoute() {
       <Route path="/RefundandCancel" element={<RefundandCancel/>}/>
       <Route path="/register" element={<Registration />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/SubscriptionPage" element={<SubscriptionPage />} />
+      {/* <Route path="/admin" element={<Admin />} /> */}
 
       {/* here the login and signup pages start where auth is required */}
       
+      <Route path="/admin" element={
+            <PrivateRoute>
+              <Admin />
+            </PrivateRoute>
+          } />
       <Route path="/Data" element={
             <PrivateRoute>
               <Datapage />
+            </PrivateRoute>
+          } />
+      <Route path="/SubscriptionPage" element={
+            <PrivateRoute>
+              <SubscriptionPage />
             </PrivateRoute>
           } />
           <Route path="/CommutativeSum" element={

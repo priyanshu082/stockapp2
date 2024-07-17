@@ -54,7 +54,7 @@ const DataTable = ({ allData, noOfStrikes,date }) => {
     minValue = minValue === Number.MAX_VALUE ? 0 : minValue;
     maxValue = maxValue === Number.MIN_VALUE ? 100 : maxValue;
     const normalizedValue = (value - minValue) / (maxValue - minValue); // Normalize value
-    const gradientColor = `rgba(0, 255, 255, ${normalizedValue})`; // Adjust color based on value
+    const gradientColor = `rgba(0, 100, 250, ${normalizedValue})`; // Adjust color based on value
     return gradientColor;
   };
 

@@ -28,7 +28,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-[#E6E6FF] w-full h-24 flex items-center justify-between px-5 sm:px-20  sm:max-md:px-5">
+      <nav className="bg-[#E6E6FF] sticky top-0 z-50 w-full h-24 flex items-center justify-between px-5 sm:px-20 sm:max-md:px-5">
+        <NavLink to="/">
         <div className="left w-auto h-[100%] flex items-center">
           <img
             className="h-20 cursor-pointer"
@@ -37,6 +38,9 @@ const Navbar = () => {
             alt=""
           />
         </div>
+
+        </NavLink>
+        
         <div className="flex gap-5">
           <div className="sm:max-md:hidden hidden right h-[100%] w-auto sm:flex items-center gap-10 px-4">
             <ul className="flex items-center gap-10 text-[16px] text-[#265786]">

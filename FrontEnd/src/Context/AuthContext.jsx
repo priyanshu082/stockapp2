@@ -1,8 +1,4 @@
 import React, { createContext, useState,useEffect } from 'react';
-import axios from 'axios';
-import { authApi } from '../Assets/config';
-import { localapi } from '../Assets/config';
-
 
 export const AuthContext = createContext();
 
@@ -14,8 +10,17 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if(!user){
-      var storedUser = JSON.parse(localStorage.getItem("user"));
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      console.log(storedUser.email)
       setUser(storedUser)
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if(!isSubscribed){
+      if(localStorage.getItem("isSubscribed")){
+        setIsSubscribed(true)
+      }
     }
   }, [user]);
 

@@ -22,7 +22,7 @@ const InfiniteMoving = () => {
       useEffect(()=>{
         const intervalid=setInterval(() => {
           updateTwoMin()
-        }, 30*1000);
+        }, 12000);
         return () => clearInterval(intervalid);
       })
 

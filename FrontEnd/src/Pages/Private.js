@@ -1,19 +1,31 @@
-// src/components/PrivateRoute.js
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from "../Context/AuthContext";
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 const PrivateRoute = ({ children }) => {
+   const { isSubscribed, user } = useContext(AuthContext);
+   const location = useLocation();
 
-  const { isSubscribed } = useContext(AuthContext);
+   useEffect(() => {
+     if (localStorage.getItem("isSubscribed") && location.pathname === "/SubscriptionPage") {
+       toast.success("You are already subscribed!");
+     }
+   }, [isSubscribed, location]);
 
-  if (!localStorage.getItem("isSubscribed")) {
-    // Redirect to the login page if not authenticated
-    return <Navigate to="/SubscriptionPage" />;
-  }
+   if (location.pathname === "/admin") {
+     if (user.email === "priyanshusingh216@gmail.com") {
+       return <Navigate to="/admin" />;
+     } else {
+       return <Navigate to="/" />;
+     }
+   }
 
-  // Render the protected component if authenticated
-  return children;
+   if (!localStorage.getItem("isSubscribed")) {
+     return <Navigate to="/SubscriptionPage" />;
+   }
+
+   return children;
 };
 
 export default PrivateRoute;

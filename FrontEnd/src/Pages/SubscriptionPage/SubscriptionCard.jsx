@@ -3,6 +3,7 @@ import axios from "axios";
 import { authApi, localapi } from "../../Assets/config";
 import { AuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const SubscriptionCard = ({tittle,price,month,cardDescription,first,second,third,fourth,fifth,buttonValue,tenure}) => {
   const {isSubscribed , user , setUser, setIsSubscribed} = useContext(AuthContext);
@@ -13,12 +14,15 @@ export const SubscriptionCard = ({tittle,price,month,cardDescription,first,secon
 
   const handleSubscription= async(tenure)=>{
       try {
-        const email=user?.email
+        if(localStorage.getItem("isSubscribed")){
+          toast.error("You are already Subscribed")
+        }
+        else{const email=user?.email
         const response =await axios.post(`${localapi}/subscribe`,{email:email,tenure:tenure})
         console.log(response.data)
         localStorage.removeItem("token");
         localStorage.removeItem("user")
-        navigate("/login")
+        navigate("/login")}
       } catch (error) {
         console.log(error)
       }
@@ -42,7 +46,8 @@ export const SubscriptionCard = ({tittle,price,month,cardDescription,first,secon
        </div>
        <button
        onClick={()=>handleSubscription(tenure)}
-        className=' button group-hover:bg-[white] group-hover:text-[#807e7e] z-20 bg-[#9698ED] text-white py-2 px-4 rounded-md w-[100%]  duration-100 ease-in text-xl font-semibold' >{buttonValue}</button>
+        className=' button group-hover:bg-[white] group-hover:text-[#807e7e] z-20 bg-[#9698ED] text-white py-2 px-4 rounded-md w-[100%]  duration-100 ease-in text-xl font-semibold' >{buttonValue}
+        </button>
       </div>
     </>
   )

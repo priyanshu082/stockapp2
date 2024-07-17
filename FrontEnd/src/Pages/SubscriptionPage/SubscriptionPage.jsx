@@ -30,25 +30,7 @@ const SubscriptionPage = () => {
     
   },[user])
 
-//   useEffect(() => {
-//     const token = localStorage.getItem('token');
-    
-//     const fetchData=async()=>{
-//       try {
-//         const response =await axios.get(`${authApi}/user/me`,{
-//           headers:{
-//             Authorization:"Bearer "+localStorage.getItem("token")
-//           }
-//         })
-       
-//         setUser(response.data.user)
-//       } catch (error) {
-//         console.log(error)
-//       }
-//     }
-    
-//  if(token) fetchData();
-//   }, []);
+
 
   console.log(user)
  
@@ -61,15 +43,15 @@ const SubscriptionPage = () => {
             <span className="font-bold">Choose</span> Your Plan{" "}
           </h1>
           <p className="text-sm sm:text-md">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+           Be The Part of Ride On Whale
           </p>
         </div>
         <div className="cardconstiner flex flex-wrap items-center  w-full h-auto mt-[20px] justify-evenly py-2 gap-6">
           <SubscriptionCard
             tittle="Basic Plan"
-            price="$99"
+            price="₹99"
             month="/One Month"
-            cardDescription="Lorem ipsum dolor sit amet."
+            
             first="-OI Breakup(Chnage OI,commulative OI,Change OI in Amount,PCR,Support & Residence) and many more"
             second="-Long Buildup,Short Buildup,unwinding,LongBuildup"
             third="-Compare Commulative Call OI ,Put OI & Price"
@@ -80,9 +62,9 @@ const SubscriptionPage = () => {
           />
           <SubscriptionCard
             tittle="Premium Plan"
-            price="$199"
+            price="₹199"
             month="/Three Months"
-            cardDescription="Lorem ipsum dolor sit amet."
+            
             first="-OI Breakup(Chnage OI,commulative OI,Change OI in Amount,PCR,Support & Residence) and many more"
             second="-Long Buildup,Short Buildup,unwinding,LongBuildup"
             third="-Compare Commulative Call OI ,Put OI & Price"
@@ -94,9 +76,9 @@ const SubscriptionPage = () => {
           />
           <SubscriptionCard
             tittle="VIP Plan"
-            price="$299"
+            price="₹299"
             month="/Twelve Months"
-            cardDescription="Lorem ipsum dolor sit amet."
+            
             first="-OI Breakup(Chnage OI,commulative OI,Change OI in Amount,PCR,Support & Residence) and many more"
             second="-Long Buildup,Short Buildup,unwinding,LongBuildup"
             third="-Compare Commulative Call OI ,Put OI & Price"

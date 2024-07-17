@@ -44,9 +44,6 @@ function Home() {
   },[user])
 
 
-   
-
-
   return (
     
   <> 

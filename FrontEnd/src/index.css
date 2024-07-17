@@ -84,7 +84,7 @@ top: 0;
 .blank-row td {
   /* border: 0.5px solid #6e6c6c; */
   background-color: #f8f8f8;
-  padding: 3px;
+  padding: 1px;
 }
 
 /* Styles for filled cells */
@@ -98,5 +98,5 @@ top: 0;
 .blank-cell {
   /* border: 0.5px solid #6e6c6c; */
   background-color: #f8f8f8;
-  padding: 3px;
+  padding: 1px;
 }

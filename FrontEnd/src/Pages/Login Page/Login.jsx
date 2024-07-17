@@ -122,12 +122,12 @@ const Login = () => {
             </div>
 
             <div className="gotologinpage w-[90%] sm:w-[70%] h-10 flex gap items-center gap-[10px]  pl-[15px] sm:pl-[0px]">
-              <p className="text-sm"> Already have an account? </p>
+              <p className="text-sm"> Don't have an Account? </p>
               <Link
                 to="/register"
                 className="text-[#265786] nav animate-bounce  cursor-pointer hover:text-[#5759da] duration-200 ease-in"
               >
-                Register Here
+                SignUp Here
               </Link>
             </div>
           </div>
