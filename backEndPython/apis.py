@@ -167,7 +167,7 @@ def expiryDates():
         symbolCollection = db[symbol]
         data = [x for x in symbolCollection.find({'Date': date}, {'_id':0})]
         data = [x['Expiry_Date'] for x in data] 
-        data = list(set(data))
+        data = sorted(list(set(data)))
     except:
         data = "Error"
     response = {"data": data}
@@ -633,24 +633,24 @@ def buySellData():
 
 @app.route('/users', methods=['GET'])
 def fetchUsers():
-    users_collection = db['users']
-    user = users_collection.find({},{'_id':0})
+        users_collection = db['users']
+        user = list(users_collection.find({},{'_id':0, 'password':0}))
 
-    if not user:
-        return jsonify({'message': 'User does not exsists'}), 400
+        if not user:
+            return jsonify({'message': 'User does not exsists'}), 400
 
-    return jsonify({'data': user}), 200
+        return jsonify({'data': user}), 200
 
 
 @app.route('/subscribers', methods=['GET'])
 def fetchSubscibers():
     subscribers_collection = db['subscribers']
-    subscriber = subscribers_collection.find({},{'_id':0})
+    subscriber = list(subscribers_collection.find({},{'_id':0, 'password':0}))
 
     if not subscriber:
         return jsonify({'message': 'Subscriber does not exsists'}), 400
 
-    return jsonify({'data': user}), 200
+    return jsonify({'data': subscriber}), 200
 
 if __name__ == '__main__':
     app.run(debug=True,host="157.15.202.107")

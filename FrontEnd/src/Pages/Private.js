@@ -11,18 +11,10 @@ const PrivateRoute = ({ children }) => {
      if (localStorage.getItem("isSubscribed") && location.pathname === "/SubscriptionPage") {
        toast.success("You are already subscribed!");
      }
-   }, [isSubscribed, location]);
-
-   if (location.pathname === "/admin") {
-     if (user.email === "priyanshusingh216@gmail.com") {
-       return <Navigate to="/admin" />;
-     } else {
-       return <Navigate to="/" />;
-     }
-   }
+   }, [isSubscribed, location])
 
    if (!localStorage.getItem("isSubscribed")) {
-     return <Navigate to="/SubscriptionPage" />;
+     return <Navigate to="/SubscriptionPage" />
    }
 
    return children;
