@@ -11,7 +11,7 @@ import pytz
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://103.184.192.5:3000"}})
+CORS(app, resources={r"/*": {"origins": "http://157.15.202.107:3000"}})
 client = MongoClient('mongodb://localhost:27017/')
 db = client['optionChainData']
 
@@ -69,6 +69,13 @@ def subscribe():
 
     if not email or not tenure:
         return jsonify({'message': 'Missing required fields'}), 400
+
+    subscribers_collection = db['subscribers']
+    subscriber = subscribers_collection.find_one({"email": email},{'_id':0})
+
+    if subscriber:
+        return jsonify({'message': 'Already Subscribed'}), 400
+
     
     users_collection = db['users']
     user = users_collection.find_one({'email': email},{'_id':0})
@@ -624,6 +631,27 @@ def buySellData():
     return jsonify(response)
 
 
+@app.route('/users', methods=['GET'])
+def fetchUsers():
+    users_collection = db['users']
+    user = users_collection.find({},{'_id':0})
+
+    if not user:
+        return jsonify({'message': 'User does not exsists'}), 400
+
+    return jsonify({'data': user}), 200
+
+
+@app.route('/subscribers', methods=['GET'])
+def fetchSubscibers():
+    subscribers_collection = db['subscribers']
+    subscriber = subscribers_collection.find({},{'_id':0})
+
+    if not subscriber:
+        return jsonify({'message': 'Subscriber does not exsists'}), 400
+
+    return jsonify({'data': user}), 200
+
 if __name__ == '__main__':
-    app.run(debug=True,host="103.184.192.5")
+    app.run(debug=True,host="157.15.202.107")
     # app.run(debug=True)

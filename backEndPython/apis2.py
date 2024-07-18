@@ -11,7 +11,7 @@ import pytz
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://103.184.192.5:3000"}})
+CORS(app, resources={r"/*": {"origins": "http://157.15.202.107:3000"}})
 client = MongoClient('mongodb://localhost:27017/')
 db = client['optionChainData']
 
@@ -598,5 +598,5 @@ def buySellData():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,host="103.184.192.5")
+    app.run(debug=True,host="157.15.202.107")
     # app.run(debug=True)
