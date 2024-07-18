@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { adminEmail,adminPassword } from '../../Assets/config';
+
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -10,9 +12,7 @@ const AdminLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    const adminEmail = "abc@gmail.com"; // Replace with actual admin email
-    const adminPassword = "123"; // Replace with actual admin password
+
 
     if (email === adminEmail && password === adminPassword) {
       localStorage.setItem("adminEmail", email);

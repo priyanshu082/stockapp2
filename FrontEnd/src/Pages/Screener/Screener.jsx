@@ -55,7 +55,7 @@ const Screener = () => {
     try {
       const response = await axios.get(`${localapi}/screener`);
       const data = await response.data.data;
-      console.log(response.data.data);
+      console.log(response);
       const sortedData = data?.sort((a, b) => {
         // Define the order of trends
         const trendOrder = {

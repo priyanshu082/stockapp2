@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { adminEmail,adminPassword } from '../Assets/config';
 
 const AdminPrivateRoute = ({ children }) => {
   const location = useLocation();
@@ -9,8 +10,7 @@ const AdminPrivateRoute = ({ children }) => {
 
   useEffect(() => {
     const checkAdminStatus = () => {
-      const adminEmail = "abc@gmail.com"; // Replace with actual admin email
-      const adminPassword = "123"; // Replace with actual admin password
+      
 
       const storedEmail = localStorage.getItem("adminEmail");
       const storedPassword = localStorage.getItem("adminPassword");

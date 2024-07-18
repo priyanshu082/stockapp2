@@ -304,73 +304,71 @@ def downloadData():
 
         symbolCollection = db[symbol]
 
-        data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate}, {'_id':0})]
-        allStikePrices = [x['Strike_Price'] for x in data]
-        allStikePrices = set(allStikePrices)
-        allStikePrices = list(allStikePrices)
-        allStikePrices.sort()
-        if len(allStikePrices) - noOfStrikes*2 > 1:
-            elementsToLeave = len(allStikePrices)-noOfStrikes*2
-            requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
+        data = [x for x in symbolCollection.find({'Date': date, 'Expiry_Date': expiryDate}, {'_id': 0})]
+        allStrikePrices = sorted({x['Strike_Price'] for x in data})
+
+        if len(allStrikePrices) > noOfStrikes * 2:
+            elementsToLeave = len(allStrikePrices) - noOfStrikes * 2
+            requiredStrikePrices = allStrikePrices[elementsToLeave // 2: -elementsToLeave // 2]
         else:
-            requiredStrikePrices = allStikePrices
+            requiredStrikePrices = allStrikePrices
 
         data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
         df = pd.DataFrame(data)
         splitted_dfs = []
-        for i in df["Time"].unique().tolist():
 
-            temp_df = df[df["Time"]==i].reset_index(drop=True)
-
+        for time in df["Time"].unique():
+            temp_df = df[df["Time"] == time].reset_index(drop=True)
             temp_df['S_C_Calls'] = temp_df['C_Calls'].sum()
             temp_df['S_C_Puts'] = temp_df['C_Puts'].sum()
             temp_df['S_COI_Calls'] = temp_df['COI_Calls'].sum()
             temp_df['S_COI_Puts'] = temp_df['COI_Puts'].sum()
             temp_df['R_S_COI'] = np.where(temp_df["S_COI_Calls"] != 0, temp_df['S_COI_Puts'] / temp_df["S_COI_Calls"], np.nan)
 
-
             index_of_current_strikePrice = (temp_df['Strike_Price'] - temp_df['underlyingValue']).abs().idxmin()
-
-            temp_df.loc[temp_df.index != index_of_current_strikePrice,['S_C_Calls', 'S_C_Puts', 'S_COI_Calls', 'S_COI_Puts', 'R_S_COI'] ] = np.nan
-
+            temp_df.loc[temp_df.index != index_of_current_strikePrice, ['S_C_Calls', 'S_C_Puts', 'S_COI_Calls', 'S_COI_Puts', 'R_S_COI']] = np.nan
             temp_df = temp_df.replace({np.nan: ''})
 
-            temp_df = temp_df.style.background_gradient(cmap='Blues', subset = ['COI_Calls', 'COI_Puts'])
-            temp_df = temp_df.map(lambda s: 'background-color: yellow; color: black;', subset = pd.IndexSlice[index_of_current_strikePrice, :])
-            temp_df = temp_df.map(lambda s: 'background-color: Tomato;', subset = pd.IndexSlice[0:index_of_current_strikePrice-1, ['C_Amt_Calls_Cr']])
-            temp_df = temp_df.map(lambda s: 'background-color: MediumSeaGreen;', subset = pd.IndexSlice[index_of_current_strikePrice+1:, ['C_Amt_Puts_Cr']])
+            temp_df_style = temp_df.style.background_gradient(cmap='Blues', subset=['COI_Calls', 'COI_Puts'])
+            temp_df_style = temp_df_style.apply(lambda s: 'background-color: yellow; color: black;', subset=pd.IndexSlice[index_of_current_strikePrice, :])
+            temp_df_style = temp_df_style.apply(lambda s: 'background-color: Tomato;', subset=pd.IndexSlice[0:index_of_current_strikePrice-1, ['C_Amt_Calls_Cr']])
+            temp_df_style = temp_df_style.apply(lambda s: 'background-color: MediumSeaGreen;', subset=pd.IndexSlice[index_of_current_strikePrice+1:, ['C_Amt_Puts_Cr']])
 
             def getColor(s):
-
                 if s == 'Short Buildup ↓':
-                    color = 'Tomato'
+                    return 'background-color: Tomato;'
                 elif s == 'Long Unwinding ↑':
-                    color = 'orange'
+                    return 'background-color: orange;'
                 elif s == 'Short Covering ↑':
-                    color = 'lightblue'
+                    return 'background-color: lightblue;'
                 elif s == 'Long Buildup ↓':
-                    color = 'MediumSeaGreen'
-                else:
-                    color = 'None'
+                    return 'background-color: MediumSeaGreen;'
+                return ''
 
-                return  f'background-color: {color};'
+            temp_df_style = temp_df_style.applymap(getColor, subset=['Long_Short_Calls', 'Long_Short_Puts'])
+            temp_df_style = temp_df_style.format(lambda x: "{:.2f}".format(x))
+            temp_df_style = temp_df_style.set_properties(**{"border": "1px solid black"})
 
-            temp_df.map(getColor, subset=['Long_Short_Calls', 'Long_Short_Puts'])
+            splitted_dfs.append(temp_df)
 
-            temp_df.format(precision = 2)
+        # Concatenate DataFrames
+        result_df = pd.concat(splitted_dfs)
 
-            temp_df.set_properties(**{"border": "1px solid black"})
+        # Apply styling after concatenation
+        result_df_style = result_df.style.background_gradient(cmap='Blues', subset=['COI_Calls', 'COI_Puts'])
+        result_df_style = result_df_style.apply(lambda s: 'background-color: yellow; color: black;', subset=pd.IndexSlice[index_of_current_strikePrice, :])
+        result_df_style = result_df_style.apply(lambda s: 'background-color: Tomato;', subset=pd.IndexSlice[0:index_of_current_strikePrice-1, ['C_Amt_Calls_Cr']])
+        result_df_style = result_df_style.apply(lambda s: 'background-color: MediumSeaGreen;', subset=pd.IndexSlice[index_of_current_strikePrice+1:, ['C_Amt_Puts_Cr']])
+        result_df_style = result_df_style.applymap(getColor, subset=['Long_Short_Calls', 'Long_Short_Puts'])
+        result_df_style = result_df_style.format(lambda x: "{:.2f}".format(x))
+        result_df_style = result_df_style.set_properties(**{"border": "1px solid black"})
 
-            splitted_dfs.append(temp_df) 
+        html = result_df_style.to_html()
+        data = html.encode("utf-8")
 
-
-        result_df = splitted_dfs[0]
-        for i in splitted_dfs[1:]:
-            result_df = result_df.concat(i)
-        html = result_df.to_html() # convert the DataFrame to HTML
-        data = html.encode("utf-8")# encode the HTML string to bytes
     except Exception as e:
-        data = (f"<p>Error: {e}</p>").encode("utf-8")
+        data = f"<p>Error: {e}</p>".encode("utf-8")
+
     response = Response(data, content_type='text/html')
     response.headers['Content-Disposition'] = 'attachment; filename=data.html'
     return response
@@ -477,14 +475,13 @@ def screener():
         with open("/root/stockapp2/backEndPython/symbols.txt") as f:
             data = f.readlines()
 
-        symbols = [i.removesuffix('\n') for i in data]
-
+        symbols = [i.strip('\n') for i in data]
         result = []
         i=0
         for symbol in symbols:
             symbolCollection = db[symbol]
             expiryDates = [x for x in symbolCollection.find({'Date': date}, {'_id':0})]
-            expiryDates = [x['Expiry_Date'] for x in data]    
+            expiryDates = [x['Expiry_Date'] for x in expiryDates]    
             expiryDates.sort()
             expiryDate=expiryDates[0]
             data = [x for x in symbolCollection.find({'Date':date, 'Expiry_Date': expiryDate} ,{'_id':0})]
