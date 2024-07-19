@@ -89,6 +89,8 @@ def call_api(symbol):
 
         result_df['C_Calls'] = result_df['COI_Calls'] - prev_df['COI_Calls']
         result_df['C_Puts'] = result_df['COI_Puts'] - prev_df['COI_Puts']
+        result_df['C_CLTP_Calls'] = result_df['CLTP_Calls'] - prev_df['CLTP_Calls']
+        result_df['C_CLTP_Puts'] = result_df['CLTP_Puts'] - prev_df['CLTP_Puts']
         result_df['C_Amt_Calls_Cr'] = (result_df['C_Calls']*132000)/10000000
         result_df['C_Amt_Puts_Cr'] = (result_df['C_Puts']*132000)/10000000
 
@@ -97,15 +99,15 @@ def call_api(symbol):
         # 3:-Long Buildup		If prize is Increasing and OI is increasing.
         # 4:-Long Unwinding		If prize is decresing and OI is decresing.
 
-        result_df['Long_Short_Calls'] = np.where((result_df['CLTP_Calls'] < 0) & (result_df['C_Calls'] > 0), 'Short Buildup ↓',
-               np.where((result_df['CLTP_Calls'] < 0) & (result_df['C_Calls'] < 0), 'Long Unwinding ↑',
-               np.where((result_df['CLTP_Calls'] > 0) & (result_df['C_Calls'] < 0), 'Short Covering ↑',
-               np.where((result_df['CLTP_Calls'] > 0) & (result_df['C_Calls'] > 0), 'Long Buildup ↓', ''))))
+        result_df['Long_Short_Calls'] = np.where((result_df['C_CLTP_Calls'] < 0) & (result_df['C_Calls'] > 0), 'Short Buildup ↓',
+               np.where((result_df['C_CLTP_Calls'] < 0) & (result_df['C_Calls'] < 0), 'Long Unwinding ↑',
+               np.where((result_df['C_CLTP_Calls'] > 0) & (result_df['C_Calls'] < 0), 'Short Covering ↑',
+               np.where((result_df['C_CLTP_Calls'] > 0) & (result_df['C_Calls'] > 0), 'Long Buildup ↓', ''))))
         
-        result_df['Long_Short_Puts'] = np.where((result_df['CLTP_Puts'] < 0) & (result_df['C_Puts'] > 0), 'Short Buildup ↓',
-               np.where((result_df['CLTP_Puts'] < 0) & (result_df['C_Puts'] < 0), 'Long Unwinding ↑',
-               np.where((result_df['CLTP_Puts'] > 0) & (result_df['C_Puts'] < 0), 'Short Covering ↑',
-               np.where((result_df['CLTP_Puts'] > 0) & (result_df['C_Puts'] > 0), 'Long Buildup ↓', ''))))
+        result_df['Long_Short_Puts'] = np.where((result_df['C_CLTP_Puts'] < 0) & (result_df['C_Puts'] > 0), 'Short Buildup ↓',
+               np.where((result_df['C_CLTP_Puts'] < 0) & (result_df['C_Puts'] < 0), 'Long Unwinding ↑',
+               np.where((result_df['C_CLTP_Puts'] > 0) & (result_df['C_Puts'] < 0), 'Short Covering ↑',
+               np.where((result_df['C_CLTP_Puts'] > 0) & (result_df['C_Puts'] > 0), 'Long Buildup ↓', ''))))
 
         # if result_df['CLTP_Calls'] > 0 and result_df['C_Calls'] < 0:
         #     result_df['Long_Short_Calls'] = 'Short Covering' 

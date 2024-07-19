@@ -29,6 +29,7 @@ function AllRoute() {
       <Route path="/register" element={<Registration />} />
       <Route path="/login" element={<Login />} />
       <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/SubscriptionPage" element={<SubscriptionPage />} />
 
       {/* Admin route with AdminPrivateRoute */}
       <Route path="/admin" element={
@@ -43,11 +44,11 @@ function AllRoute() {
           <Datapage />
         </PrivateRoute>
       } />
-      <Route path="/SubscriptionPage" element={
+      {/* <Route path="/SubscriptionPage" element={
         <PrivateRoute>
           <SubscriptionPage />
         </PrivateRoute>
-      } />
+      } /> */}
       <Route path="/CommutativeSum" element={
         <PrivateRoute>
           <CommutativeSum />
