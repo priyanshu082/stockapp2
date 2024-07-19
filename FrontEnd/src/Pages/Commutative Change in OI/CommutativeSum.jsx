@@ -69,7 +69,7 @@ const CommutativeSum = () => {
       if(live){
         const intervalid=setInterval(() => {
           updateTwoMin()
-        }, 30*1000);
+        }, 4*1000);
         return () => clearInterval(intervalid);
       }
     })

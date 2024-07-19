@@ -18,7 +18,7 @@ const StrikeGraph = () => {
   useEffect(()=>{
     if(user){
       axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {
-        console.log(result.data.data);
+        // console.log(result.data.data);
          if (typeof result.data.data !== 'string') {
            // If it's not a string, stringify it before storing in localStorage
            localStorage.setItem("isSubscribed", JSON.stringify(result.data.data));
@@ -75,7 +75,7 @@ const StrikeGraph = () => {
       if(live){
         const intervalid=setInterval(() => {
           updateTwoMin()
-        }, 30*1000);
+        }, 30000);
         return () => clearInterval(intervalid);
       }
     })
@@ -84,7 +84,13 @@ const StrikeGraph = () => {
         if (symbol && expiryDate && strikePrice && timeInterval) {
           fetchData();
         }
-      }, [symbol, expiryDate, strikePrice, timeInterval,twoMin,date]);
+      }, [symbol, expiryDate, strikePrice, timeInterval,date]);
+
+    useEffect(() => {
+        if (live) {
+          fetchData();
+        }
+      }, [twoMin]);
     
       const fetchData = async () => {
         try {
@@ -127,8 +133,7 @@ const StrikeGraph = () => {
           setStrikePriceData(data.data);
           setStrikePrice(data.data[0])
           setStrikePriceHigh(data.data[noOfStrikes*2-1])
-          // console.log(strikePrice);
-          // console.log(strikePriceHigh)
+  
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -198,6 +203,7 @@ const StrikeGraph = () => {
           <h2 className=' text-center font-semibold text-3xl mb-2 '>{symbol}</h2>
           <h2 className=' text-center text-2xl mb-2 '>COI Calls And Puts Graph</h2>
           <div className='flex flex-col gap-10 md:gap-[0] md:flex-row justify-between mt-[50px]'>
+
           <LineChartsCallsPuts data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
           <LineChartsCallsPuts2 data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
           </div>

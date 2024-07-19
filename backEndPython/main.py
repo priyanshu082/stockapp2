@@ -192,7 +192,8 @@ if __name__ == "__main__":
                             print(f"\nPassed: {flattened_list.count(True)}\nFailed: {flattened_list.count(False)}")
                             end = time.time()
 
-                            print(f'{end-start}\n')
+                            print(f'{end-start}')
+                            print(datetime.now(IST).strftime("%d/%b/%Y %H:%M:%S"))
                             if end-start < 120:
                                 time.sleep(120-(end-start))
             

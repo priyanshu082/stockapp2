@@ -1,12 +1,12 @@
-import React, { useState, useEffect,useContext } from "react";
-import axios from "axios";
-import LineChart from "./Line_Chart";
-import DropDown from "./DropDown";
-import DataTable from "./DataTable";
-import { localapi } from "../../Assets/config";
-import Navbar from "../../Components/Navbar/Navbar";
-import { AuthContext } from "../../Context/AuthContext";
-import InfiniteMoving from "../../Components/InfiniteMoving";
+import React, { useState, useEffect,useContext } from "react"
+import axios from "axios"
+import LineChart from "./Line_Chart"
+import DropDown from "./DropDown"
+import DataTable from "./DataTable"
+import { localapi } from "../../Assets/config"
+import Navbar from "../../Components/Navbar/Navbar"
+import { AuthContext } from "../../Context/AuthContext"
+import InfiniteMoving from "../../Components/InfiniteMoving"
 
 
 function DataPage() {
@@ -25,15 +25,12 @@ function DataPage() {
            localStorage.setItem("isSubscribed", result.data.data);
        }
        setIsSubscribed(result.data.data)
-     
       })
       .catch((err) => {
         console.log(err)
         // setUserExist(err.response.status)
       })
     }
-      
-    
   },[user])
 
 
@@ -82,11 +79,11 @@ function DataPage() {
   const [allData, setAllData] = useState([]);
   const [pcrData, setPcrData] = useState([]);
   const [expiryDates, setExpiryDates] = useState([]);
-  const [twoMin,setTwoMin]=useState()
+  const [twoMin,setTwoMin]=useState("")
   const [date,setDate]=useState("")
   const [live, setLive] = useState();
 
-  console.log(date)
+
 
 
 
@@ -117,24 +114,24 @@ useEffect(()=>{
     const updateTwoMin=()=>{
       const currentTime=new Date()
       setTwoMin(currentTime)
+      console.log(currentTime,twoMin)
     }
  
     useEffect(()=>{
       if(live){
         const intervalid=setInterval(() => {
           updateTwoMin()
-        }, 12000);
+        }, 40000);
         return () => clearInterval(intervalid);
       }
     })
 
-  // fetch all data
-  console.log(timeRange)
+
   useEffect(() => {
     if (symbol && expiryDate && noOfStrikes && timeRange) {
       fetchData();
     }
-  }, [symbol, expiryDate, noOfStrikes, timeRange,date]);
+  }, [symbol, expiryDate, noOfStrikes, timeRange,date,twoMin]);
 
   const fetchData = async () => {
     try {
@@ -147,7 +144,7 @@ useEffect(()=>{
       });
 
       const data = response.data;
-      console.log(data.data)
+      console.log(response)
       setAllData(data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -173,7 +170,7 @@ useEffect(()=>{
       const data = response.data;
       // setTableData(data.data);
       setPcrData(data.data);
-     // console.log(data.data);
+      // console.log(data.data);
       // console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -231,7 +228,6 @@ useEffect(()=>{
   return (
     <div>
   <Navbar/>
- 
     <div className="sm:p-[50px] p-[10px] ">
       <h1 className="w-full   font-bold text-md sm:text-4xl  my-1 mb-4">
         PCR - RideOnWhale.Com
