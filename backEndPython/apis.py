@@ -685,6 +685,56 @@ def buySellData():
     return jsonify(response)
 
 
+@app.route('/oi', methods=['POST'])
+def OIData():
+    try:
+        request_data = request.get_json()
+        symbol = request_data.get('symbol')
+        timeInterval = request_data.get('timeInterval')#daily weekly monthly
+        noOfStrikes = int(request_data.get('noOfStrikes'))
+
+        symbolCollection = db[symbol]
+
+        data = [x for x in symbolCollection.find({}, {'_id':0})]
+        allStikePrices = [x['Strike_Price'] for x in data]
+        allStikePrices = set(allStikePrices)
+        allStikePrices = list(allStikePrices)
+        allStikePrices.sort()
+        if len(allStikePrices) - noOfStrikes*2 > 1:
+            elementsToLeave = len(allStikePrices)-noOfStrikes*2
+            requiredStrikePrices = allStikePrices[elementsToLeave//2:(-1)*(elementsToLeave//2)] 
+        else:
+            requiredStrikePrices = allStikePrices
+
+        data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
+        df = pd.DataFrame(data)
+
+        if timeInterval=="daily":
+            df['S_OI_Calls'] = df.groupby('Date')['OpenInterest_Calls'].transform('sum')
+            df['S_OI_Puts'] = df.groupby('Date')['OpenInterest_Puts'].transform('sum')
+        elif timeInterval=="weekly":
+            df['S_OI_Calls'] = df.groupby('Expiry_Date')['OpenInterest_Calls'].transform('sum')
+            df['S_OI_Puts'] = df.groupby('Expiry_Date')['OpenInterest_Puts'].transform('sum')
+        elif timeInterval=="monthly":
+            df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%Y')
+            df['Month'] = df['Date'].dt.month
+            df['S_OI_Calls'] = df.groupby('Month')['OpenInterest_Calls'].transform('sum')
+            df['S_OI_Puts'] = df.groupby('Month')['OpenInterest_Puts'].transform('sum')
+        else:
+            raise ValueError       
+
+        df = df[['Date', 'S_OI_Calls', 'S_OI_Puts']]
+        df = df.sort_values('Date')
+
+        data = df.to_dict(orient='records')
+        # dd(data)
+
+    except:
+        data = "Error"
+    response = {"data": data}
+    return jsonify(response) 
+
+
 @app.route('/users', methods=['GET'])
 def fetchUsers():
         users_collection = db['users']
