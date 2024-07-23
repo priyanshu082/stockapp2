@@ -720,11 +720,13 @@ def OIData():
             df['Month'] = df['Date'].dt.month
             df['S_OI_Calls'] = df.groupby('Month')['OpenInterest_Calls'].transform('sum')
             df['S_OI_Puts'] = df.groupby('Month')['OpenInterest_Puts'].transform('sum')
+            df['Date'] = df['Month']
         else:
             raise ValueError       
 
         df = df[['Date', 'S_OI_Calls', 'S_OI_Puts']]
         df = df.sort_values('Date')
+        df = df.drop_duplicates()
 
         data = df.to_dict(orient='records')
         # dd(data)

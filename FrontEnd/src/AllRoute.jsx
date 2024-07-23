@@ -17,6 +17,7 @@ import Admin from "./Pages/admin/Admin";
 import PrivateRoute from "./Pages/Private";
 import AdminPrivateRoute from "./Pages/AdminPrivateRoute";
 import AdminLogin from "./Pages/admin/AdminLogin";
+import OI from "./Pages/oi/oi";
 
 function AllRoute() {
   return (
@@ -42,6 +43,11 @@ function AllRoute() {
       <Route path="/Data" element={
         <PrivateRoute>
           <Datapage />
+        </PrivateRoute>
+      } />
+      <Route path="/oi" element={
+        <PrivateRoute>
+          <OI />
         </PrivateRoute>
       } />
       {/* <Route path="/SubscriptionPage" element={

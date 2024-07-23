@@ -43,6 +43,7 @@ const Navbar = () => {
     { title: "CALL v/s PUT", path: isSubscribed ? "/CommutativeSum" : "/SubscriptionPage", always: true },
     { title: "PRICE", path: isSubscribed ? "/StrikeGraph" : "/SubscriptionPage", always: true },
     { title: "BUYERvsSELLER", path: isSubscribed ? "/Buyer_VS_Seller" : "/SubscriptionPage", always: true },
+    { title: "OI", path: isSubscribed ? "/oi" : "/SubscriptionPage", always: true },
     { title: "SCREENER", path: isSubscribed ? "/screener" : "/SubscriptionPage", always: true },
     { title: "ABOUT US", path: "/AboutUs", always: true },
     { title: "REFUND & CANCELLATION", path: "/RefundandCancel", always: true },
@@ -95,10 +96,10 @@ const Navbar = () => {
               <button onClick={() => setIsOpen(false)} className="absolute top-6 right-6 text-xl md:text-3xl ">
                 <AiOutlineClose />
               </button>
-              <ul className="space-y-6 px-4 sm:w-full">
+              <ul className="space-y-5 px-4 sm:w-full">
                 {menuItems.map((item, index) => (
                   ((item.always || (user && item.loggedIn) || (!user && item.loggedOut))) && (
-                    <li key={index} className="mb-4">
+                    <li key={index} className="mb-2">
                       <NavLink
                         to={item.path}
                         onClick={() => setIsOpen(false)}
