@@ -348,25 +348,25 @@ def downloadData():
             temp_df.loc[temp_df.index != index_of_current_strikePrice, ['S_C_Calls', 'S_C_Puts', 'S_COI_Calls', 'S_COI_Puts', 'R_S_COI']] = np.nan
             temp_df = temp_df.replace({np.nan: ''})
 
-            temp_df_style = temp_df.style.background_gradient(cmap='Blues', subset=['COI_Calls', 'COI_Puts'])
-            temp_df_style = temp_df_style.apply(lambda s: 'background-color: yellow; color: black;', subset=pd.IndexSlice[index_of_current_strikePrice, :])
-            temp_df_style = temp_df_style.apply(lambda s: 'background-color: Tomato;', subset=pd.IndexSlice[0:index_of_current_strikePrice-1, ['C_Amt_Calls_Cr']])
-            temp_df_style = temp_df_style.apply(lambda s: 'background-color: MediumSeaGreen;', subset=pd.IndexSlice[index_of_current_strikePrice+1:, ['C_Amt_Puts_Cr']])
+            # temp_df_style = temp_df.style.background_gradient(cmap='Blues', subset=['COI_Calls', 'COI_Puts'])
+            # temp_df_style = temp_df_style.apply(lambda s: 'background-color: yellow; color: black;', subset=pd.IndexSlice[index_of_current_strikePrice, :])
+            # temp_df_style = temp_df_style.apply(lambda s: 'background-color: Tomato;', subset=pd.IndexSlice[0:index_of_current_strikePrice-1, ['C_Amt_Calls_Cr']])
+            # temp_df_style = temp_df_style.apply(lambda s: 'background-color: MediumSeaGreen;', subset=pd.IndexSlice[index_of_current_strikePrice+1:, ['C_Amt_Puts_Cr']])
 
-            def getColor(s):
-                if s == 'Short Buildup ↓':
-                    return 'background-color: Tomato;'
-                elif s == 'Long Unwinding ↑':
-                    return 'background-color: orange;'
-                elif s == 'Short Covering ↑':
-                    return 'background-color: lightblue;'
-                elif s == 'Long Buildup ↓':
-                    return 'background-color: MediumSeaGreen;'
-                return ''
+            # def getColor(s):
+            #     if s == 'Short Buildup ↓':
+            #         return 'background-color: Tomato;'
+            #     elif s == 'Long Unwinding ↑':
+            #         return 'background-color: orange;'
+            #     elif s == 'Short Covering ↑':
+            #         return 'background-color: lightblue;'
+            #     elif s == 'Long Buildup ↓':
+            #         return 'background-color: MediumSeaGreen;'
+            #     return ''
 
-            temp_df_style = temp_df_style.applymap(getColor, subset=['Long_Short_Calls', 'Long_Short_Puts'])
-            temp_df_style = temp_df_style.format(lambda x: "{:.2f}".format(x))
-            temp_df_style = temp_df_style.set_properties(**{"border": "1px solid black"})
+            # temp_df_style = temp_df_style.applymap(getColor, subset=['Long_Short_Calls', 'Long_Short_Puts'])
+            # temp_df_style = temp_df_style.format(lambda x: "{:.2f}".format(x))
+            # temp_df_style = temp_df_style.set_properties(**{"border": "1px solid black"})
 
             splitted_dfs.append(temp_df)
 
@@ -374,15 +374,16 @@ def downloadData():
         result_df = pd.concat(splitted_dfs)
 
         # Apply styling after concatenation
-        result_df_style = result_df.style.background_gradient(cmap='Blues', subset=['COI_Calls', 'COI_Puts'])
-        result_df_style = result_df_style.apply(lambda s: 'background-color: yellow; color: black;', subset=pd.IndexSlice[index_of_current_strikePrice, :])
-        result_df_style = result_df_style.apply(lambda s: 'background-color: Tomato;', subset=pd.IndexSlice[0:index_of_current_strikePrice-1, ['C_Amt_Calls_Cr']])
-        result_df_style = result_df_style.apply(lambda s: 'background-color: MediumSeaGreen;', subset=pd.IndexSlice[index_of_current_strikePrice+1:, ['C_Amt_Puts_Cr']])
-        result_df_style = result_df_style.applymap(getColor, subset=['Long_Short_Calls', 'Long_Short_Puts'])
-        result_df_style = result_df_style.format(lambda x: "{:.2f}".format(x))
-        result_df_style = result_df_style.set_properties(**{"border": "1px solid black"})
+        # result_df_style = result_df.style.background_gradient(cmap='Blues', subset=['COI_Calls', 'COI_Puts'])
+        # result_df_style = result_df_style.apply(lambda s: 'background-color: yellow; color: black;', subset=pd.IndexSlice[index_of_current_strikePrice, :])
+        # result_df_style = result_df_style.apply(lambda s: 'background-color: Tomato;', subset=pd.IndexSlice[0:index_of_current_strikePrice-1, ['C_Amt_Calls_Cr']])
+        # result_df_style = result_df_style.apply(lambda s: 'background-color: MediumSeaGreen;', subset=pd.IndexSlice[index_of_current_strikePrice+1:, ['C_Amt_Puts_Cr']])
+        # result_df_style = result_df_style.applymap(getColor, subset=['Long_Short_Calls', 'Long_Short_Puts'])
+        # result_df_style = result_df_style.format(lambda x: "{:.2f}".format(x))
+        # result_df_style = result_df_style.set_properties(**{"border": "1px solid black"})
 
-        html = result_df_style.to_html()
+        # html = result_df_style.to_html()
+        html = result_df.to_html()
         data = html.encode("utf-8")
 
     except Exception as e:
@@ -715,6 +716,7 @@ def OIData():
         elif timeInterval=="weekly":
             df['S_OI_Calls'] = df.groupby('Expiry_Date')['OpenInterest_Calls'].transform('sum')
             df['S_OI_Puts'] = df.groupby('Expiry_Date')['OpenInterest_Puts'].transform('sum')
+            df['Date'] = df['Expiry_Date']
         elif timeInterval=="monthly":
             df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%Y')
             df['Month'] = df['Date'].dt.month

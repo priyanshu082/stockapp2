@@ -176,9 +176,9 @@ const DataTable = ({ allData, noOfStrikes,date }) => {
   };
 
   const getBackgroundColor = (value) => ({
-    'Long Unwinding ↑': { backgroundColor: 'orange' },
+    'Long Unwinding ↓': { backgroundColor: 'orange' },
     'Short Covering ↑': { backgroundColor: 'skyblue' },
-    'Long Buildup ↓': { backgroundColor: 'lightgreen' },
+    'Long Buildup ↑': { backgroundColor: 'lightgreen' },
     'Short Buildup ↓': { backgroundColor: '#FF6347' },
   } [value] || { backgroundColor: 'white' });
 
