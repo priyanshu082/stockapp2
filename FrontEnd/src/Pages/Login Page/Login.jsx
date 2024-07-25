@@ -115,11 +115,19 @@ const Login = () => {
               </Link>
             </form>
 
+
             <div className="text-[20px] text-red-500 w-full mb-[15px] flex justify-center ml-[-3.5vw]">
                   {loginError && (<div>{loginError}</div>)}
                   
 
             </div>
+
+            <Link
+              to="/forgot-password"
+              className="text-red-400 font-semibold cursor-pointer hover:text-[#5759da] duration-200 ease-in mt-2"
+            >
+              Forgot Password?
+            </Link>
 
             <div className="gotologinpage w-[90%] sm:w-[70%] h-10 flex gap items-center gap-[10px]  pl-[15px] sm:pl-[0px]">
               <p className="text-sm"> Don't have an Account? </p>

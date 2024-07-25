@@ -1,9 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback,useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import companylogo from "../../Assets/Navbar-img/NavLogo.png";
-import {authApi, localapi } from "../../Assets/config";
+import { authApi, localapi } from "../../Assets/config";
+
+const OtpModal = React.memo(({ otp, setOtp, otpError, handleVerifyOtp, handleSendOtp, cooldown }) => {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div className="bg-white p-6 rounded-lg">
+        <h2 className="text-xl mb-4">Enter OTP</h2>
+        <input
+          ref={inputRef}
+          type="text"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          className="w-full p-2 border rounded mb-4"
+          placeholder="Enter OTP"
+          maxLength={4}
+        />
+        {otpError && <p className="text-red-500 mb-2">Invalid OTP</p>}
+        <button
+          onClick={handleVerifyOtp}
+          className="bg-blue-500 text-white py-2 px-4 rounded mr-2"
+        >
+          Verify OTP
+        </button>
+        <button
+          onClick={handleSendOtp}
+          className={`bg-green-500 text-white py-2 px-4 rounded ${
+            cooldown > 0 ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={cooldown > 0}
+        >
+          {cooldown > 0 ? `Resend OTP in ${cooldown}s` : "Resend OTP"}
+        </button>
+        <div className="text-[14px] text-red-500 w-full mt-[20px] flex justify-center ">
+                Check yourn gmail's spam Folder too!
+                </div>
+      </div>
+    </div>
+  );
+});
+
 
 const Registration = () => {
   const [name, setName] = useState("");
@@ -15,10 +62,69 @@ const Registration = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [error,setError]=useState();
+  const [otp, setOtp] = useState("");
+  const [otpError, setOtpError] = useState(false);
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+  const [serverOtp, setServerOtp] = useState(null);
 
 
-  // const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let timer;
+    if (cooldown > 0) {
+      timer = setTimeout(() => setCooldown(cooldown - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [cooldown]);
+
+  const handleVerifyOtp = useCallback(() => {
+    if (parseInt(otp) === serverOtp) {
+      setOtpError(false);
+      handleRegister();
+    } else {
+      setOtpError(true);
+    }
+  }, [otp, serverOtp]);
+  
+  const handleSendOtp = useCallback(async () => {
+    if (cooldown > 0) return;
+    
+    setLoading(true);
+    try {
+      const response = await axios.post(`${localapi}/registerotp`, { email });
+      setServerOtp(response.data.data.otp);
+      setShowOtpModal(true);
+      setCooldown(60);
+    } catch (error) {
+      console.log(error)
+      setError(error.response?.data?.message || "Error sending OTP");
+    } finally {
+      setLoading(false);
+    }
+  }, [cooldown, email, setServerOtp, setShowOtpModal, setCooldown, setError, setLoading]);
+
+  const handleRegister = async () => {
+    setLoading(true);
+    try {
+      const result = await axios.post(`${localapi}/register`, {
+        name,
+        email,
+        mobile,
+        password,
+      });
+      console.log(result.data);
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+      setError(err.response?.data?.message || "Error registering user");
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const handleSubmit =async (e) => {
     e.preventDefault();
@@ -61,27 +167,10 @@ const Registration = () => {
       return false;
     }
 
-
-
-    axios.post(`${localapi}/register`, {
-        name: name,
-        email: email,
-        mobile: mobile,
-        password: password,
-      })
-      .then((result) => {
-        console.log(result.data);
-        // localStorage.setItem("token",result.data.token);
-        navigate("/login");
-      })
-      .catch((err) => {
-        console.log(err)
-        setError(err.response.data.message)
-      })
-
-    
-
+    handleSendOtp();
   };
+
+
 
   return (
     <>
@@ -194,11 +283,15 @@ const Registration = () => {
               </div>
 
               <button
-                type="submit"
-                className="button z-20 bg-[#9698ED] text-white py-2 px-4 rounded-md w-[100%] duration-300 ease-in"
-              >
-                Register
-              </button>
+              type="submit"
+              className={`button z-20 bg-[#9698ED] text-white py-2 px-4 rounded-md w-[100%] duration-300 ease-in ${
+                cooldown > 0 ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={cooldown > 0 || loading}
+            >
+              {loading ? "Loading..." : cooldown > 0 ? `Wait ${cooldown}s` : "Register"}
+            </button>
+
               <Link
               to='/'
               className="button z-20 bg-[#3b3d98] text-white py-2 px-4 rounded-md w-[100%] duration-300 ease-in text-center mt-[15px]"
@@ -223,6 +316,16 @@ const Registration = () => {
           </div>
         </div>
       </div>
+      {showOtpModal && (
+  <OtpModal
+    otp={otp}
+    setOtp={setOtp}
+    otpError={otpError}
+    handleVerifyOtp={handleVerifyOtp}
+    handleSendOtp={handleSendOtp}
+    cooldown={cooldown}
+  />
+)}
     </>
   );
 };

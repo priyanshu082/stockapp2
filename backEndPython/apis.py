@@ -62,8 +62,26 @@ def updatePass():
     return jsonify({'message': 'password updated'}), 200
 
 
-@app.route('/sendotp', methods=['POST'])
-def sendotp():
+@app.route('/registerotp', methods=['POST'])
+def sendotpRegister():
+    data = request.get_json()
+    email = data.get('email')
+
+    if not email:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login("rideonwhale@gmail.com", "tvtyimdkqqpgvkgo")
+        otp = random.randint(1000, 9999)
+        server.sendmail("rideonwhale@gmail.com", email, f"Your Otp for Ride On Whale Email Verification is {otp}")
+        return jsonify({'data': {"otp": otp}}), 200
+    except Exception as e:
+        return jsonify({'message': f'error sending otp : {str(e)}'}), 400
+
+@app.route('/forgetotp', methods=['POST'])
+def sendotpForget():
     data = request.get_json()
     email = data.get('email')
 

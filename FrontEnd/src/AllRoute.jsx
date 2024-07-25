@@ -18,6 +18,7 @@ import PrivateRoute from "./Pages/Private";
 import AdminPrivateRoute from "./Pages/AdminPrivateRoute";
 import AdminLogin from "./Pages/admin/AdminLogin";
 import OI from "./Pages/oi/oi";
+import ForgotPassword from "./Pages/Login Page/ForgotPassword";
 
 function AllRoute() {
   return (
@@ -31,6 +32,7 @@ function AllRoute() {
       <Route path="/login" element={<Login />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/SubscriptionPage" element={<SubscriptionPage />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
 
       {/* Admin route with AdminPrivateRoute */}
       <Route path="/admin" element={
