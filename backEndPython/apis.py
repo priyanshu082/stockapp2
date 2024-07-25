@@ -8,7 +8,8 @@ from nsepython import nsefetch
 import bcrypt
 from datetime import datetime, timedelta
 import pytz
-
+import smtplib
+import random
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://157.15.202.107:3000"}})
@@ -39,6 +40,51 @@ def register():
     users_collection.insert_one(new_user)
 
     return jsonify({'data': {'name': name, 'email': email, 'mobile': mobile}}), 200
+
+@app.route('/updatepass', methods=['POST'])
+def updatePass():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    users_collection = db['users']
+    existing_user = users_collection.find_one({'email': email},{'_id':0})
+    if not existing_user:
+        return jsonify({'message': 'User not exists'}), 401
+
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    users_collection.update_one({'email': email}, {'$set': {'password': hashed_password}})
+
+    return jsonify({'message': 'password updated'}), 200
+
+
+@app.route('/sendotp', methods=['POST'])
+def sendotp():
+    data = request.get_json()
+    email = data.get('email')
+
+    if not email:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    users_collection = db['users']
+    existing_user = users_collection.find_one({'email': email},{'_id':0})
+    if not existing_user:
+        return jsonify({'message': 'Unauthorized'}), 401
+
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login("rideonwhale@gmail.com", "tvtyimdkqqpgvkgo")
+        otp = random.randint(1000, 9999)
+        server.sendmail("rideonwhale@gmail.com", email, f"Your Otp for Ride On Whale Email Verification is {otp}")
+        return jsonify({'data': {"otp": otp}}), 200
+    except Exception as e:
+        return jsonify({'message': f'error sending otp : {str(e)}'}), 400
+
 
 @app.route('/login', methods=['POST'])
 def login():
