@@ -201,11 +201,23 @@ const StrikeGraph = () => {
         <div className="py-[30px] px-[10px] flex flex-col">
           {/* its come from Pages/strike graph page/Bargraph */}
           <h2 className=' text-center font-semibold text-3xl mb-2 '>{symbol}</h2>
-          <h2 className=' text-center text-2xl mb-2 '>COI Calls And Puts Graph</h2>
-          <div className='flex flex-col gap-10 md:gap-[0] md:flex-row justify-between mt-[50px]'>
-
+          <h2 className=' text-center text-2xl  '>COI Calls And Puts Graph</h2>
+          <div className='flex flex-col gap-10 md:gap-[0] md:flex-row mt-[20px] w-[100%] justify-between'>
+            <div className='flex flex-col w-[50%] justify-center items-center  '>
+<div className='text-[2vw] mb-[1vw] font-semibold'>
+   {strikePrice}
+</div>
           <LineChartsCallsPuts data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
+
+            </div>
+            <div className='flex flex-col w-[50%] justify-center items-center  '>
+<div className='text-[2vw] mb-[1vw] font-semibold'>
+TOTAL
+</div>
+
           <LineChartsCallsPuts2 data={strikegraphData} strikePriceData={strikePriceData} strikePrice={strikePrice} strikePriceHigh={strikePriceHigh}  />
+
+            </div>
           </div>
         </div>
       </div>    

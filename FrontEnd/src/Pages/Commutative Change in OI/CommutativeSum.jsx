@@ -150,9 +150,7 @@ const CommutativeSum = () => {
       </div>
 
       <div className=" w-full h-auto flex flex-col justify-center mt-[20px]">
-        <h1 className=" self-center text-xl font-bold mb-[10px]">
-          Table Of Data
-        </h1>
+    
         </div>
         {/* <div className="py-[30px] px-[10px]">
            its come from Pages/commutative page/Bargraph 

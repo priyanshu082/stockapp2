@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef } from 'react';
 import HeroSection from "../Components/Sections/HeroSection";
 import SectionYoutube from "../Components/Sections/SectionYoutube";
 import PlatformSection from '../Components/Sections/PlatformSection/PlatformSection';
@@ -11,58 +11,50 @@ import { localapi } from "../Assets/config";
 import axios from "axios";
 import InfiniteMoving from "../Components/InfiniteMoving";
 
-// import { getDataFromToken } from "../Assets/CookiesDecoder";
-
-
 function Home() {
+  const { setIsSubscribed, user, setUser } = useContext(AuthContext);
+  const knowledgeRef = useRef(null);
 
-
-  const {setIsSubscribed,user,setUser} = useContext(AuthContext);
-  // console.log(user)
-
-  useEffect(()=>{
-    if(user){
-      axios.post(`${localapi}/issubscribed`, {email: user?.email}).then((result) => {
+  useEffect(() => {
+    if (user) {
+      axios.post(`${localapi}/issubscribed`, { email: user?.email }).then((result) => {
         console.log(result.data.data);
-         if (typeof result.data.data !== 'string') {
-           // If it's not a string, stringify it before storing in localStorage
-           localStorage.setItem("isSubscribed", JSON.stringify(result.data.data));
-       } else {
-           // If it's already a string, directly store it in localStorage
-           localStorage.setItem("isSubscribed", result.data.data);
-       }
-       setIsSubscribed(result.data.data)
-     
+        if (typeof result.data.data !== 'string') {
+          localStorage.setItem("isSubscribed", JSON.stringify(result.data.data));
+        } else {
+          localStorage.setItem("isSubscribed", result.data.data);
+        }
+        setIsSubscribed(result.data.data);
       })
       .catch((err) => {
-        console.log(err)
-        // setUserExist(err.response.status)
-      })
+        console.log(err);
+      });
     }
-      
-    
-  },[user])
+  }, [user]);
 
+  const scrollToKnowledge = () => {
+    knowledgeRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    
-  <> 
-
-  <div className="w-full h-auto bg-white flex flex-col overflow-hidden relative">
-      <Navbar/>
-      <div className="">
-      <InfiniteMoving/>
+    <>
+      <div className="w-full h-auto bg-white flex flex-col overflow-hidden relative">
+        <Navbar scrollToKnowledge={scrollToKnowledge} />
+        <div className="">
+          <InfiniteMoving />
+        </div>
+        <div className="md:mt-[0px] mt-[80px]">
+          <HeroSection />
+        </div>
+        <SectionYoutube />
+        <PlatformSection />
+        <div ref={knowledgeRef}>
+          <KnowledgeSection />
+        </div>
+        <FeedbackSection />
+        <Footer />
       </div>
-      <div className="md:mt-[0px] mt-[80px]">
-     <HeroSection/>
-      </div>
-     <SectionYoutube/>
-     <PlatformSection/>
-     <KnowledgeSection/>
-     <FeedbackSection/>
-      <Footer/>
-     </div>
-  </>
+    </>
   );
 }
 

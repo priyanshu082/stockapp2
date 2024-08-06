@@ -6,7 +6,7 @@ import Navlogo from "../../Assets/Navbar-img/NavLogo.png";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { AuthContext } from "../../Context/AuthContext";
 
-const Navbar = () => {
+const Navbar = ({scrollToKnowledge}) => {
   const { isSubscribed, user, setUser, setIsSubscribed } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ const Navbar = () => {
     { title: "CALL PUT OI INDICATOR", path: isSubscribed ? "/CommutativeSum" : "/SubscriptionPage", always: true },
     { title: "OI VS PRICE", path: isSubscribed ? "/StrikeGraph" : "/SubscriptionPage", always: true },
     { title: "BUYER VS SELLER", path: isSubscribed ? "/Buyer_VS_Seller" : "/SubscriptionPage", always: true },
-    { title: "COMMUTATIVE OI", path: isSubscribed ? "/oi" : "/SubscriptionPage", always: true },
+    { title: "CUMULATIVE OI", path: isSubscribed ? "/oi" : "/SubscriptionPage", always: true },
     { title: "SCREENER", path: isSubscribed ? "/screener" : "/SubscriptionPage", always: true },
     { title: "ABOUT US", path: "/AboutUs", always: true },
     { title: "REFUND & CANCELLATION", path: "/RefundandCancel", always: true },
@@ -77,6 +77,9 @@ const Navbar = () => {
             </Link>
           )}
 
+<button onClick={scrollToKnowledge} className="button z-20 py-[5px] flex items-center md:text-[1vw] text-[2.25vw] rounded-xl px-[15px] text-white">
+        KNOWLEDGE
+      </button>
           <button onClick={() => setIsOpen(!isOpen)} className="text-xl md:text-3xl font-bold">
             {isOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
           </button>

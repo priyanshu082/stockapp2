@@ -18,7 +18,7 @@ const AboutUS = () => {
       <header className="py-5">
         <h1 className="text-4xl font-bold mb-4">Welcome to Rideonwhale.com</h1>
         <p className="text-lg mb-4">
-          Your ultimate resource for cutting-edge insights and real-time data on options trading. Since our establishment in 2016, we have been committed to empowering option traders with the knowledge, tools, and data they need to excel in the dynamic option trading market.
+          Your ultimate resource for cutting-edge insights and real-time data on options trading. Since our establishment in 2022, we have been committed to empowering option traders with the knowledge, tools, and data they need to excel in the dynamic option trading market.
         </p>
       </header>
       

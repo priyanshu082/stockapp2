@@ -255,9 +255,7 @@ useEffect(()=>{
      
      
       <div className=" w-full h-auto flex flex-col justify-center mt-[20px]">
-        <h1 className=" self-center text-xl font-bold mb-[10px]">
-          Table Of Data
-        </h1>
+        
         <h2 className=' font-semibold text-3xl mb-2 '>{symbol}</h2>
         {live ? (
           <div className="flex items-center gap-[10px] ml-[12px]">

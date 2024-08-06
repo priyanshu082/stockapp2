@@ -74,7 +74,7 @@ const OI = () => {
         </div>
       ) : (
         <div className="w-full mx-[2vw] mx-auto p-4">
-          <h1 className="text-4xl font-bold mb-4 my-[2vw] ">COMMUTATIVE OI </h1>
+          <h1 className="text-4xl font-bold mb-4 my-[2vw] ">CUMULATIVE OI </h1>
           <div className="w-full h-auto px-[0px] sm:p-[10px] flex gap-[10px] justify-between flex-wrap">
             <DropDown
               symbol={symbol}
