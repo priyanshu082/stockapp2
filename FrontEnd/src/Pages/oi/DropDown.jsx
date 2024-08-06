@@ -10,6 +10,10 @@ const DropDown = ({
   setNoOfStrikes,
   setSymbol,
   setTimeRange,
+  expiryDate,
+  setExpiryDate,
+  expiryDates,
+  setExpiryDates,
 }) => {
   
   const noOfStrikesOptions = [12, 14, 16, 18, 20];
@@ -69,6 +73,24 @@ const DropDown = ({
         </select>
       </div>
 
+       <div className="  flex flex-col">
+        <label className="text-md font-semibold" htmlFor="">
+          Select Expire Date
+        </label>
+        <select
+          className=" px-[10px] py-[5px] bg-gray-300 focus:outline-none rounded-md "
+          value={expiryDate}
+          onChange={(e) => setExpiryDate(e.target.value)}
+        >
+          <option value="">Choose an Option</option>
+          {/* <option value='2024-02-29'>2024-02-29</option>  */}
+          {Array.isArray(expiryDates) && expiryDates.length>0 && expiryDates.map((expiryDateItem, index) => (
+            <option key={index} value={expiryDateItem}>
+              {expiryDateItem}
+            </option>
+          ))}
+        </select>
+      </div>
       
 
       <div className="  flex flex-col">

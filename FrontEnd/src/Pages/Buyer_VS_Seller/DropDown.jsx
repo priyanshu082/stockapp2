@@ -38,15 +38,6 @@ const DropDown = ({
     }
   }
 
-
-  const currentHour = new Date().getHours();
-  const currentMinutes = new Date().getMinutes();
-  const isBetween930And1530 =
-    (currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) &&
-    (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
-
-
-
   const intervalCollection = [
     "2",
     "4",
@@ -180,7 +171,7 @@ const DropDown = ({
       </div>
     )}
 
-      {isBetween930And1530 && (
+      {live && (
         <div className="flex items-center justify-center">
           <input
             type="checkbox"

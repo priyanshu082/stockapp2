@@ -63,6 +63,7 @@ const marketOpen = async () => {
     const response = await axios.get(`${localapi}/ismarketopen`);
     const data = response.data;
     setLive(data.status)
+    console.log(data.status)
   } catch (error) {
     console.error("Error fetching market holiday", error);
   }
@@ -169,7 +170,7 @@ useEffect(()=>{
     <Navbar/>
     <div className="sm:p-[50px] p-[10px] ">
       <h1 className="w-full font-bold text-md sm:text-4xl  my-1 mb-4">
-        BUYERvsSELLER - RideOnWhale.Com
+      BUYER VS SELLER
       </h1>
       <div className="  w-full h-auto px-[0px] sm:p-[10px] flex gap-[10px] justify-between flex-wrap">
         {/* its come from pages/DataPage/DropDown */}

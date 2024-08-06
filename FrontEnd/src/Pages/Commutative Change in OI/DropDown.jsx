@@ -24,28 +24,7 @@ const DropDown = ({
   const noOfStrikesOptions = [12, 14, 16, 18, 20];
 
   const symbolsCollection = ["NIFTY", "FINNIFTY", "BANKNIFTY", "MIDCPNIFTY"];
-  // const stocksCollection = [
-  //   "KOTAKBANK",
-  //   "HDFCBANK",
-  //   "SBIN",
-  //   "BANDHANBNK",
-  //   "AXISBANK",
-  //   "IDFCFIRSTB",
-  //   "AUBANK",
-  //   "PNB",
-  //   "FEDERALBNK",
-  //   "INDUSINDBK",
-  //   "BANKBARODA",
-  //   "ICICIBANK",
-  //   "RELIANCE",
-  //   "INFY",
-  //   "TCS",
-  //   "ITC",
-  //   "LT",
-  //   "HINDUNILVR",
-  //   "BAJFINANCE",
-  //   "BHARTIARTL",
-  // ];
+
   const [stocksCollection, setstocksCollection] = useState([])
 
   useEffect(()=>{
@@ -60,31 +39,6 @@ const DropDown = ({
       console.log(error)
     }
   }
- 
-
-  const currentHour = new Date().getHours();
-  const currentMinutes = new Date().getMinutes();
-  const isBetween930And1530 =
-    (currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) &&
-    (currentHour < 15 || (currentHour === 15 && currentMinutes <= 30));
-
-    const timeRangesCollection = [
-      "09:15:00-09:45:00",
-      "09:45:00-10:15:00",
-      "10:15:00-10:45:00",
-      "10:45:00-11:15:00",
-      "11:15:00-11:45:00",
-      "11:45:00-12:15:00",
-      "12:15:00-12:45:00",
-      "12:45:00-13:15:00",
-      "13:15:00-13:45:00",
-      "13:45:00-14:15:00",
-      "14:15:00-14:45:00",
-      "14:45:00-15:15:00",
-      "15:15:00-15:30:00",
-    ];
-
-
 
   const intervalCollection = [
     "2",
@@ -214,7 +168,7 @@ const DropDown = ({
       </div>
     )}
 
-      {isBetween930And1530 && (
+      {live && (
         <div className="flex items-center justify-center">
           <input
             type="checkbox"

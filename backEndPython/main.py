@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 import pytz
 from pymongo import MongoClient
-from nsepython import nsefetch
+from nsepythonserver import nsefetch
 
 
 def call_api(symbol):
@@ -37,7 +37,7 @@ def call_api(symbol):
         initialUnderlyingValueCollection.insert_one({'symbol': symbol, 'underlyingValue': underlyingValue})
         initialUnderlyingValue = underlyingValue
     else:
-        if timestamp < '09:17:00':
+        if timestamp < '09:18:00':
             initialUnderlyingValueCollection.update_one({'symbol': symbol}, {'$set': {'underlyingValue': underlyingValue}})
         initialUnderlyingValue=initialUnderlyingValueCollection.find_one({'symbol': symbol})['underlyingValue']
 
@@ -132,6 +132,8 @@ def call_api(symbol):
         result_df['C_Puts'] = 0
         result_df['C_Amt_Calls_Cr'] = 0.0
         result_df['C_Amt_Puts_Cr'] = 0.0
+        result_df['C_CLTP_Calls']=0
+        result_df['C_CLTP_Puts']=0
         result_df['Long_Short_Calls'] = None
         result_df['Long_Short_Puts'] = None
 

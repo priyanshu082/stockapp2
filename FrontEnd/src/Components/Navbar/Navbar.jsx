@@ -39,11 +39,11 @@ const Navbar = () => {
 
   const menuItems = [
     { title: "HOME", path: "/", always: true },
-    { title: "PCR", path: isSubscribed ? "/Data" : "/SubscriptionPage", always: true },
-    { title: "CALL v/s PUT", path: isSubscribed ? "/CommutativeSum" : "/SubscriptionPage", always: true },
-    { title: "PRICE", path: isSubscribed ? "/StrikeGraph" : "/SubscriptionPage", always: true },
-    { title: "BUYERvsSELLER", path: isSubscribed ? "/Buyer_VS_Seller" : "/SubscriptionPage", always: true },
-    { title: "OI", path: isSubscribed ? "/oi" : "/SubscriptionPage", always: true },
+    { title: "MOVEMENT TRACKER", path: isSubscribed ? "/Data" : "/SubscriptionPage", always: true },
+    { title: "CALL PUT OI INDICATOR", path: isSubscribed ? "/CommutativeSum" : "/SubscriptionPage", always: true },
+    { title: "OI VS PRICE", path: isSubscribed ? "/StrikeGraph" : "/SubscriptionPage", always: true },
+    { title: "BUYER VS SELLER", path: isSubscribed ? "/Buyer_VS_Seller" : "/SubscriptionPage", always: true },
+    { title: "COMMUTATIVE OI", path: isSubscribed ? "/oi" : "/SubscriptionPage", always: true },
     { title: "SCREENER", path: isSubscribed ? "/screener" : "/SubscriptionPage", always: true },
     { title: "ABOUT US", path: "/AboutUs", always: true },
     { title: "REFUND & CANCELLATION", path: "/RefundandCancel", always: true },

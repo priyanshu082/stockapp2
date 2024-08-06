@@ -230,7 +230,7 @@ useEffect(()=>{
   <Navbar/>
     <div className="sm:p-[50px] p-[10px] ">
       <h1 className="w-full   font-bold text-md sm:text-4xl  my-1 mb-4">
-        PCR - RideOnWhale.Com
+        MOVEMENT TRACKER
       </h1>
       <div className="  w-full h-auto px-[0px] sm:p-[10px] flex gap-[10px] justify-between flex-wrap">
         {/* its come from pages/DataPage/DropDown */}
@@ -259,7 +259,7 @@ useEffect(()=>{
           Table Of Data
         </h1>
         <h2 className=' font-semibold text-3xl mb-2 '>{symbol}</h2>
-        {isBetween930And1530 ? (
+        {live ? (
           <div className="flex items-center gap-[10px] ml-[12px]">
             {" "}
             <h1 className=" text-lg font-semibold ">Live</h1>

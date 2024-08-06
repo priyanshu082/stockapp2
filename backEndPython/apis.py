@@ -240,6 +240,18 @@ def expiryDates():
     response = {"data": data}
     return jsonify(response)
 
+@app.route('/allexpirydates', methods=['POST'])
+def allExpiryDates():
+    try:
+        request_data = request.get_json()
+        symbol = request_data.get('symbol')
+        symbolCollection = db[symbol]
+        data = symbolCollection.distinct('Expiry_Date')
+    except:
+        data = "Error"
+    response = {"data": data}
+    return jsonify(response)
+
 @app.route('/strikeprices', methods=['POST'])
 def strikePrices():
     try:
@@ -358,7 +370,7 @@ def allData():
         df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
         df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
         df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0) 
-
+        df.to_csv('data.csv',index=False)
         data = df.to_dict(orient='records')
     except Exception as e:
         data = "Error"
@@ -550,7 +562,7 @@ def pcrData():
         df['S_C_Puts'] = df.groupby('Time')['C_Puts'].transform('sum')
         df['S_COI_Calls'] = df.groupby('Time')['COI_Calls'].transform('sum')
         df['S_COI_Puts'] = df.groupby('Time')['COI_Puts'].transform('sum')
-        df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, df['S_COI_Puts'] / df["S_COI_Calls"], 0)
+        df['R_S_COI'] = np.where(df["S_COI_Calls"] != 0, round(df['S_COI_Puts'] / df["S_COI_Calls"], 2), 0)
         df = df[['Time', 'R_S_COI', 'underlyingValue']]
 
         data = df.to_dict(orient='records')
@@ -757,10 +769,12 @@ def OIData():
         symbol = request_data.get('symbol')
         timeInterval = request_data.get('timeInterval')#daily weekly monthly
         noOfStrikes = int(request_data.get('noOfStrikes'))
+        expiryDate = request_data.get('expiryDate')
+
 
         symbolCollection = db[symbol]
 
-        data = [x for x in symbolCollection.find({}, {'_id':0})]
+        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -778,9 +792,9 @@ def OIData():
             df['S_OI_Calls'] = df.groupby('Date')['OpenInterest_Calls'].transform('sum')
             df['S_OI_Puts'] = df.groupby('Date')['OpenInterest_Puts'].transform('sum')
         elif timeInterval=="weekly":
-            df['S_OI_Calls'] = df.groupby('Expiry_Date')['OpenInterest_Calls'].transform('sum')
-            df['S_OI_Puts'] = df.groupby('Expiry_Date')['OpenInterest_Puts'].transform('sum')
-            df['Date'] = df['Expiry_Date']
+            df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%Y')
+            df['S_OI_Calls'] = df.groupby(pd.Grouper(key='Date', freq='W'))['OpenInterest_Calls'].transform('sum')
+            df['S_OI_Puts'] = df.groupby(pd.Grouper(key='Date', freq='W'))['OpenInterest_Puts'].transform('sum')
         elif timeInterval=="monthly":
             df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%Y')
             df['Month'] = df['Date'].dt.month

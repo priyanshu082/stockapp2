@@ -125,7 +125,7 @@ const CommutativeSum = () => {
     <Navbar/>
     <div className="sm:p-[50px] p-[10px] ">
       <h1 className="w-full   font-bold text-md sm:text-4xl  my-1 mb-4">
-        CAllvsPUT - RideOnWhale.Com
+      CALL PUT OI INDICATOR
       </h1>
       <div className="  w-full h-auto px-[0px] sm:p-[10px] flex gap-[10px] justify-between flex-wrap">
         {/* its come from pages/DataPage/DropDown */}
