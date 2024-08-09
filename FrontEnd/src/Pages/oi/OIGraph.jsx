@@ -12,23 +12,23 @@ import {
 
 const OIGraph = ({ data }) => {
   if (!Array.isArray(data) || data.length === 0) {
-    return <div>No data available</div>;
+    return <div>Loading</div>;
   }
 
   // Calculate min and max values for Y-axis
   const minYValue = Math.min(
-    ...data.map((item) => Math.min(item.OpenInterest_Calls, item.S_OI_Puts))
+    ...data.map((item) => Math.min(item.OpenInterest_Calls, item.OpenInterest_Puts))
   );
   const maxYValue = Math.max(
-    ...data.map((item) => Math.max(item.OpenInterest_Calls, item.S_OI_Puts))
+    ...data.map((item) => Math.max(item.OpenInterest_Calls, item.OpenInterest_Puts))
   );
 
   // Calculate padding as a percentage of the data range
   const range = maxYValue - minYValue;
-  const padding = 0 ; // 10% padding
+  const padding = range * 0.1 ; // 10% padding
 
-  const minValue = minYValue - 10000;
-  const maxValue = maxYValue + 10000;
+  const minValue = minYValue - padding;
+  const maxValue = maxYValue + padding;
 
   // Function to format large numbers
   const formatYAxis = (value) => {
@@ -70,7 +70,7 @@ const OIGraph = ({ data }) => {
         />
         <Line
           type="monotone"
-          dataKey="S_OI_Puts"
+          dataKey="OpenInterest_Puts"
           stroke="#82ca9d"
           activeDot={{ r: 8 }}
           name="Puts OI"

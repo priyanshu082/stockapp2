@@ -125,8 +125,7 @@
 // export default Navbar;
 
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link, NavLink } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navlogo from "../../Assets/Navbar-img/NavLogo.png";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
@@ -135,12 +134,35 @@ import { AuthContext } from "../../Context/AuthContext";
 const Navbar = ({ scrollToKnowledge }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     window.location.reload();
+  };
+
+  // Define all possible menu items with their paths and authentication requirements
+  const menuItems = [
+    { title: "HOME", path: "/", requiresAuth: false },
+    { title: "MOVEMENT TRACKER", path: "/Data", requiresAuth: true },
+    { title: "CALL PUT OI INDICATOR", path: "/CommutativeSum", requiresAuth: true },
+    { title: "OI VS PRICE", path: "/StrikeGraph", requiresAuth: true },
+    { title: "BUYER VS SELLER", path: "/Buyer_VS_Seller", requiresAuth: true },
+    { title: "CUMULATIVE OI", path: "/oi", requiresAuth: true },
+    { title: "SCREENER", path: "/screener", requiresAuth: true },
+    { title: "ABOUT US", path: "/AboutUs", requiresAuth: false },
+    { title: "REFUND & CANCELLATION", path: "/RefundandCancel", requiresAuth: false },
+    { title: "T&C", path: "/termAndCondition", requiresAuth: false },
+    { title: "PRIVACY", path: "/Privacypolicy", requiresAuth: false },
+  ];
+
+  // Function to handle navigation with authentication check
+  const handleNavigation = (path, requiresAuth) => {
+    if (requiresAuth && !user) {
+      navigate("/login");
+    } else {
+      navigate(path);
+    }
   };
 
   const menuVariants = {
@@ -149,38 +171,18 @@ const Navbar = ({ scrollToKnowledge }) => {
       transition: {
         type: "spring",
         stiffness: 400,
-        damping: 40
-      }
+        damping: 40,
+      },
     },
     open: {
       x: 0,
       transition: {
         type: "spring",
         stiffness: 400,
-        damping: 40
-      }
-    }
+        damping: 40,
+      },
+    },
   };
-
-  // Define all possible menu items
-  const menuItems = [
-    { title: "HOME", path: "/", requiresLogin: false },
-    { title: "MOVEMENT TRACKER", path: "/Data", requiresLogin: true },
-    { title: "CALL PUT OI INDICATOR", path: "/CommutativeSum", requiresLogin: true },
-    { title: "OI VS PRICE", path: "/StrikeGraph", requiresLogin: true },
-    { title: "BUYER VS SELLER", path: "/Buyer_VS_Seller", requiresLogin: true },
-    { title: "CUMULATIVE OI", path: "/oi", requiresLogin: true },
-    { title: "SCREENER", path: "/screener", requiresLogin: true },
-    { title: "ABOUT US", path: "/AboutUs", requiresLogin: false },
-    { title: "REFUND & CANCELLATION", path: "/RefundandCancel", requiresLogin: false },
-    { title: "T&C", path: "/termAndCondition", requiresLogin: false },
-    { title: "PRIVACY", path: "/Privacypolicy", requiresLogin: false },
-  ];
-
-  // Filter menu items based on login status
-  const filteredMenuItems = menuItems.filter(
-    (item) => !item.requiresLogin || user
-  );
 
   return (
     <>
@@ -190,29 +192,36 @@ const Navbar = ({ scrollToKnowledge }) => {
             <img className="h-20 cursor-pointer" src={Navlogo} alt="" />
           </div>
         </NavLink>
-        
+
         <div className="flex items-center gap-5">
           {!user ? (
-            <Link to="/login" className="button z-20 py-[5px] flex items-center text-[2.25vw] md:text-[1vw] rounded-xl px-[15px] text-white">
+            <Link
+              to="/login"
+              className="button z-20 py-[5px] flex items-center text-[2.25vw] md:text-[1vw] rounded-xl px-[15px] text-white"
+            >
               LOG IN
             </Link>
           ) : (
-            <Link onClick={handleLogout} to="/" className="button z-20 py-[5px] flex items-center text-[12px] rounded-xl px-[15px] text-white">
+            <Link
+              onClick={handleLogout}
+              to="/"
+              className="button z-20 py-[5px] flex items-center text-[12px] rounded-xl px-[15px] text-white"
+            >
               LOG OUT
             </Link>
           )}
 
-          {user && (
-            <Link to="/SubscriptionPage" className="button z-20 py-[5px] flex items-center md:text-[1vw] text-[2.25vw] rounded-xl px-[15px] text-white">
-              SUBSCRIBE
-            </Link>
-          )}
-
-          <button onClick={scrollToKnowledge} className="button z-20 py-[5px] flex items-center md:text-[1vw] text-[2.25vw] rounded-xl px-[15px] text-white">
+          <button
+            onClick={scrollToKnowledge}
+            className="button z-20 py-[5px] flex items-center md:text-[1vw] text-[2.25vw] rounded-xl px-[15px] text-white"
+          >
             HOW TO USE
           </button>
 
-          <button onClick={() => setIsOpen(!isOpen)} className="text-xl md:text-3xl font-bold">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-xl md:text-3xl font-bold"
+          >
             {isOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
           </button>
         </div>
@@ -228,19 +237,23 @@ const Navbar = ({ scrollToKnowledge }) => {
             className="fixed top-0 right-0 bottom-0 w-full sm:w-96 bg-[#E6E6FF] bg-zinc-100 z-50 shadow-lg overflow-y-auto"
           >
             <div className="p-5 flex flex-col items-center mt-[5vw] h-full">
-              <button onClick={() => setIsOpen(false)} className="absolute top-6 right-6 text-xl md:text-3xl">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="absolute top-6 right-6 text-xl md:text-3xl"
+              >
                 <AiOutlineClose />
               </button>
               <ul className="space-y-5 px-4 sm:w-full">
-                {filteredMenuItems.map((item, index) => (
+                {menuItems.map((item, index) => (
                   <li key={index} className="mb-2">
-                    <NavLink
-                      to={item.path}
-                      onClick={() => setIsOpen(false)}
-                      className={({ isActive }) => `flex border-b-[1px] border-black/40 pb-[0.8vw] text-lg font-semibold ${isActive ? 'text-orange-600' : 'text-black/90'} hover:text-orange-500 transition-colors duration-400`}
+                    <div
+                      onClick={() =>
+                        handleNavigation(item.path, item.requiresAuth)
+                      }
+                      className="cursor-pointer flex border-b-[1px] border-black/40 pb-[0.8vw] text-lg font-semibold text-black/90 hover:text-orange-500 transition-colors duration-400"
                     >
                       {item.title}
-                    </NavLink>
+                    </div>
                   </li>
                 ))}
               </ul>

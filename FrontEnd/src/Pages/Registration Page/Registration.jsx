@@ -53,6 +53,7 @@ const OtpModal = React.memo(({ otp, setOtp, otpError, handleVerifyOtp, handleSen
 
 
 const Registration = () => {
+  
   const [name, setName] = useState("")
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);

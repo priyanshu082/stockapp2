@@ -25,7 +25,7 @@ const DropDown = ({
     const currentDate = new Date().toISOString().split('T')[0];
     const filteredDates = expiryDates.filter(date => date >= currentDate);
     setExpiryDates(filteredDates);
-  }, [expiryDates, setExpiryDates]);
+  }, [ ]);
   
 
   useEffect(()=>{
@@ -89,7 +89,7 @@ const DropDown = ({
           value={expiryDate}
           onChange={(e) => setExpiryDate(e.target.value)}
         >
-          <option value="">Choose an Option</option>
+          <option value="">{expiryDates[0]}</option>
           {/* <option value='2024-02-29'>2024-02-29</option>  */}
           {Array.isArray(expiryDates) && expiryDates.length>0 && expiryDates.map((expiryDateItem, index) => (
             <option key={index} value={expiryDateItem}>
