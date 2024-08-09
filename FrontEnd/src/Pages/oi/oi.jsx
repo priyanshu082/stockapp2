@@ -20,7 +20,7 @@ const OI = () => {
     try {
       const response = await axios.post(`${localapi}/allexpirydates`, { symbol });
       const data = response.data;
-      console.log(data.data);
+       console.log(data.data);
       setExpiryDates(data.data);
       setExpiryDate(data.data[0]);
       setLoadingExpiryDates(false);
@@ -38,7 +38,7 @@ const OI = () => {
     try {
       const response = await axios.post(`${localapi}/oi`, { symbol, noOfStrikes, timeInterval, expiryDate });
       const data = response.data;
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setData(data.data);
       setLoadingData(false);
     } catch (error) {

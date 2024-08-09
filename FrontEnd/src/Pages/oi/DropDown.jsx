@@ -21,6 +21,13 @@ const DropDown = ({
   const symbolsCollection = ["NIFTY", "FINNIFTY", "BANKNIFTY", "MIDCPNIFTY"];
   const [stocksCollection, setstocksCollection] = useState([])
 
+  useEffect(() => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    const filteredDates = expiryDates.filter(date => date >= currentDate);
+    setExpiryDates(filteredDates);
+  }, [expiryDates, setExpiryDates]);
+  
+
   useEffect(()=>{
     fetchCollection();
   },[])

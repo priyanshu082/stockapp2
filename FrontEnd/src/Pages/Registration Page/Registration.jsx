@@ -53,8 +53,7 @@ const OtpModal = React.memo(({ otp, setOtp, otpError, handleVerifyOtp, handleSen
 
 
 const Registration = () => {
-  const [name, setName] = useState("");
-  const [nameError, setNameError] = useState(false);
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [mobile, setMobile] = useState("");
@@ -130,12 +129,8 @@ const Registration = () => {
     e.preventDefault();
     const rgExp = /^[a-zA-Z0-9._]+@[a-z]+.[a-z]{2,6}$/;
     const passexp = /^[a-zA-Z0-9]+[!@#$%^&*()_+=-]/;
-    // name valiadation
-    if (!name || name.length <= 5) {
-      setNameError(true);
-    } else {
-      setNameError(false);
-    }
+
+   
 
     // phone valiadation
     if (mobile.length === 10) {
@@ -208,11 +203,7 @@ const Registration = () => {
                   onChange={(e) => setName(e.target.value)}
                   className=" w-full p-2 border border-[#302f2f84] focus:border-black duration-100 ease-in focus:outline-none rounded-md "
                 />
-                {nameError ? (
-                  <h1 className="text-sm text-red-500">
-                    'PLease enter Valid Name'{" "}
-                  </h1>
-                ) : null}
+                
               </div>
               <div className="mb-4  w-[100%]">
                 <label

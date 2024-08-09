@@ -12,12 +12,12 @@ import smtplib
 import random
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://157.15.202.107:3000"}})
+# CORS(app, resources={r"/*": {"origins": "http://157.15.202.107:3000"}})
 client = MongoClient('mongodb://localhost:27017/')
 db = client['optionChainData']
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
     name = data.get('name')
@@ -41,7 +41,7 @@ def register():
 
     return jsonify({'data': {'name': name, 'email': email, 'mobile': mobile}}), 200
 
-@app.route('/updatepass', methods=['POST'])
+@app.route('/api/updatepass', methods=['POST'])
 def updatePass():
     data = request.get_json()
     email = data.get('email')
@@ -62,7 +62,7 @@ def updatePass():
     return jsonify({'message': 'password updated'}), 200
 
 
-@app.route('/registerotp', methods=['POST'])
+@app.route('/api/registerotp', methods=['POST'])
 def sendotpRegister():
     data = request.get_json()
     email = data.get('email')
@@ -70,17 +70,22 @@ def sendotpRegister():
     if not email:
         return jsonify({'message': 'Missing required fields'}), 400
 
+    users_collection = db['users']
+    existing_user = users_collection.find_one({'email': email},{'_id':0})
+    if existing_user:
+        return jsonify({'message': 'User already exists'}), 400
+
     try:
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login("rideonwhale@gmail.com", "tvtyimdkqqpgvkgo")
         otp = random.randint(1000, 9999)
-        server.sendmail("rideonwhale@gmail.com", email, f"Your Otp for Ride On Whale Email Verification is {otp}")
+        server.sendmail("rideonwhale@gmail.com", email, f"Subject:OTP Verification\n\nYour Otp for Ride On Whale Email Verification is {otp}")
         return jsonify({'data': {"otp": otp}}), 200
     except Exception as e:
         return jsonify({'message': f'error sending otp : {str(e)}'}), 400
 
-@app.route('/forgetotp', methods=['POST'])
+@app.route('/api/forgetotp', methods=['POST'])
 def sendotpForget():
     data = request.get_json()
     email = data.get('email')
@@ -98,13 +103,13 @@ def sendotpForget():
         server.starttls()
         server.login("rideonwhale@gmail.com", "tvtyimdkqqpgvkgo")
         otp = random.randint(1000, 9999)
-        server.sendmail("rideonwhale@gmail.com", email, f"Your Otp for Ride On Whale Email Verification is {otp}")
+        server.sendmail("rideonwhale@gmail.com", email, f"Subject:OTP Verification\n\nYour Otp for Ride On Whale Email Verification is {otp}")
         return jsonify({'data': {"otp": otp}}), 200
     except Exception as e:
         return jsonify({'message': f'error sending otp : {str(e)}'}), 400
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
     email = data.get('email')
@@ -125,7 +130,7 @@ def login():
     user.pop('password')
     return jsonify({'data': user}), 200
 
-@app.route('/subscribe', methods=['POST'])
+@app.route('/api/subscribe', methods=['POST'])
 def subscribe():
     data = request.get_json()
     email = data.get('email')
@@ -164,7 +169,7 @@ def subscribe():
 
     return jsonify({'data': new_subscriber}), 200
 
-@app.route('/issubscribed', methods=['POST'])
+@app.route('/api/issubscribed', methods=['POST'])
 def isSubscribed():
     data = request.get_json()
     email = data.get('email')
@@ -196,7 +201,7 @@ def isSubscribed():
 
 
 
-@app.route('/ismarketopen', methods=['GET'])
+@app.route('/api/ismarketopen', methods=['GET'])
 def market_status():
     data=nsefetch('https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY')
     data=data['records']
@@ -207,7 +212,7 @@ def market_status():
     else:
         return jsonify({"status": True})
 
-@app.route('/stocks', methods=['GET'])
+@app.route('/api/stocks', methods=['GET'])
 def getStocks():
 
     with open("/root/stockapp2/backEndPython/symbols.txt") as f:
@@ -216,7 +221,7 @@ def getStocks():
     response = {'data': symbols}
     return jsonify(response)
 
-@app.route('/expirydates', methods=['POST'])
+@app.route('/api/expirydates', methods=['POST'])
 def expiryDates():
     try:
         request_data = request.get_json()
@@ -240,7 +245,7 @@ def expiryDates():
     response = {"data": data}
     return jsonify(response)
 
-@app.route('/allexpirydates', methods=['POST'])
+@app.route('/api/allexpirydates', methods=['POST'])
 def allExpiryDates():
     try:
         request_data = request.get_json()
@@ -252,7 +257,7 @@ def allExpiryDates():
     response = {"data": data}
     return jsonify(response)
 
-@app.route('/strikeprices', methods=['POST'])
+@app.route('/api/strikeprices', methods=['POST'])
 def strikePrices():
     try:
         request_data = request.get_json()
@@ -289,7 +294,7 @@ def strikePrices():
     response = {"data": data}
     return jsonify(response)
 
-@app.route('/banner', methods=['GET'])
+@app.route('/api/banner', methods=['GET'])
 def getBanner():
 
     try:
@@ -330,7 +335,7 @@ def getBanner():
     response = {"data": data}
     return jsonify(response)
 
-@app.route('/all', methods=['POST'])
+@app.route('/api/all', methods=['POST'])
 def allData():
     try:
         request_data = request.get_json()
@@ -378,7 +383,7 @@ def allData():
     response = {"data": data}
     return jsonify(response)
 
-@app.route('/download', methods=['POST'])
+@app.route('/api/download', methods=['POST'])
 def downloadData():
     try:
 
@@ -470,7 +475,7 @@ def downloadData():
     return response
 
 
-@app.route('/commutativesum', methods=['POST'])
+@app.route('/api/commutativesum', methods=['POST'])
 def CommutativeSumData():
     try:
 
@@ -523,7 +528,7 @@ def CommutativeSumData():
     response = {"data": data}
     return jsonify(response)
 
-@app.route('/pcr', methods=['POST'])
+@app.route('/api/pcr', methods=['POST'])
 def pcrData():
     try:
 
@@ -572,7 +577,7 @@ def pcrData():
     return jsonify(response)
 
 
-@app.route('/screener', methods=['GET'])
+@app.route('/api/screener', methods=['GET'])
 def screener():
     try:
         symbolCollection = db["NIFTY"]
@@ -644,7 +649,7 @@ def screener():
     response = {"data": data}
     return jsonify(response)
 
-@app.route('/price', methods=['POST'])
+@app.route('/api/price', methods=['POST'])
 def priceData():
     try:
         request_data = request.get_json()
@@ -673,7 +678,7 @@ def priceData():
     response = {"data": data}
     return jsonify(response)
 
-@app.route('/strikegraph', methods=['POST'])
+@app.route('/api/strikegraph', methods=['POST'])
 def strikeGraph():
     try:
         request_data = request.get_json()
@@ -726,7 +731,7 @@ def strikeGraph():
     response = {"data": data}
     return jsonify(response) 
 
-@app.route('/buysell', methods=['POST'])
+@app.route('/api/buysell', methods=['POST'])
 def buySellData():
     try:
         request_data = request.get_json()
@@ -762,7 +767,7 @@ def buySellData():
     return jsonify(response)
 
 
-@app.route('/oi', methods=['POST'])
+@app.route('/api/oi', methods=['POST'])
 def OIData():
     try:
         request_data = request.get_json()
@@ -774,7 +779,7 @@ def OIData():
 
         symbolCollection = db[symbol]
 
-        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate}, {'_id':0})]
+        data = [x for x in symbolCollection.find({'Expiry_Date': expiryDate,}, {'_id':0})]
         allStikePrices = [x['Strike_Price'] for x in data]
         allStikePrices = set(allStikePrices)
         allStikePrices = list(allStikePrices)
@@ -787,37 +792,45 @@ def OIData():
 
         data = [x for x in data if x['Strike_Price'] in requiredStrikePrices]
         df = pd.DataFrame(data)
-
         if timeInterval=="daily":
-            df['S_OI_Calls'] = df.groupby('Date')['OpenInterest_Calls'].transform('sum')
-            df['S_OI_Puts'] = df.groupby('Date')['OpenInterest_Puts'].transform('sum')
+            # df['S_OI_Calls'] = df.groupby('Date')['OpenInterest_Calls'].transform('sum')
+            # df['S_OI_Puts'] = df.groupby('Date')['OpenInterest_Puts'].transform('sum')
+            df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%Y')
+            df = df.groupby('Date')
+
         elif timeInterval=="weekly":
             df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%Y')
-            df['S_OI_Calls'] = df.groupby(pd.Grouper(key='Date', freq='W'))['OpenInterest_Calls'].transform('sum')
-            df['S_OI_Puts'] = df.groupby(pd.Grouper(key='Date', freq='W'))['OpenInterest_Puts'].transform('sum')
+            # df['S_OI_Calls'] = df.groupby(pd.Grouper(key='Date', freq='W'))['OpenInterest_Calls'].transform('sum')
+            # df['S_OI_Puts'] = df.groupby(pd.Grouper(key='Date', freq='W'))['OpenInterest_Puts'].transform('sum')
+            df = df.groupby(pd.Grouper(key='Date', freq='W'))
+
         elif timeInterval=="monthly":
             df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%Y')
             df['Month'] = df['Date'].dt.month
-            df['S_OI_Calls'] = df.groupby('Month')['OpenInterest_Calls'].transform('sum')
-            df['S_OI_Puts'] = df.groupby('Month')['OpenInterest_Puts'].transform('sum')
-            df['Date'] = df['Month']
+            # df['S_OI_Calls'] = df.groupby('Month')['OpenInterest_Calls'].transform('sum')
+            # df['S_OI_Puts'] = df.groupby('Month')['OpenInterest_Puts'].transform('sum')
+            # df['Date'] = df['Month']
+            df = df.groupby('Month')
+
         else:
             raise ValueError       
 
-        df = df[['Date', 'S_OI_Calls', 'S_OI_Puts']]
+        df=df.tail(1)
+        # df = df[['Date', 'S_OI_Calls', 'S_OI_Puts']]
+        df = df[['Date', 'OpenInterest_Calls', 'OpenInterest_Puts']]
         df = df.sort_values('Date')
         df = df.drop_duplicates()
 
         data = df.to_dict(orient='records')
         # dd(data)
 
-    except:
-        data = "Error"
+    except Exception as e:
+        data = str(e)
     response = {"data": data}
     return jsonify(response) 
 
 
-@app.route('/users', methods=['GET'])
+@app.route('/api/users', methods=['GET'])
 def fetchUsers():
         users_collection = db['users']
         user = list(users_collection.find({},{'_id':0, 'password':0}))
@@ -828,7 +841,7 @@ def fetchUsers():
         return jsonify({'data': user}), 200
 
 
-@app.route('/subscribers', methods=['GET'])
+@app.route('/api/subscribers', methods=['GET'])
 def fetchSubscibers():
     subscribers_collection = db['subscribers']
     subscriber = list(subscribers_collection.find({},{'_id':0, 'password':0}))
@@ -839,5 +852,5 @@ def fetchSubscibers():
     return jsonify({'data': subscriber}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True,host="157.15.202.107")
+    app.run(debug=True,host="127.0.0.1")
     # app.run(debug=True)
